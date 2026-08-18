@@ -1,0 +1,16 @@
+@use './_variables' as *;
+@use './_typography' as *; 
+@use './_spacing' as *; 
+@use './_mixins' as *; 
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "primeicons/primeicons.css";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family-base;
+  background: $background-color;
+  color: $text-primary;
+}
