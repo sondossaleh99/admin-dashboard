@@ -1,20 +1,35 @@
-<p-button label="Test"></p-button>
-<p-table [value]="products">
-  <ng-template #header>
-    <tr>
-      <th>Code</th>
-      <th>Name</th>
-      <th>Category</th>
-      <th>Quantity</th>
-    </tr>
-  </ng-template>
+<main class="tokens">
+  <header class="tokens__head">
+    <h1>Design tokens</h1>
+    <p>Stage 1 foundation. Replaced by the app shell in Stage 2.</p>
+  </header>
 
-  <ng-template #body let-product>
-    <tr>
-      <td>{{ product.code }}</td>
-      <td>{{ product.name }}</td>
-      <td>{{ product.category }}</td>
-      <td>{{ product.quantity }}</td>
-    </tr>
-  </ng-template>
-</p-table>
+  <section>
+    <h2>Type scale &mdash; Inter</h2>
+    <p class="tokens__row tokens__row--3xl">30 / 700 &nbsp; $63,448.78</p>
+    <p class="tokens__row tokens__row--2xl">24 / 600 &nbsp; 39,354</p>
+    <p class="tokens__row tokens__row--lg">18 / 600 &nbsp; Revenue Updates</p>
+    <p class="tokens__row tokens__row--sm">14 / 400 &nbsp; Table cells and body copy</p>
+    <p class="tokens__row tokens__row--xs">12 / 500 &nbsp; TOTAL CUSTOMERS</p>
+  </section>
+
+  <section>
+    <h2>Chart palette</h2>
+    <ul class="tokens__swatches">
+      @for (slot of chartSlots; track slot) {
+        <li>
+          <span class="tokens__swatch" [style.background]="'var(--chart-series-' + slot + ')'"></span>
+          <span class="tokens__swatch-label">series {{ slot }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section>
+    <h2>Surface</h2>
+    <div class="tokens__card">
+      Card surface: border, radius and shadow come from the tokens. In Stage 3
+      this becomes <code>UiCard</code> and is never restated anywhere else.
+    </div>
+  </section>
+</main>

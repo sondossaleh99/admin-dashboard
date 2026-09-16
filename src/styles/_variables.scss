@@ -1,31 +1,90 @@
-// Colors
-$primary: rgb(3, 201, 215);
-$primary-dark: rgb(2, 170, 182);
-$primary-light: rgb(224, 250, 252);
+// =============================================================================
+// Design tokens — SCSS source of truth.
+// Everything here is re-emitted as CSS custom properties in _tokens.scss, so
+// runtime consumers (PrimeNG overrides, chart configs) read the same values.
+// =============================================================================
+
+// -- Brand ---------------------------------------------------------------
+$primary: #03c9d7;
+$primary-dark: #02aab6;
+$primary-light: #e0fafc;
 
 $white: #ffffff;
 $black: #000000;
 
+// -- Text ----------------------------------------------------------------
 $text-primary: #1f2937;
 $text-secondary: #6b7280;
 $text-muted: #9ca3af;
 
+// -- Surfaces ------------------------------------------------------------
 $border-color: #e5e7eb;
 $background-color: #f8fafc;
+$surface-sunk: #f1f5f9;
 
-// Status colors
+// -- Status --------------------------------------------------------------
 $success: #22c55e;
 $warning: #f59e0b;
 $danger: #ef4444;
 $info: #3b82f6;
 
-// Border radius
+// -- Radius --------------------------------------------------------------
 $radius-sm: 6px;
 $radius-md: 8px;
 $radius-lg: 12px;
 $radius-xl: 16px;
+$radius-pill: 999px;
 
-// Shadows
+// -- Shadows -------------------------------------------------------------
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
 $shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 $shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+// -- Layout --------------------------------------------------------------
+// Confirm against the reference before Stage 6. [verify]
+$sidebar-width: 240px;
+$sidebar-width-collapsed: 72px;
+$topbar-height: 64px;
+$content-padding: 24px;
+$content-padding-mobile: 16px;
+$grid-gutter: 24px;
+
+// -- Breakpoints ---------------------------------------------------------
+// Mobile-first. Values match Bootstrap 5 so the two systems agree.
+$bp-sm: 576px;
+$bp-md: 768px;
+$bp-lg: 992px;
+$bp-xl: 1200px;
+$bp-xxl: 1400px;
+
+// -- Z-index -------------------------------------------------------------
+$z-sidebar: 1030;
+$z-topbar: 1020;
+$z-backdrop: 1025;
+
+// -- Motion --------------------------------------------------------------
+$transition-fast: 120ms ease;
+$transition-base: 200ms ease;
+
+// -- Chart palette -------------------------------------------------------
+// Categorical hues in FIXED order — assign by slot, never cycle.
+// Validated (OKLab ΔE ×100) against a #ffffff surface:
+//   adjacent pairs (bar / line / stacked): all 6 pass — worst CVD ΔE 14.9, normal-vision 27.6
+//   all pairs (donut / scatter):  first 4 only — worst CVD ΔE 16.0, normal-vision 17.1
+// Past 4 simultaneously-visible categories, fold the tail into "Other".
+// Slot 1 is the brand teal and sits below 3:1 contrast on white, so charts
+// using it ship visible labels or legend values (never color alone).
+$chart-series: (
+  1: #03c9d7,
+  2: #eb6834,
+  3: #2a78d6,
+  4: #c2255c,
+  5: #eda100,
+  6: #1f8a4c
+);
+
+// Chart furniture — recessive by design.
+$chart-grid: #eef2f6;
+$chart-axis-text: $text-muted;
+$chart-tooltip-bg: #1f2937;
+$chart-tooltip-text: #ffffff;
