@@ -1,0 +1,16 @@
+<div class="shell" [class.shell--collapsed]="collapsed()">
+  <app-sidebar class="shell__sidebar" [class.shell__sidebar--open]="drawerOpen()" />
+
+  <!-- Mobile only: dismisses the drawer. Hidden from the a11y tree because the
+       drawer's own close control is the labelled way out. -->
+  @if (drawerOpen()) {
+    <div class="shell__backdrop" (click)="closeDrawer()" aria-hidden="true"></div>
+  }
+
+  <div class="shell__main">
+    <app-topbar />
+    <main class="shell__content" id="main-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

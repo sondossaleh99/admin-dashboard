@@ -1,0 +1,41 @@
+<nav class="sidebar" aria-label="Main">
+  <div class="sidebar__brand">
+    <span class="sidebar__mark" aria-hidden="true">
+      <i class="pi pi-bolt"></i>
+    </span>
+    <span class="sidebar__name">Shoppy</span>
+
+    <!-- Desktop: collapse to the icon rail. -->
+    <button
+      type="button"
+      class="sidebar__collapse"
+      (click)="toggle()"
+      [attr.aria-expanded]="!collapsed()"
+      aria-controls="sidebar-nav"
+    >
+      <i class="pi" [class.pi-angle-double-left]="!collapsed()" [class.pi-angle-double-right]="collapsed()" aria-hidden="true"></i>
+      <span class="visually-hidden">{{ collapsed() ? 'Expand sidebar' : 'Collapse sidebar' }}</span>
+    </button>
+
+    <!-- Mobile: dismiss the drawer. -->
+    <button type="button" class="sidebar__close" (click)="closeDrawer()">
+      <i class="pi pi-times" aria-hidden="true"></i>
+      <span class="visually-hidden">Close navigation</span>
+    </button>
+  </div>
+
+  <div class="sidebar__nav" id="sidebar-nav">
+    @for (group of groups; track group.label) {
+      <div class="sidebar__group">
+        <h2 class="sidebar__group-label">{{ group.label }}</h2>
+        @for (item of group.items; track item.route) {
+          <app-sidebar-nav-item
+            [item]="item"
+            [collapsed]="collapsed()"
+            (navigate)="onNavigate()"
+          />
+        }
+      </div>
+    }
+  </div>
+</nav>

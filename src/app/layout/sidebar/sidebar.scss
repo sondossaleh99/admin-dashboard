@@ -1,0 +1,126 @@
+@use '../../../styles/mixins' as m;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--color-surface);
+  border-inline-end: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--topbar-height);
+  padding-inline: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  flex: none;
+}
+
+.sidebar__mark {
+  @include m.flex-center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: var(--font-size-md);
+}
+
+.sidebar__name {
+  flex: 1;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  @include m.truncate;
+}
+
+.sidebar__collapse,
+.sidebar__close {
+  @include m.flex-center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-sunk);
+    color: var(--color-text);
+  }
+}
+
+// The collapse control is a desktop affordance; the close button is mobile-only.
+.sidebar__collapse {
+  display: none;
+
+  @include m.from(lg) {
+    display: flex;
+  }
+}
+
+.sidebar__close {
+  @include m.from(lg) {
+    display: none;
+  }
+}
+
+.sidebar__nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-3) var(--space-6);
+}
+
+.sidebar__group + .sidebar__group {
+  margin-top: var(--space-6);
+}
+
+.sidebar__group-label {
+  padding-inline: var(--space-4);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+// Collapsed rail: the brand row keeps only the expand control — hiding it here
+// would strand the user in the rail with no way back — and group captions
+// become a divider rule, since there is no room for their text.
+:host(.sidebar--collapsed) {
+  .sidebar__name,
+  .sidebar__mark {
+    display: none;
+  }
+
+  .sidebar__brand {
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .sidebar__nav {
+    padding-inline: var(--space-2);
+  }
+
+  .sidebar__group-label {
+    height: 1px;
+    padding: 0;
+    margin: 0 var(--space-3) var(--space-3);
+    overflow: hidden;
+    text-indent: -999em;
+    background: var(--color-border);
+  }
+}
