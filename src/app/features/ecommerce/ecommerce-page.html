@@ -1,82 +1,175 @@
-<div class="gallery">
+<div class="page">
   <app-section-header
-    title="UI primitives"
-    subtitle="Stage 3. Page sections replace this gallery in Stage 6."
+    title="Ecommerce"
+    subtitle="Stage 4. Data layer wired; designed sections arrive in Stage 6."
   />
 
-  <div class="row g-4">
-    @for (stat of stats; track stat.label) {
-      <div class="col-12 col-sm-6 col-xl-3">
-        <app-stat-card
-          [label]="stat.label"
-          [value]="stat.value"
-          [icon]="stat.icon"
-          [tone]="stat.tone"
-          [delta]="stat.delta"
-        />
+  @if (error()) {
+    <app-ui-card>
+      <app-empty-state
+        icon="pi-exclamation-circle"
+        message="Could not load the dashboard"
+        hint="The request failed. Nothing else on the page is affected."
+        actionLabel="Retry"
+        (action)="retry()"
+      />
+    </app-ui-card>
+  } @else if (loading()) {
+    <!-- Skeletons match the shape of the cards they stand in for. -->
+    <div class="row g-4">
+      @for (placeholder of [1, 2, 3, 4]; track placeholder) {
+        <div class="col-12 col-sm-6 col-xl-3">
+          <app-ui-card>
+            <div class="page__skeleton">
+              <app-skeleton-block width="44px" height="44px" radius="var(--radius-lg)" />
+              <app-skeleton-block width="60%" height="28px" />
+              <app-skeleton-block width="40%" height="14px" />
+            </div>
+          </app-ui-card>
+        </div>
+      }
+    </div>
+  } @else if (data(); as dashboard) {
+    <app-ui-card>
+      <div class="hero">
+        <div>
+          <p class="hero__label">{{ dashboard.earnings.label }}</p>
+          <p class="hero__value tabular-nums">
+            {{ dashboard.earnings.total | currency: 'USD' : 'symbol' : '1.2-2' }}
+          </p>
+          <app-delta-badge [value]="dashboard.earnings.delta" />
+        </div>
+        <div class="hero__split">
+          <div>
+            <p class="hero__split-label">Budget</p>
+            <p class="hero__split-value tabular-nums">
+              {{ dashboard.earnings.budget | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </p>
+          </div>
+          <div>
+            <p class="hero__split-label">Expense</p>
+            <p class="hero__split-value tabular-nums">
+              {{ dashboard.earnings.expense | currency: 'USD' : 'symbol' : '1.0-0' }}
+            </p>
+          </div>
+        </div>
       </div>
-    }
-  </div>
+    </app-ui-card>
 
-  <div class="row g-4">
-    <div class="col-12 col-lg-4">
-      <app-ui-card title="Icon chips" subtitle="Tones map to the chart palette">
-        <div class="gallery__chips">
-          @for (chip of chips; track chip.icon) {
-            <app-icon-chip [icon]="chip.icon" [tone]="chip.tone" />
-          }
+    <div class="row g-4">
+      @for (kpi of kpis(); track kpi.id) {
+        <div class="col-12 col-sm-6 col-xl-3">
+          <app-stat-card
+            [label]="kpi.label"
+            [value]="kpi.display"
+            [icon]="kpi.icon"
+            [tone]="kpi.tone"
+            [delta]="kpi.delta"
+          />
         </div>
-      </app-ui-card>
+      }
     </div>
 
-    <div class="col-12 col-lg-4">
-      <app-ui-card title="Delta badges" subtitle="Arrow and sign carry the meaning">
-        <div class="gallery__deltas">
-          @for (delta of deltas; track delta) {
-            <app-delta-badge [value]="delta" />
-          }
-        </div>
-        <p class="gallery__note">
-          Readable in greyscale &mdash; colour is reinforcement, never the only signal.
-        </p>
-      </app-ui-card>
+    <div class="row g-4">
+      <div class="col-12 col-xl-8">
+        <app-ui-card title="Revenue updates" [subtitle]="'Budget against expense, ' + revenue().length + ' months'">
+          <!-- Period filter. Derived via computed() — the source series is never mutated. -->
+          <div card-actions class="range" role="group" aria-label="Period">
+            <button
+              type="button"
+              [class.range__option--on]="range() === '6m'"
+              class="range__option"
+              (click)="setRange('6m')"
+              [attr.aria-pressed]="range() === '6m'"
+            >6 months</button>
+            <button
+              type="button"
+              [class.range__option--on]="range() === '12m'"
+              class="range__option"
+              (click)="setRange('12m')"
+              [attr.aria-pressed]="range() === '12m'"
+            >12 months</button>
+          </div>
+
+          <div class="totals">
+            <div>
+              <p class="totals__label">Budget</p>
+              <p class="totals__value tabular-nums">{{ revenueTotals().budget | currency: 'USD' : 'symbol' : '1.0-0' }}</p>
+            </div>
+            <div>
+              <p class="totals__label">Expense</p>
+              <p class="totals__value tabular-nums">{{ revenueTotals().expense | currency: 'USD' : 'symbol' : '1.0-0' }}</p>
+            </div>
+            <div>
+              <p class="totals__label">Margin</p>
+              <p class="totals__value tabular-nums">{{ revenueTotals().margin | currency: 'USD' : 'symbol' : '1.0-0' }}</p>
+            </div>
+          </div>
+
+          <p class="page__note">Chart wrappers land in Stage 5; this is the series the combo chart will take.</p>
+          <ul class="series">
+            @for (point of revenue(); track point.period) {
+              <li>
+                <span class="series__period">{{ point.period }}</span>
+                <span class="series__bar" [style.--v]="point.budget / 100000"></span>
+                <span class="series__value tabular-nums">{{ point.budget | number: '1.0-0' }}</span>
+              </li>
+            }
+          </ul>
+        </app-ui-card>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <app-ui-card title="Sales breakdown" [subtitle]="(salesTotal() | currency: 'USD' : 'symbol' : '1.0-0') + ' total'">
+          <ul class="slices">
+            @for (slice of dashboard.salesBreakdown; track slice.label; let i = $index) {
+              <li>
+                <span class="slices__swatch" [style.background]="'var(--chart-series-' + (i + 1) + ')'"></span>
+                <span class="slices__label">{{ slice.label }}</span>
+                <span class="slices__value tabular-nums">{{ slice.value | number: '1.0-0' }}</span>
+              </li>
+            }
+          </ul>
+        </app-ui-card>
+      </div>
     </div>
 
-    <div class="col-12 col-lg-4">
-      <app-ui-card title="Card actions" subtitle="Projected into the header">
-        <button card-actions type="button" class="gallery__ghost">This month</button>
-        <p class="gallery__note">
-          Controls sit in the <code>card-actions</code> slot so every card header
-          aligns the same way.
-        </p>
-      </app-ui-card>
-    </div>
-  </div>
+    <div class="row g-4">
+      <div class="col-12 col-lg-5">
+        <app-ui-card title="Weekly stats">
+          <ul class="stats">
+            @for (stat of dashboard.weeklyStats; track stat.id) {
+              <li>
+                <app-icon-chip [icon]="stat.icon" size="sm" />
+                <span class="stats__text">
+                  <span class="stats__label">{{ stat.label }}</span>
+                  <span class="stats__caption">{{ stat.caption }}</span>
+                </span>
+                <app-delta-badge [value]="stat.delta" />
+              </li>
+            }
+          </ul>
+        </app-ui-card>
+      </div>
 
-  <div class="row g-4">
-    <div class="col-12 col-lg-6">
-      <app-ui-card title="Loading state" subtitle="Shaped like the card it replaces">
-        <div class="gallery__skeleton">
-          <app-skeleton-block width="44px" height="44px" radius="var(--radius-lg)" />
-          <app-skeleton-block width="60%" height="28px" />
-          <app-skeleton-block width="40%" height="14px" />
-        </div>
-      </app-ui-card>
+      <div class="col-12 col-lg-7">
+        <app-ui-card
+          title="Recent orders"
+          [subtitle]="dashboard.recentOrders.length + ' orders'"
+        >
+          <ul class="orders">
+            @for (order of dashboard.recentOrders.slice(0, 6); track order.id) {
+              <li>
+                <span class="orders__customer">{{ order.customer }}</span>
+                <span class="orders__date">{{ order.placedAt | date: 'd MMM' }}</span>
+                <span class="orders__status orders__status--{{ order.status }}">{{ order.status }}</span>
+                <span class="orders__total tabular-nums">{{ order.total | currency: 'USD' : 'symbol' : '1.2-2' }}</span>
+              </li>
+            }
+          </ul>
+          <p class="page__note">PrimeNG table with sorting and pagination lands in Stage 6.</p>
+        </app-ui-card>
+      </div>
     </div>
-
-    <div class="col-12 col-lg-6">
-      <app-ui-card title="Empty and error states">
-        <app-empty-state
-          icon="pi-exclamation-circle"
-          message="Could not load revenue"
-          hint="Retry sits inside the affected card, so the rest of the page keeps working."
-          actionLabel="Retry"
-          (action)="retried.set(true)"
-        />
-        @if (retried()) {
-          <p class="gallery__note gallery__note--center">Retry emitted.</p>
-        }
-      </app-ui-card>
-    </div>
-  </div>
+  }
 </div>
