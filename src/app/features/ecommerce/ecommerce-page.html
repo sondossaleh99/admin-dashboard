@@ -1,7 +1,82 @@
-<div class="placeholder">
-  <h1>Ecommerce</h1>
-  <p>
-    The app shell is in place. Page sections &mdash; hero, KPI row, charts, orders
-    table &mdash; arrive in Stage 6, once the reference dashboard can be audited.
-  </p>
+<div class="gallery">
+  <app-section-header
+    title="UI primitives"
+    subtitle="Stage 3. Page sections replace this gallery in Stage 6."
+  />
+
+  <div class="row g-4">
+    @for (stat of stats; track stat.label) {
+      <div class="col-12 col-sm-6 col-xl-3">
+        <app-stat-card
+          [label]="stat.label"
+          [value]="stat.value"
+          [icon]="stat.icon"
+          [tone]="stat.tone"
+          [delta]="stat.delta"
+        />
+      </div>
+    }
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-4">
+      <app-ui-card title="Icon chips" subtitle="Tones map to the chart palette">
+        <div class="gallery__chips">
+          @for (chip of chips; track chip.icon) {
+            <app-icon-chip [icon]="chip.icon" [tone]="chip.tone" />
+          }
+        </div>
+      </app-ui-card>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <app-ui-card title="Delta badges" subtitle="Arrow and sign carry the meaning">
+        <div class="gallery__deltas">
+          @for (delta of deltas; track delta) {
+            <app-delta-badge [value]="delta" />
+          }
+        </div>
+        <p class="gallery__note">
+          Readable in greyscale &mdash; colour is reinforcement, never the only signal.
+        </p>
+      </app-ui-card>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <app-ui-card title="Card actions" subtitle="Projected into the header">
+        <button card-actions type="button" class="gallery__ghost">This month</button>
+        <p class="gallery__note">
+          Controls sit in the <code>card-actions</code> slot so every card header
+          aligns the same way.
+        </p>
+      </app-ui-card>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-6">
+      <app-ui-card title="Loading state" subtitle="Shaped like the card it replaces">
+        <div class="gallery__skeleton">
+          <app-skeleton-block width="44px" height="44px" radius="var(--radius-lg)" />
+          <app-skeleton-block width="60%" height="28px" />
+          <app-skeleton-block width="40%" height="14px" />
+        </div>
+      </app-ui-card>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <app-ui-card title="Empty and error states">
+        <app-empty-state
+          icon="pi-exclamation-circle"
+          message="Could not load revenue"
+          hint="Retry sits inside the affected card, so the rest of the page keeps working."
+          actionLabel="Retry"
+          (action)="retried.set(true)"
+        />
+        @if (retried()) {
+          <p class="gallery__note gallery__note--center">Retry emitted.</p>
+        }
+      </app-ui-card>
+    </div>
+  </div>
 </div>

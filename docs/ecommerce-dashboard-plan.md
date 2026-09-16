@@ -365,7 +365,7 @@ Verify at 320 / 768 / 992 / 1400. The §8 table is the spec.
 |---|---|---|---|
 | 9.1 | Side-by-side diff | Reproduction and reference compared at desktop and mobile; drift listed | M |
 | 9.2 | Drift fixes | Spacing, font weight, color and radius corrections applied via tokens — never per-component overrides | M |
-| 9.3 | Build check | `ng build` clean, zero console errors, initial bundle within the 500 KB budget | S |
+| 9.3 | Build check | `ng build` clean, zero console errors, initial bundle within the 700 KB budget | S |
 
 ---
 
@@ -375,5 +375,8 @@ Verify at 320 / 768 / 992 / 1400. The §8 table is the spec.
 - Every card is a `UiCard`; no duplicated card CSS anywhere
 - No hard-coded colors or pixel spacing in feature components — tokens only
 - No `any`; strict template type-checking passes
-- Zero console errors; `ng build` clean within the 500 KB initial budget
+- Zero console errors; `ng build` clean within the **700 KB** initial budget
+  (raised from the CLI default of 500 KB in Stage 3: Angular core, the router,
+  PrimeNG's theme engine and Bootstrap's grid put this app's floor at 478 KB
+  before a single feature, so 500 KB left no room for the chart library)
 - Keyboard-navigable end to end
