@@ -11,6 +11,9 @@ import { IconChip } from '../../shared/ui/icon-chip/icon-chip';
 import { SectionHeader } from '../../shared/ui/section-header/section-header';
 import { SkeletonBlock } from '../../shared/ui/skeleton-block/skeleton-block';
 import { StatCard } from '../../shared/ui/stat-card/stat-card';
+import { ChartCombo, ComboSeries } from '../../shared/charts/chart-combo';
+import { ChartDonut, DonutSlice } from '../../shared/charts/chart-donut';
+import { ChartSparkline } from '../../shared/charts/chart-sparkline';
 import { UiCard } from '../../shared/ui/ui-card/ui-card';
 
 /**
@@ -32,7 +35,10 @@ import { UiCard } from '../../shared/ui/ui-card/ui-card';
     DeltaBadge,
     SectionHeader,
     SkeletonBlock,
-    EmptyState
+    EmptyState,
+    ChartCombo,
+    ChartDonut,
+    ChartSparkline
   ],
   templateUrl: './ecommerce-page.html',
   styleUrl: './ecommerce-page.scss',
@@ -95,6 +101,18 @@ export class EcommercePage {
         return formatNumber(value, this.locale, '1.0-0');
     }
   }
+
+  /** Category axis and the two series the combo chart takes. */
+  protected readonly revenuePeriods = computed(() => this.revenue().map((p) => p.period));
+
+  protected readonly revenueSeries = computed<ComboSeries[]>(() => [
+    { name: 'Budget', data: this.revenue().map((p) => p.budget) },
+    { name: 'Expense', data: this.revenue().map((p) => p.expense) }
+  ]);
+
+  protected readonly donutSlices = computed<DonutSlice[]>(() =>
+    (this.data()?.salesBreakdown ?? []).map((s) => ({ label: s.label, value: s.value }))
+  );
 
   protected setRange(range: RevenueRange): void {
     this.range.set(range);

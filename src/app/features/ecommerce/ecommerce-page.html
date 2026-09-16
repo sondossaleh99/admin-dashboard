@@ -1,7 +1,7 @@
 <div class="page">
   <app-section-header
     title="Ecommerce"
-    subtitle="Stage 4. Data layer wired; designed sections arrive in Stage 6."
+    subtitle="Stage 5. Charts wired; designed sections arrive in Stage 6."
   />
 
   @if (error()) {
@@ -38,6 +38,9 @@
             {{ dashboard.earnings.total | currency: 'USD' : 'symbol' : '1.2-2' }}
           </p>
           <app-delta-badge [value]="dashboard.earnings.delta" />
+        </div>
+        <div class="hero__spark">
+          <app-chart-sparkline [data]="dashboard.earnings.trend" [height]="64" />
         </div>
         <div class="hero__split">
           <div>
@@ -106,21 +109,17 @@
             </div>
           </div>
 
-          <p class="page__note">Chart wrappers land in Stage 5; this is the series the combo chart will take.</p>
-          <ul class="series">
-            @for (point of revenue(); track point.period) {
-              <li>
-                <span class="series__period">{{ point.period }}</span>
-                <span class="series__bar" [style.--v]="point.budget / 100000"></span>
-                <span class="series__value tabular-nums">{{ point.budget | number: '1.0-0' }}</span>
-              </li>
-            }
-          </ul>
+          <app-chart-combo
+            [categories]="revenuePeriods()"
+            [series]="revenueSeries()"
+            [height]="300"
+          />
         </app-ui-card>
       </div>
 
       <div class="col-12 col-xl-4">
         <app-ui-card title="Sales breakdown" [subtitle]="(salesTotal() | currency: 'USD' : 'symbol' : '1.0-0') + ' total'">
+          <app-chart-donut [slices]="donutSlices()" centerLabel="Sales" [height]="220" />
           <ul class="slices">
             @for (slice of dashboard.salesBreakdown; track slice.label; let i = $index) {
               <li>
@@ -144,6 +143,9 @@
                 <span class="stats__text">
                   <span class="stats__label">{{ stat.label }}</span>
                   <span class="stats__caption">{{ stat.caption }}</span>
+                </span>
+                <span class="stats__spark">
+                  <app-chart-sparkline [data]="stat.trend" [slot]="2" [height]="36" [filled]="false" />
                 </span>
                 <app-delta-badge [value]="stat.delta" />
               </li>
