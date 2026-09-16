@@ -4,7 +4,7 @@
 **Branch:** `claude/sleepy-fermat-ko7vfi` (clean, pushed, in sync with origin)
 **HEAD:** `3c47e58` — `docs: add Angular reproduction plan for ecommerce dashboard`
 **Base branch:** `init` (this repo has no `main`/`master`)
-**Phase:** Planning complete. **No implementation started.**
+**Stage:** Planning complete. **No implementation started.**
 
 ---
 
@@ -40,7 +40,7 @@ from the repo's `#03C9D7` palette and this dashboard family's conventions. Those
 2. Save screenshots (desktop ~1440px + mobile ~390px) and/or the page's rendered HTML/CSS into
    `docs/reference/` and commit them. This works offline and is the more reliable option.
 
-Until then, **do not start Phase 6** (page assembly) — it is the first phase that depends on the audit.
+Until then, **do not start Stage 6** (page assembly) — it is the first stage that depends on the audit.
 
 ---
 
@@ -63,7 +63,7 @@ The app is still Angular CLI scaffolding plus a PrimeNG smoke test.
 
 | File | State |
 |---|---|
-| `src/app/app.ts` / `app.html` | Throwaway `p-button` + `p-table` demo. **Delete when Phase 2 starts.** |
+| `src/app/app.ts` / `app.html` | Throwaway `p-button` + `p-table` demo. **Delete at task 2.1.** |
 | `src/app/app.routes.ts` | Empty `routes: Routes = []` |
 | `src/app/app.config.ts` | Done — PrimeNG Aura preset with the `#03C9D7` primary ramp |
 | `src/styles/*.scss` | Token partials in place: variables, typography, spacing, mixins |
@@ -73,7 +73,7 @@ The app is still Angular CLI scaffolding plus a PrimeNG smoke test.
 
 ## 5. Findings that need action
 
-Three real issues found while reading the repo. All are Phase 1 work.
+Three real issues found while reading the repo. All are Stage 1 work (tasks 1.2, 1.3, 1.5, 5.1).
 
 1. **Inter is declared but never loaded.** `$font-family-base: 'Inter'` is set in
    `_typography.scss`, but `index.html` has no font link and `@fontsource/inter` is not a
@@ -89,27 +89,27 @@ Three real issues found while reading the repo. All are Phase 1 work.
 
 | Decision | Recommendation | Why it matters |
 |---|---|---|
-| Chart library | **ApexCharts (`ng-apexcharts`)** | Closest visual match out of the box (gradient areas, true sparkline mode, combo bar+line). ~130 KB gzipped. Alternative: Chart.js via PrimeNG `<p-chart>` — already bundled and lighter, but more manual config. Blocks Phase 5. |
-| Reference material | Screenshots into `docs/reference/` | Blocks Phase 6. See §2. |
+| Chart library | **ApexCharts (`ng-apexcharts`)** | Closest visual match out of the box (gradient areas, true sparkline mode, combo bar+line). ~130 KB gzipped. Alternative: Chart.js via PrimeNG `<p-chart>` — already bundled and lighter, but more manual config. Blocks Stage 5. |
+| Reference material | Screenshots into `docs/reference/` | Blocks Stage 6. See §2. |
 | Scope beyond `/ecommerce` | Build the shell to support more routes, but implement only `/ecommerce` | The plan's `MainLayout` is already designed for reuse |
 
 ---
 
 ## 7. Next actions, in order
 
-Phases 1–5 are **unblocked** and can start immediately.
+Stages 1–4 are **unblocked** and can start immediately; Stage 5 needs only the chart-library call.
 
 1. `npm install`
-2. **Phase 1 — tokens:** load Inter, bridge SCSS tokens to CSS custom properties, add the chart
+2. **Stage 1 — foundation:** load Inter, bridge SCSS tokens to CSS custom properties, add the chart
    palette and `$sidebar-width` / `$topbar-height`.
-3. **Phase 2 — shell:** delete the `app.html` demo, add routing with `/ecommerce` as the default
+3. **Stage 2 — app shell:** delete the `app.html` demo, add routing with `/ecommerce` as the default
    redirect, build `MainLayout` + `Sidebar` + `Topbar`.
-4. **Phase 3 — primitives:** `UiCard`, `StatCard`, `DeltaBadge`, `IconChip`, skeletons.
-5. **Phase 4 — data layer:** models + `EcommerceService` returning delayed observables.
-6. **Phase 5 — charts:** once the library decision lands, build the four wrappers.
-7. **Stop.** Confirm the `[verify]` items before Phase 6.
+4. **Stage 3 — UI primitives:** `UiCard`, `StatCard`, `DeltaBadge`, `IconChip`, skeletons.
+5. **Stage 4 — data layer:** models + `EcommerceService` returning delayed observables.
+6. **Stage 5 — charts:** once the library decision lands, build the four wrappers.
+7. **Stop.** Confirm the `[verify]` items before Stage 6.
 
-Full detail for each phase is in `docs/ecommerce-dashboard-plan.md` §10.
+Full task-level detail — 48 tasks across 9 stages — is in `docs/ecommerce-dashboard-plan.md` §10.
 
 ---
 

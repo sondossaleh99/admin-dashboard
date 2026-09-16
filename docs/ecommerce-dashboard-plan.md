@@ -13,7 +13,7 @@ is blocked by the network egress policy (403 on CONNECT). Everything below is de
 design tokens already committed to this repo (`src/styles/`, `src/app/app.config.ts`) — most
 notably the signature primary `#03C9D7` — plus the standard structure of this dashboard family.
 
-**To lock visual fidelity, one of these is needed before Phase 3:**
+**To lock visual fidelity, one of these is needed before Stage 6 (see §10):**
 
 1. Allow `dashboard-one-teal.vercel.app` in the environment's network policy, or
 2. Drop screenshots (desktop + mobile) and/or the page's HTML/CSS into `docs/reference/`.
@@ -220,22 +220,152 @@ Rules: mobile-first SCSS, `min-width` media queries only, 16px page gutter on mo
 
 ---
 
-## 10. Implementation steps
+## 10. Work breakdown
 
-| Phase | Work | Output |
-|---|---|---|
-| 1 | Tokens: load Inter, CSS-variable bridge, chart palette, layout tokens | Design system ready |
-| 2 | Routing + `MainLayout` + `Sidebar` + `Topbar` | Shell navigable, responsive |
-| 3 | `UiCard`, `StatCard`, `DeltaBadge`, `IconChip`, skeletons | Primitives, verified against the reference |
-| 4 | Models, `EcommerceService`, mock data | Typed data layer |
-| 5 | Chart library + 4 wrappers | Charts rendering with correct theme |
-| 6 | Ecommerce page: hero → KPI row → charts → table → activity | Page assembled |
-| 7 | Responsive pass at 320 / 768 / 992 / 1400 | No layout breaks |
-| 8 | A11y + polish: focus, contrast, reduced motion, empty/error states | Quality bar met |
-| 9 | Side-by-side visual diff vs. the reference; fix spacing/weight/color drift | Visual parity |
+48 tasks across 9 stages. Stages run in order — each depends on the one above it.
+Size is relative: **S** ≈ under an hour, **M** ≈ half a day, **L** ≈ a day or more.
 
-**Sequencing:** phases 1–5 have no dependency on the pending visual audit and can start
-immediately. Phase 6 onward is where the **[verify]** items matter.
+### 10.1 Stage map
+
+| Stage | Name | Tasks | Status | Gate |
+|---|---|---|---|---|
+| 1 | Foundation | 6 | Ready | — |
+| 2 | App shell | 6 | Ready | — |
+| 3 | UI primitives | 6 | Ready | — |
+| 4 | Data layer | 4 | Ready | — |
+| 5 | Charts | 6 | Ready | Needs the §7 library decision |
+| 6 | Page assembly | 8 | **Blocked** | **Needs the visual audit (§0)** |
+| 7 | Responsive | 4 | Blocked by 6 | — |
+| 8 | Accessibility & polish | 5 | Blocked by 6 | — |
+| 9 | Visual parity | 3 | Blocked by 6 | — |
+
+**Stages 1–4 can start right now.** Stage 5 needs one decision. Stage 6 is the hard gate.
+
+---
+
+### Stage 1 — Foundation
+
+Close the three token gaps from §2.2 before any component is written.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 1.1 | `npm install` | Dependencies resolve; `npm start` serves on :4200 | S |
+| 1.2 | Load Inter | Font link in `index.html` (or `@fontsource/inter`); computed font-family is Inter, not system sans | S |
+| 1.3 | Bridge tokens to CSS custom properties | Every SCSS token also emitted as a `--var` on `:root`; no hex duplicated anywhere | M |
+| 1.4 | Add layout tokens | `$sidebar-width`, `$sidebar-width-collapsed`, `$topbar-height` in `_variables.scss` **[verify]** | S |
+| 1.5 | Define the chart palette | 4–6 categorical hues derived from `#03C9D7`, exported as both SCSS and CSS vars | M |
+| 1.6 | Global base styles | Page background, base type, focus-visible ring, `prefers-reduced-motion` block in `styles.scss` | S |
+
+---
+
+### Stage 2 — App shell
+
+The shell every future route reuses. Build it responsive from the start — retrofitting the drawer later is more work.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 2.1 | Remove scaffolding | PrimeNG demo gone from `app.ts` / `app.html`; `App` renders only `<router-outlet>` | S |
+| 2.2 | Routing skeleton | `/` redirects to `/ecommerce`; route lazy-loads via `loadComponent`; 404 fallback | S |
+| 2.3 | `MainLayout` | Sidebar + topbar + outlet compose correctly; owns `collapsed` and `drawerOpen` signals | M |
+| 2.4 | `Sidebar` + `SidebarNavItem` | Nav renders from a typed `NavGroup[]`; active item styled via `routerLinkActive` | M |
+| 2.5 | `Topbar` | Sticky, hamburger, search input, icon actions with badges, avatar menu | M |
+| 2.6 | Collapse + drawer behavior | Rail collapse on desktop, off-canvas + backdrop on mobile, state persisted to `localStorage` | M |
+
+---
+
+### Stage 3 — UI primitives
+
+Build these before any page section. Every card on the page is assembled from them.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 3.1 | `UiCard` | Title, subtitle, actions slot, content projection; the only place card border/radius/shadow is defined | M |
+| 3.2 | `IconChip` | Tinted rounded icon square; `icon`, `color`, `size` inputs | S |
+| 3.3 | `DeltaBadge` | Signed %, directional arrow, success/danger color; meaning survives without color | S |
+| 3.4 | `StatCard` | Composes `UiCard` + `IconChip` + `DeltaBadge`; label, value, delta | M |
+| 3.5 | `SectionHeader` | Title, optional subtitle, actions slot | S |
+| 3.6 | `SkeletonBlock` + `EmptyState` | Skeleton shapes match each card's real layout, not generic bars | M |
+
+---
+
+### Stage 4 — Data layer
+
+Typed and mock-backed, shaped so the swap to real HTTP is a one-line change.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 4.1 | Models | `Kpi`, `RevenuePoint`, `Order`, `NavGroup`, `WeeklyStat`, `SalesSlice` in `core/models/`; no `any` | S |
+| 4.2 | Mock data | JSON fixtures in `core/data/` matching the target's figures **[verify]** | M |
+| 4.3 | `EcommerceService` | `providedIn: 'root'`; returns `of(...).pipe(delay(300))` per dataset | S |
+| 4.4 | Page state | `data` / `loading` / `error` signals; derived totals via `computed()` | M |
+
+---
+
+### Stage 5 — Charts
+
+**Gate:** pick the library first (§7 recommends ApexCharts). Everything here sits behind wrappers so the choice stays reversible.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 5.1 | Decide + install | Library added to `package.json`; renders one throwaway chart successfully | S |
+| 5.2 | Shared chart config | One base theme module: fonts, grid, tooltip, axis and palette read from the CSS vars in 1.3/1.5 | M |
+| 5.3 | `ChartCombo` | Bars + line on a shared scale; legend toggle; resize-aware | L |
+| 5.4 | `ChartArea` | Gradient fill, smooth curve, hover tooltip | M |
+| 5.5 | `ChartDonut` | Centered total label; slice colors from the palette | M |
+| 5.6 | `ChartSparkline` | No axes or grid; emphasized endpoint; sized by container | S |
+
+---
+
+### Stage 6 — Page assembly ⛔ blocked
+
+**Do not start until the §0 visual audit is resolved.** Every task here depends on knowing the real
+widget inventory, figures and ordering.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 6.1 | `EcommercePage` | Route component; binds service data to sections and nothing else | S |
+| 6.2 | `EarningsHero` | Headline label, large currency figure, CTA, decorative background | M |
+| 6.3 | `KpiRow` | 4 × `StatCard` on a 12-col grid | S |
+| 6.4 | `RevenueUpdatesCard` | `ChartCombo` + legend figures + period dropdown that re-filters the series | L |
+| 6.5 | `WeeklyStatsCard` | Stat list with inline sparklines | M |
+| 6.6 | `SalesBreakdownCard` | `ChartDonut` + legend with values | M |
+| 6.7 | `RecentOrdersTable` | PrimeNG table: sort, paginate, status badges, row hover, debounced search | L |
+| 6.8 | `ActivityCard` | Media card(s) with read-more links | S |
+
+---
+
+### Stage 7 — Responsive
+
+Verify at 320 / 768 / 992 / 1400. The §8 table is the spec.
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 7.1 | Grid breakpoint pass | KPI row 4 → 2 → 1; chart 8/4 split stacks below `lg` | M |
+| 7.2 | Sidebar behavior | Rail at `md`, drawer below `md`, backdrop dismisses, focus trapped in the drawer | M |
+| 7.3 | Table responsive mode | Horizontal scroll at `md`, stacked card rows below | M |
+| 7.4 | Chart sizing | Container-driven heights; no fixed pixel widths; no overflow at 320px | S |
+
+---
+
+### Stage 8 — Accessibility & polish
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 8.1 | Landmarks + ARIA | `nav` / `header` / `main`; `aria-label` on icon-only buttons; `aria-current` on active nav | S |
+| 8.2 | Keyboard | Full tab order, visible focus everywhere, drawer and dropdowns escape-dismissable | M |
+| 8.3 | Contrast audit | All text ≥ 4.5:1, including grey labels on white and any text over the hero background | S |
+| 8.4 | Reduced motion | Chart animations and drawer transitions respect `prefers-reduced-motion` | S |
+| 8.5 | State coverage | Loading skeletons, empty states and inline card-level error retry all reachable and styled | M |
+
+---
+
+### Stage 9 — Visual parity
+
+| # | Task | Done when | Size |
+|---|---|---|---|
+| 9.1 | Side-by-side diff | Reproduction and reference compared at desktop and mobile; drift listed | M |
+| 9.2 | Drift fixes | Spacing, font weight, color and radius corrections applied via tokens — never per-component overrides | M |
+| 9.3 | Build check | `ng build` clean, zero console errors, initial bundle within the 500 KB budget | S |
 
 ---
 
