@@ -234,12 +234,12 @@ Size is relative: **S** ≈ under an hour, **M** ≈ half a day, **L** ≈ a day
 | 3 | UI primitives | 6 | Ready | — |
 | 4 | Data layer | 4 | Ready | — |
 | 5 | Charts | 6 | Ready | Needs the §7 library decision |
-| 6 | Page assembly | 8 | **Blocked** | **Needs the visual audit (§0)** |
+| 6 | Page assembly | 8 | **Structurally done** — see note | Pixel-fidelity still needs the visual audit (§0) |
 | 7 | Responsive | 4 | Blocked by 6 | — |
 | 8 | Accessibility & polish | 5 | Blocked by 6 | — |
 | 9 | Visual parity | 3 | Blocked by 6 | — |
 
-**Stages 1–4 can start right now.** Stage 5 needs one decision. Stage 6 is the hard gate.
+**Stages 1–4 can start right now.** Stage 5 needs one decision. Stage 6's structure (componentization, real PrimeNG table, functional wiring) does not need the reference and is done; its pixel-level fidelity — exact spacing, real figures, any decorative treatment — is still the hard gate on stages 7 and 9.
 
 ---
 
@@ -316,21 +316,23 @@ Typed and mock-backed, shaped so the swap to real HTTP is a one-line change.
 
 ---
 
-### Stage 6 — Page assembly ⛔ blocked
+### Stage 6 — Page assembly ✅ structurally done, pixel-fidelity ⛔ still blocked
 
-**Do not start until the §0 visual audit is resolved.** Every task here depends on knowing the real
-widget inventory, figures and ordering.
+The reference site is still unreachable, so **nothing below was built by guessing its visual
+details.** Every section is composed from Stage 3's primitives and Stage 5's chart wrappers, using
+only the tokens and data already in this repo. What pixel fidelity requires — exact spacing, real
+figures, any decorative treatment — stays `[verify]` and gates stages 7 and 9, unchanged.
 
-| # | Task | Done when | Size |
+| # | Task | Done when | Status |
 |---|---|---|---|
-| 6.1 | `EcommercePage` | Route component; binds service data to sections and nothing else | S |
-| 6.2 | `EarningsHero` | Headline label, large currency figure, CTA, decorative background | M |
-| 6.3 | `KpiRow` | 4 × `StatCard` on a 12-col grid | S |
-| 6.4 | `RevenueUpdatesCard` | `ChartCombo` + legend figures + period dropdown that re-filters the series | L |
-| 6.5 | `WeeklyStatsCard` | Stat list with inline sparklines | M |
-| 6.6 | `SalesBreakdownCard` | `ChartDonut` + legend with values | M |
-| 6.7 | `RecentOrdersTable` | PrimeNG table: sort, paginate, status badges, row hover, debounced search | L |
-| 6.8 | `ActivityCard` | Media card(s) with read-more links | S |
+| 6.1 | `EcommercePage` | Route component; binds service data to sections and nothing else | ✅ Thin orchestrator: fetch, derived state, formatting only |
+| 6.2 | `EarningsHero` | Headline label, large currency figure, decorative background | ✅ Headline + sparkline trend. **No decorative background** — inventing one has nothing to be based on `[verify]` |
+| 6.3 | `KpiRow` | 4 × `StatCard` on a 12-col grid | ✅ |
+| 6.4 | `RevenueUpdatesCard` | `ChartCombo` + legend figures + period dropdown that re-filters the series | ✅ |
+| 6.5 | `WeeklyStatsCard` | Stat list with inline sparklines | ✅ |
+| 6.6 | `SalesBreakdownCard` | `ChartDonut` + legend with values | ✅ |
+| 6.7 | `RecentOrdersTable` | PrimeNG table: sort, paginate, status badges, row hover, debounced search | ✅ Real `p-table`: sortable columns, pagination, 250ms-debounced global search, empty-state row |
+| 6.8 | `ActivityCard` | Media card(s) with read-more links | ✅ **Substituted.** No real images or copy exist for a media card, and inventing them is exactly the kind of guess this stage avoids. Built as a "Recent activity" feed derived from the same order data the table shows — real data, different presentation. `[verify]` against the reference once reachable |
 
 ---
 

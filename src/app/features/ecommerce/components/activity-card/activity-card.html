@@ -1,0 +1,23 @@
+<app-ui-card title="Recent activity" subtitle="Latest order events">
+  <ul class="activity">
+    @for (event of events(); track event.id) {
+      <li>
+        <span class="activity__dot activity__dot--{{ event.tone }}">
+          <i class="pi {{ event.icon }}" aria-hidden="true"></i>
+        </span>
+        <span class="activity__text">
+          <span class="activity__title">{{ event.title }}</span>
+          <span class="activity__detail">{{ event.detail }}</span>
+        </span>
+        <span class="activity__time">{{ event.timestamp | date: 'd MMM' }}</span>
+      </li>
+    }
+  </ul>
+
+  <div class="activity__footer">
+    <button type="button" class="activity__more" disabled>
+      Full order history
+      <span class="activity__soon">Soon</span>
+    </button>
+  </div>
+</app-ui-card>

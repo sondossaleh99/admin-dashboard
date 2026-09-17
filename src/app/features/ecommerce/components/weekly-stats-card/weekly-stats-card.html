@@ -1,0 +1,17 @@
+<app-ui-card title="Weekly stats">
+  <ul class="stats">
+    @for (stat of stats(); track stat.id) {
+      <li>
+        <app-icon-chip [icon]="stat.icon" size="sm" />
+        <span class="stats__text">
+          <span class="stats__label">{{ stat.label }}</span>
+          <span class="stats__caption">{{ stat.caption }}</span>
+        </span>
+        <span class="stats__spark">
+          <app-chart-sparkline [data]="stat.trend" [slot]="2" [height]="36" [filled]="false" />
+        </span>
+        <app-delta-badge [value]="stat.delta" />
+      </li>
+    }
+  </ul>
+</app-ui-card>
