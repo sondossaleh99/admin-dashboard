@@ -1,0 +1,25 @@
+@let navItem = item();
+
+@if (navItem.disabled) {
+  <span class="nav-item nav-item--disabled" aria-disabled="true" [title]="navItem.label">
+    <i class="pi {{ navItem.icon }} nav-item__icon" aria-hidden="true"></i>
+    <span class="nav-item__label">{{ navItem.label }}</span>
+    <span class="nav-item__soon">Soon</span>
+  </span>
+} @else {
+  <a
+    class="nav-item"
+    [routerLink]="navItem.route"
+    routerLinkActive="nav-item--active"
+    #rla="routerLinkActive"
+    [attr.aria-current]="rla.isActive ? 'page' : null"
+    [title]="collapsed() ? navItem.label : null"
+    (click)="navigate.emit()"
+  >
+    <i class="pi {{ navItem.icon }} nav-item__icon" aria-hidden="true"></i>
+    <span class="nav-item__label">{{ navItem.label }}</span>
+    @if (navItem.badge) {
+      <span class="nav-item__badge">{{ navItem.badge }}</span>
+    }
+  </a>
+}

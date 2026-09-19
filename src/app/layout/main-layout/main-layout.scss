@@ -1,0 +1,66 @@
+@use '../../../styles/mixins' as m;
+@use '../../../styles/variables' as v;
+
+// Flex row rather than a fixed sidebar plus a content margin: the sidebar is a
+// real column on desktop, so it always spans the full page height and the
+// content needs no offset to compensate.
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.shell__sidebar {
+  flex: none;
+  width: var(--sidebar-width);
+  transition: width var(--transition-base);
+
+  // Below lg the sidebar leaves the flow entirely and slides in as a drawer.
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: v.$z-sidebar;
+  transform: translateX(-100%);
+
+  &--open {
+    transform: translateX(0);
+  }
+
+  @include m.from(lg) {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    transform: none;
+  }
+}
+
+.shell__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: v.$z-backdrop;
+  background: rgba(15, 23, 42, 0.45);
+
+  @include m.from(lg) {
+    display: none;
+  }
+}
+
+.shell__main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  // Without this a wide child (a table, a chart) would stretch the column
+  // instead of scrolling inside it.
+  min-width: 0;
+}
+
+.shell__content {
+  flex: 1;
+  padding: var(--content-padding);
+}
+
+// Collapsed rail — desktop only. Mobile always opens the full-width drawer.
+@include m.from(lg) {
+  .shell--collapsed .shell__sidebar {
+    width: var(--sidebar-width-collapsed);
+  }
+}

@@ -1,18 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
-/**
- * Root component.
- *
- * Stage 1 ships the design-token foundation only, so this renders a smoke test
- * that proves the tokens resolve and Inter actually loaded. Stage 2 replaces it
- * with the routed app shell.
- */
 @Component({
   selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  imports: [RouterOutlet],
+  template: '<router-outlet />',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class App {
-  protected readonly chartSlots = [1, 2, 3, 4, 5, 6];
-}
+export class App {}

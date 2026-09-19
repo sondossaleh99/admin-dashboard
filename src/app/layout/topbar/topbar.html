@@ -1,0 +1,68 @@
+<header class="topbar">
+  <!-- Mobile only: opens the navigation drawer. -->
+  <button type="button" class="topbar__icon topbar__menu" (click)="openDrawer()">
+    <i class="pi pi-bars" aria-hidden="true"></i>
+    <span class="visually-hidden">Open navigation</span>
+  </button>
+
+  <div class="topbar__search">
+    <i class="pi pi-search" aria-hidden="true"></i>
+    <input
+      type="search"
+      id="topbar-search"
+      placeholder="Search"
+      autocomplete="off"
+      [value]="search()"
+      (input)="search.set($any($event.target).value)"
+    />
+    <label class="visually-hidden" for="topbar-search">Search</label>
+  </div>
+
+  <div class="topbar__actions">
+    @for (action of actions; track action.icon) {
+      <button type="button" class="topbar__icon">
+        <i class="pi {{ action.icon }}" aria-hidden="true"></i>
+        @if (action.badge) {
+          <span class="topbar__badge" aria-hidden="true">{{ action.badge }}</span>
+        }
+        <span class="visually-hidden">
+          {{ action.label }}{{ action.badge ? ', ' + action.badge + ' unread' : '' }}
+        </span>
+      </button>
+    }
+
+    <div class="topbar__user-wrap">
+      <button
+        type="button"
+        class="topbar__user"
+        #userButton
+        (click)="toggleUserMenu()"
+        [attr.aria-expanded]="userMenuOpen()"
+        aria-haspopup="menu"
+        aria-controls="user-menu"
+      >
+        <span class="topbar__avatar" aria-hidden="true">{{ user.initials }}</span>
+        <span class="topbar__identity">
+          <span class="topbar__greeting">Hi,</span>
+          <span class="topbar__name">{{ user.name }}</span>
+        </span>
+        <i class="pi pi-angle-down topbar__chevron" aria-hidden="true"></i>
+      </button>
+
+      @if (userMenuOpen()) {
+        <div class="topbar__dropdown" id="user-menu" role="menu">
+          <div class="topbar__dropdown-head">
+            <span class="topbar__dropdown-name">{{ user.name }}</span>
+            <span class="topbar__dropdown-role">{{ user.role }}</span>
+          </div>
+          @for (entry of userMenu; track entry.label) {
+            <button type="button" class="topbar__dropdown-item" role="menuitem">
+              <i class="pi {{ entry.icon }}" aria-hidden="true"></i>
+              {{ entry.label }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</header>
