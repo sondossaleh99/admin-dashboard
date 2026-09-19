@@ -1,16 +1,17 @@
-@use './_variables' as *;
-@use './_typography' as *; 
-@use './_spacing' as *; 
-@use './_mixins' as *; 
+// =============================================================================
+// Global stylesheet.
+//
+// Order matters: Bootstrap's layout layer first, then our tokens and base so
+// they win on any collision.
+//
+// Bootstrap is pulled in as `bootstrap-grid` — containers, the 12-column grid
+// and the utilities API only. The component layer (buttons, cards, modals,
+// navs) is deliberately excluded: PrimeNG owns interactive components, so
+// shipping Bootstrap's versions too would mean two systems styling one element
+// and ~200 kB of CSS nobody uses.
+// =============================================================================
 
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "primeicons/primeicons.css";
+@use 'bootstrap/scss/bootstrap-grid' as *;
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: $font-family-base;
-  background: $background-color;
-  color: $text-primary;
-}
+@use 'tokens';
+@use 'base';
