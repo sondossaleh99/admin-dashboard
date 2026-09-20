@@ -1,44 +1,51 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { CurrencyPipe, DatePipe, DecimalPipe, formatCurrency, formatNumber, formatPercent } from '@angular/common';
-import { LOCALE_ID } from '@angular/core';
+import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
+import { Kpi, Order, OrderStatus, RevenueRange } from '../../core/models/dashboard.model';
 import { EcommerceService } from '../../core/services/ecommerce.service';
-import { Kpi, RevenueRange } from '../../core/models/dashboard.model';
-import { DeltaBadge } from '../../shared/ui/delta-badge/delta-badge';
 import { EmptyState } from '../../shared/ui/empty-state/empty-state';
-import { IconChip } from '../../shared/ui/icon-chip/icon-chip';
 import { SectionHeader } from '../../shared/ui/section-header/section-header';
 import { SkeletonBlock } from '../../shared/ui/skeleton-block/skeleton-block';
-import { StatCard } from '../../shared/ui/stat-card/stat-card';
-import { ChartCombo, ComboSeries } from '../../shared/charts/chart-combo';
-import { ChartDonut, DonutSlice } from '../../shared/charts/chart-donut';
-import { ChartSparkline } from '../../shared/charts/chart-sparkline';
 import { UiCard } from '../../shared/ui/ui-card/ui-card';
+import { ActivityCard, ActivityEvent, ActivityTone } from './components/activity-card/activity-card';
+import { EarningsHero } from './components/earnings-hero/earnings-hero';
+import { KpiRow, KpiViewModel } from './components/kpi-row/kpi-row';
+import { ComboSeries } from '../../shared/charts/chart-combo';
+import { RecentOrdersTable } from './components/recent-orders-table/recent-orders-table';
+import { RevenueTotals, RevenueUpdatesCard } from './components/revenue-updates-card/revenue-updates-card';
+import { SalesBreakdownCard } from './components/sales-breakdown-card/sales-breakdown-card';
+import { WeeklyStatsCard } from './components/weekly-stats-card/weekly-stats-card';
+
+/** Maps an order's status to the activity feed's icon and tone. */
+const ORDER_ACTIVITY: Record<OrderStatus, { icon: string; tone: ActivityTone; verb: string }> = {
+  paid: { icon: 'pi-check-circle', tone: 'success', verb: 'was paid' },
+  pending: { icon: 'pi-clock', tone: 'warning', verb: 'is awaiting payment' },
+  refunded: { icon: 'pi-replay', tone: 'info', verb: 'was refunded' },
+  cancelled: { icon: 'pi-times-circle', tone: 'danger', verb: 'was cancelled' }
+};
 
 /**
  * Route target for `/ecommerce`.
  *
- * Stage 4 wires the data layer and renders it plainly so loading, error and
- * derived values can be reviewed. The designed sections land in Stage 6, which
- * is gated on the visual audit.
+ * Stage 6: assembles the designed sections from Stage 3's primitives and
+ * Stage 5's chart wrappers. This component owns data fetching, derived state
+ * and formatting; every section below it is presentational.
  */
 @Component({
   selector: 'app-ecommerce-page',
   imports: [
-    CurrencyPipe,
-    DatePipe,
-    DecimalPipe,
     UiCard,
-    StatCard,
-    IconChip,
-    DeltaBadge,
     SectionHeader,
     SkeletonBlock,
     EmptyState,
-    ChartCombo,
-    ChartDonut,
-    ChartSparkline
+    EarningsHero,
+    KpiRow,
+    RevenueUpdatesCard,
+    SalesBreakdownCard,
+    WeeklyStatsCard,
+    RecentOrdersTable,
+    ActivityCard
   ],
   templateUrl: './ecommerce-page.html',
   styleUrl: './ecommerce-page.scss',
@@ -66,21 +73,28 @@ export class EcommercePage {
     return this.range() === '6m' ? points.slice(-6) : points;
   });
 
-  protected readonly revenueTotals = computed(() => {
+  protected readonly revenueTotals = computed<RevenueTotals>(() => {
     const points = this.revenue();
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
     return { budget, expense, margin: budget - expense };
   });
 
+  protected readonly revenuePeriods = computed(() => this.revenue().map((p) => p.period));
+
+  protected readonly revenueSeries = computed<ComboSeries[]>(() => [
+    { name: 'Budget', data: this.revenue().map((p) => p.budget) },
+    { name: 'Expense', data: this.revenue().map((p) => p.expense) }
+  ]);
+
   /**
    * KPIs with their figures already rendered for display.
    *
-   * Formatting lives here rather than as a branch in the template: the rule
-   * differs per KPI, and Angular's own format functions (the ones the pipes
-   * call) keep it locale-aware rather than hand-rolled.
+   * Formatting lives here rather than as a branch in any child's template:
+   * the rule differs per KPI, and Angular's own format functions (the ones
+   * the pipes call) keep it locale-aware rather than hand-rolled.
    */
-  protected readonly kpis = computed(() =>
+  protected readonly kpis = computed<KpiViewModel[]>(() =>
     (this.data()?.kpis ?? []).map((kpi) => ({
       ...kpi,
       display: this.format(kpi.value, kpi.format)
@@ -91,6 +105,36 @@ export class EcommercePage {
     (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
   );
 
+  /**
+   * Recent activity, derived from the same order data the table shows.
+   *
+   * See ActivityCard's doc comment: this stands in for a media/blog card the
+   * reference site may use, which this build has no real content for.
+   */
+  protected readonly activity = computed<ActivityEvent[]>(() =>
+    (this.data()?.recentOrders ?? []).slice(0, 5).map((order) => this.toActivityEvent(order))
+  );
+
+  protected setRange(range: RevenueRange): void {
+    this.range.set(range);
+  }
+
+  protected retry(): void {
+    this.dashboard.reload();
+  }
+
+  private toActivityEvent(order: Order): ActivityEvent {
+    const meta = ORDER_ACTIVITY[order.status];
+    return {
+      id: order.id,
+      icon: meta.icon,
+      tone: meta.tone,
+      title: `Order #${order.id} ${meta.verb}`,
+      detail: `${order.customer} · ${order.item}`,
+      timestamp: order.placedAt
+    };
+  }
+
   private format(value: number, as: Kpi['format']): string {
     switch (as) {
       case 'currency':
@@ -100,25 +144,5 @@ export class EcommercePage {
       default:
         return formatNumber(value, this.locale, '1.0-0');
     }
-  }
-
-  /** Category axis and the two series the combo chart takes. */
-  protected readonly revenuePeriods = computed(() => this.revenue().map((p) => p.period));
-
-  protected readonly revenueSeries = computed<ComboSeries[]>(() => [
-    { name: 'Budget', data: this.revenue().map((p) => p.budget) },
-    { name: 'Expense', data: this.revenue().map((p) => p.expense) }
-  ]);
-
-  protected readonly donutSlices = computed<DonutSlice[]>(() =>
-    (this.data()?.salesBreakdown ?? []).map((s) => ({ label: s.label, value: s.value }))
-  );
-
-  protected setRange(range: RevenueRange): void {
-    this.range.set(range);
-  }
-
-  protected retry(): void {
-    this.dashboard.reload();
   }
 }

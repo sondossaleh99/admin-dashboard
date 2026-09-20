@@ -1,0 +1,58 @@
+<app-ui-card title="Recent orders" [subtitle]="subtitle()" [flush]="true">
+  <div card-actions class="search">
+    <i class="pi pi-search" aria-hidden="true"></i>
+    <input
+      type="search"
+      class="search__input"
+      placeholder="Search orders"
+      autocomplete="off"
+      aria-label="Search orders"
+      (input)="onSearchInput($any($event.target).value, dt)"
+    />
+  </div>
+
+  <p-table
+    #dt
+    [value]="tableValue()"
+    [rows]="rows"
+    [paginator]="orders().length > rows"
+    [globalFilterFields]="['customer', 'item', 'id', 'status']"
+    sortField="placedAt"
+    [sortOrder]="-1"
+    dataKey="id"
+    styleClass="orders-table"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+  >
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="customer">Customer <p-sortIcon field="customer" /></th>
+        <th class="col-item">Item</th>
+        <th pSortableColumn="placedAt">Date <p-sortIcon field="placedAt" /></th>
+        <th>Status</th>
+        <th pSortableColumn="total" class="col-total">Total <p-sortIcon field="total" /></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-order>
+      <tr>
+        <td>
+          <span class="order-id">#{{ order.id }}</span>
+          {{ order.customer }}
+        </td>
+        <td class="col-item">{{ order.item }}</td>
+        <td>{{ order.placedAt | date: 'd MMM' }}</td>
+        <td>
+          <span class="status status--{{ order.status }}">{{ statusLabelFor(order.status) }}</span>
+        </td>
+        <td class="col-total tabular-nums">{{ order.total | currency: 'USD' : 'symbol' : '1.2-2' }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5" class="empty">No orders match &ldquo;{{ searchTerm() }}&rdquo;.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</app-ui-card>

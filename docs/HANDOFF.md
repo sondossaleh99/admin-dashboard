@@ -1,7 +1,8 @@
 # Handoff — Ecommerce Dashboard Reproduction
 
-**Date:** 2026-09-16
-**State:** Stages 1–5 implemented and pushed. **Stage 6 is blocked.**
+**Date:** 2026-09-17
+**State:** Stages 1–6 implemented and pushed. Stage 6 is structurally done;
+its pixel-fidelity pass is still blocked (see §2). Stages 7–9 remain.
 
 ---
 
@@ -17,20 +18,22 @@ Stacked — each PR targets the one above it, so every diff is reviewable alone.
 | #4 | `claude/stage-3-primitives` | #3 | UI primitives |
 | #5 | `claude/stage-4-data` | #4 | Data layer |
 | #6 | `claude/stage-5-charts` | #5 | Charts |
+| #7 (to open) | `claude/stage-6-page-assembly` | #6 | Page assembly components |
 
 Merge in order, bottom of the stack first. `init` is the base branch — this
 repo has no `main`.
 
 ---
 
-## 2. Blocker — Stage 6 cannot start
+## 2. Blocker — pixel fidelity, not structure
 
 `dashboard-one-teal.vercel.app` is blocked by the session's network egress
-policy (403 on CONNECT). The live page was never seen.
+policy (403 on CONNECT). The live page was never seen — still.
 
-Stages 1–5 did not need it: tokens, shell, primitives, data shape and chart
-wrappers are all structural. Stage 6 is different — it needs the real widget
-inventory, figures, ordering and spacing.
+Stage 6's structural work (componentization, real PrimeNG table, functional
+wiring, the activity-feed substitution) did not need the reference and is
+done. What still needs it: exact widget proportions, real copy/figures,
+ordering, and any decorative treatment — none of which was guessed.
 
 **To clear it, do one of:**
 
@@ -47,6 +50,8 @@ Everything tagged `[verify]` in the code and plan depends on this:
 | `core/data/nav.data.ts` | Nav group labels and ordering |
 | `core/data/ecommerce.data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
+| `EarningsHero` | No decorative background was added — nothing to base one on |
+| `ActivityCard` | Built as a real-data activity feed, not a media/blog card — see its doc comment |
 
 ---
 
@@ -67,17 +72,22 @@ src/app/
     charts/      chart-theme, chart-combo, chart-area,
                  chart-donut, chart-sparkline
   features/
-    ecommerce/   ecommerce-page  ← provisional layout, Stage 6 redesigns it
+    ecommerce/
+      ecommerce-page   ← thin orchestrator: fetch, derived state, formatting
+      components/      earnings-hero, kpi-row, revenue-updates-card,
+                        sales-breakdown-card, weekly-stats-card,
+                        recent-orders-table, activity-card
     not-found/   404
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile
 drawer, avatar dropdown with Escape/outside-click, loading skeletons, inline
-error retry, revenue range filter with derived totals, six live charts.
+error retry, revenue range filter with derived totals, six live charts, a
+sortable/paginated/searchable orders table, and an activity feed.
 
-**Provisional:** `ecommerce-page` renders the data in a plain arrangement so the
-wiring is reviewable. Its layout is *not* a reproduction of the reference —
-that is Stage 6's job.
+**Still provisional:** section proportions, exact spacing and any decorative
+treatment — the things Stage 9's visual-parity pass exists to catch once the
+reference is reachable.
 
 ---
 
@@ -95,15 +105,22 @@ that is Stage 6's job.
 
 ## 5. Next actions
 
-1. **Clear the blocker** (section 2). Nothing else unblocks Stage 6.
-2. **Stage 6** — 8 tasks, plan §10. Replace `ecommerce-page`'s provisional
-   layout with the real sections. `ChartArea` is built and unused, waiting for
-   it. Reconcile the `[verify]` fixtures against the reference.
-3. **Stage 7** — responsive pass. Already verified clean at 320/390/768/1440
-   throughout, so this should be confirmation rather than repair.
-4. **Stage 8** — accessibility. Landmarks, `aria-current`, focus ring and
+1. **Clear the blocker** (section 2). Nothing else unblocks Stage 9's exact
+   parity pass, or reconciling the `[verify]` fixtures.
+2. **Stage 7** — responsive pass. Already verified clean at 320/390/768/1440
+   throughout Stage 6, including the orders table's own internal horizontal
+   scroll (confirmed not to leak into page-level overflow), so this should be
+   confirmation rather than repair.
+3. **Stage 8** — accessibility. Landmarks, `aria-current`, focus ring and
    reduced-motion are already in; contrast audit and keyboard sweep remain.
-5. **Stage 9** — visual parity against the reference.
+4. **Stage 9** — visual parity against the reference, once reachable. Revisit
+   `EarningsHero`'s missing decorative background and `ActivityCard`'s
+   activity-feed substitution first — those are the two Stage 6 [verify]
+   items most likely to change shape, not just figures.
+
+`ChartArea` remains built and unused: no page section calls for a distinct
+single-trend area chart beyond what `ChartSparkline` already covers (hero,
+weekly stats), and forcing it in would mean inventing a placement.
 
 ---
 
