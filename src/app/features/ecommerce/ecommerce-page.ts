@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { CurrencyPipe, DatePipe, DecimalPipe, formatCurrency, formatNumber, formatPercent } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
 
+import { EcommerceService } from '../../core/services/ecommerce.service';
+import { Kpi, RevenueRange } from '../../core/models/dashboard.model';
 import { DeltaBadge } from '../../shared/ui/delta-badge/delta-badge';
 import { EmptyState } from '../../shared/ui/empty-state/empty-state';
 import { IconChip } from '../../shared/ui/icon-chip/icon-chip';
@@ -11,33 +16,91 @@ import { UiCard } from '../../shared/ui/ui-card/ui-card';
 /**
  * Route target for `/ecommerce`.
  *
- * Stage 3 renders the UI primitives so they can be reviewed in place. The real
- * page sections land in Stage 6, which is gated on the visual audit.
+ * Stage 4 wires the data layer and renders it plainly so loading, error and
+ * derived values can be reviewed. The designed sections land in Stage 6, which
+ * is gated on the visual audit.
  */
 @Component({
   selector: 'app-ecommerce-page',
-  imports: [UiCard, StatCard, IconChip, DeltaBadge, SectionHeader, SkeletonBlock, EmptyState],
+  imports: [
+    CurrencyPipe,
+    DatePipe,
+    DecimalPipe,
+    UiCard,
+    StatCard,
+    IconChip,
+    DeltaBadge,
+    SectionHeader,
+    SkeletonBlock,
+    EmptyState
+  ],
   templateUrl: './ecommerce-page.html',
   styleUrl: './ecommerce-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EcommercePage {
-  protected readonly retried = signal(false);
+  private readonly service = inject(EcommerceService);
+  private readonly locale = inject(LOCALE_ID);
 
-  protected readonly stats = [
-    { label: 'Customers', value: '39,354', icon: 'pi-users', tone: 'primary', delta: 4 },
-    { label: 'Products', value: '4,396', icon: 'pi-box', tone: 'series-2', delta: 23 },
-    { label: 'Sales', value: '423,39', icon: 'pi-chart-bar', tone: 'series-3', delta: 38 },
-    { label: 'Refunds', value: '39,354', icon: 'pi-replay', tone: 'series-4', delta: -12 }
-  ] as const;
+  /** Owns loading, error and value as signals, and gives retry a `reload()`. */
+  private readonly dashboard = rxResource({
+    stream: () => this.service.getDashboard()
+  });
 
-  protected readonly deltas = [38, 4.5, -0.8, -12] as const;
-  protected readonly chips = [
-    { icon: 'pi-users', tone: 'primary' },
-    { icon: 'pi-box', tone: 'series-2' },
-    { icon: 'pi-chart-bar', tone: 'series-3' },
-    { icon: 'pi-replay', tone: 'series-4' },
-    { icon: 'pi-check', tone: 'success' },
-    { icon: 'pi-times', tone: 'danger' }
-  ] as const;
+  protected readonly data = this.dashboard.value;
+  protected readonly loading = computed(() => this.dashboard.status() === 'loading');
+  protected readonly error = computed(() => this.dashboard.status() === 'error');
+
+  /** Revenue card's period filter. */
+  protected readonly range = signal<RevenueRange>('12m');
+
+  /** Derived, not stored: changing the range never mutates the source series. */
+  protected readonly revenue = computed(() => {
+    const points = this.data()?.revenue ?? [];
+    return this.range() === '6m' ? points.slice(-6) : points;
+  });
+
+  protected readonly revenueTotals = computed(() => {
+    const points = this.revenue();
+    const budget = points.reduce((sum, p) => sum + p.budget, 0);
+    const expense = points.reduce((sum, p) => sum + p.expense, 0);
+    return { budget, expense, margin: budget - expense };
+  });
+
+  /**
+   * KPIs with their figures already rendered for display.
+   *
+   * Formatting lives here rather than as a branch in the template: the rule
+   * differs per KPI, and Angular's own format functions (the ones the pipes
+   * call) keep it locale-aware rather than hand-rolled.
+   */
+  protected readonly kpis = computed(() =>
+    (this.data()?.kpis ?? []).map((kpi) => ({
+      ...kpi,
+      display: this.format(kpi.value, kpi.format)
+    }))
+  );
+
+  protected readonly salesTotal = computed(() =>
+    (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
+  );
+
+  private format(value: number, as: Kpi['format']): string {
+    switch (as) {
+      case 'currency':
+        return formatCurrency(value, this.locale, '$', 'USD', '1.0-0');
+      case 'percent':
+        return formatPercent(value / 100, this.locale, '1.0-1');
+      default:
+        return formatNumber(value, this.locale, '1.0-0');
+    }
+  }
+
+  protected setRange(range: RevenueRange): void {
+    this.range.set(range);
+  }
+
+  protected retry(): void {
+    this.dashboard.reload();
+  }
 }
