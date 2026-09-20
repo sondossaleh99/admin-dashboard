@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { NAV_GROUPS } from '../../core/data/nav.data';
 import { LayoutService } from '../../core/services/layout.service';
-import { SidebarNavItem } from './sidebar-nav-item/sidebar-nav-item';
+import { SidebarNavItem } from './components';
 
 @Component({
   selector: 'app-sidebar',
