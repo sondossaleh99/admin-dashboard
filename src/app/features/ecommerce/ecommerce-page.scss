@@ -101,46 +101,10 @@
   font-weight: var(--font-weight-semibold);
 }
 
-// -- Provisional series list (replaced by the chart in Stage 5) -------------
-.series {
-  list-style: none;
-  margin: var(--space-4) 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-
-  li {
-    display: grid;
-    grid-template-columns: 34px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: var(--space-3);
-  }
-}
-
-.series__period {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-.series__bar {
-  height: 8px;
-  border-radius: var(--radius-pill);
-  background: var(--chart-series-1);
-  // --v is a 0..1 ratio set per row.
-  width: calc(var(--v) * 100%);
-  min-width: 4px;
-}
-
-.series__value {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
-}
-
 // -- Donut legend -----------------------------------------------------------
 .slices {
   list-style: none;
-  margin: 0;
+  margin: var(--space-4) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -257,4 +221,16 @@
 .orders__total {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
+}
+
+// -- Chart placements -------------------------------------------------------
+.hero__spark {
+  flex: 1 1 180px;
+  min-width: 140px;
+  max-width: 260px;
+}
+
+.stats__spark {
+  flex: none;
+  width: 96px;
 }

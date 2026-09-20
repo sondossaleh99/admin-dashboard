@@ -1,124 +1,138 @@
 # Handoff — Ecommerce Dashboard Reproduction
 
 **Date:** 2026-09-16
-**Branch:** `claude/sleepy-fermat-ko7vfi` (clean, pushed, in sync with origin)
-**HEAD:** `3c47e58` — `docs: add Angular reproduction plan for ecommerce dashboard`
-**Base branch:** `init` (this repo has no `main`/`master`)
-**Stage:** Planning complete. **No implementation started.**
+**State:** Stages 1–5 implemented and pushed. **Stage 6 is blocked.**
 
 ---
 
-## 1. What was done
+## 1. Branches and PRs
 
-Analyzed the repo's committed design tokens and stack, then produced a build plan for reproducing
-`https://dashboard-one-teal.vercel.app/ecommerce` in Angular 20.
+Stacked — each PR targets the one above it, so every diff is reviewable alone.
 
-| Deliverable | Location |
-|---|---|
-| Plan document (source of truth) | `docs/ecommerce-dashboard-plan.md` |
-| Shareable page version | https://claude.ai/artifact/XwSfMvERkTqygEANDK8kRS |
-| This handoff | `docs/HANDOFF.md` |
+| PR | Branch | Base | Contents |
+|---|---|---|---|
+| #1 | `claude/sleepy-fermat-ko7vfi` | `init` | Plan + handoff docs |
+| #2 | `claude/stage-1-foundation` | #1 | Design tokens |
+| #3 | `claude/stage-2-shell` | #2 | App shell |
+| #4 | `claude/stage-3-primitives` | #3 | UI primitives |
+| #5 | `claude/stage-4-data` | #4 | Data layer |
+| #6 | `claude/stage-5-charts` | #5 | Charts |
 
-No PR was opened — none was requested.
+Merge in order, bottom of the stack first. `init` is the base branch — this
+repo has no `main`.
 
 ---
 
-## 2. Blocker — read first
+## 2. Blocker — Stage 6 cannot start
 
-**The live target was never seen.** `dashboard-one-teal.vercel.app` is blocked by the session's
-network egress policy (403 on CONNECT). It was not worked around.
+`dashboard-one-teal.vercel.app` is blocked by the session's network egress
+policy (403 on CONNECT). The live page was never seen.
 
-Consequence: the plan's **structure, component boundaries and build order are sound**, but the
-specific widget inventory, exact figures, nav groupings and sidebar/topbar dimensions are inferred
-from the repo's `#03C9D7` palette and this dashboard family's conventions. Those are tagged
-`[verify]` in the plan.
+Stages 1–5 did not need it: tokens, shell, primitives, data shape and chart
+wrappers are all structural. Stage 6 is different — it needs the real widget
+inventory, figures, ordering and spacing.
 
 **To clear it, do one of:**
 
-1. Allow `dashboard-one-teal.vercel.app` in the environment's network policy, then re-run the
-   visual audit against the plan's section 3; or
-2. Save screenshots (desktop ~1440px + mobile ~390px) and/or the page's rendered HTML/CSS into
-   `docs/reference/` and commit them. This works offline and is the more reliable option.
+1. Allow `dashboard-one-teal.vercel.app` in the environment's network policy; or
+2. Save screenshots (desktop ~1440px + mobile ~390px) and/or the page's
+   rendered HTML/CSS into `docs/reference/` and commit them. Works offline and
+   is the more reliable option.
 
-Until then, **do not start Stage 6** (page assembly) — it is the first stage that depends on the audit.
+Everything tagged `[verify]` in the code and plan depends on this:
+
+| Location | What needs confirming |
+|---|---|
+| `_variables.scss` | `$sidebar-width`, `$topbar-height` |
+| `core/data/nav.data.ts` | Nav group labels and ordering |
+| `core/data/ecommerce.data.ts` | Every figure — shaped like the reference, not copied from it |
+| Plan §3.2 | Page region inventory and order |
 
 ---
 
-## 3. Environment state
+## 3. What exists now
 
-- `node_modules` is **not installed** — run `npm install` before anything.
-- Node v22.22.2, Angular CLI 20.3.34.
-- The container is ephemeral. Nothing survives except what is committed and pushed.
+Run it: `npm install && npm start` → http://localhost:4200/ecommerce
 
-```bash
-npm install
-npm start          # ng serve -> http://localhost:4200
+```
+src/app/
+  core/
+    models/      nav, user, dashboard (Kpi, RevenuePoint, Order, …)
+    data/        nav.data, user.data, ecommerce.data  [verify]
+    services/    layout.service (chrome state), ecommerce.service (data)
+  layout/        main-layout, sidebar (+ nav item), topbar
+  shared/
+    ui/          ui-card, stat-card, icon-chip, delta-badge,
+                 section-header, skeleton-block, empty-state
+    charts/      chart-theme, chart-combo, chart-area,
+                 chart-donut, chart-sparkline
+  features/
+    ecommerce/   ecommerce-page  ← provisional layout, Stage 6 redesigns it
+    not-found/   404
 ```
 
+**Working:** routing with lazy loading, sidebar collapse (persisted) and mobile
+drawer, avatar dropdown with Escape/outside-click, loading skeletons, inline
+error retry, revenue range filter with derived totals, six live charts.
+
+**Provisional:** `ecommerce-page` renders the data in a plain arrangement so the
+wiring is reviewable. Its layout is *not* a reproduction of the reference —
+that is Stage 6's job.
+
 ---
 
-## 4. Current code state
+## 4. Decisions made, with reasons
 
-The app is still Angular CLI scaffolding plus a PrimeNG smoke test.
-
-| File | State |
+| Decision | Why |
 |---|---|
-| `src/app/app.ts` / `app.html` | Throwaway `p-button` + `p-table` demo. **Delete at task 2.1.** |
-| `src/app/app.routes.ts` | Empty `routes: Routes = []` |
-| `src/app/app.config.ts` | Done — PrimeNG Aura preset with the `#03C9D7` primary ramp |
-| `src/styles/*.scss` | Token partials in place: variables, typography, spacing, mixins |
-| `docs/` | Plan + this handoff |
+| Bootstrap via `bootstrap-grid`, not the full stylesheet | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB. |
+| Avatar dropdown hand-rolled, not PrimeNG `MenuModule` | Measured 131 kB for one dropdown. PrimeNG still owns the Stage 6 table. |
+| Bundle budget 500 kB → 700 kB | App's floor is 478 kB before any feature. Plan's DoD updated to match. |
+| ApexCharts | Per the plan's recommendation. Lands in the lazy chunk: +2.8 kB initial. |
+| Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; first four clear all-pairs for the donut. |
 
 ---
 
-## 5. Findings that need action
+## 5. Next actions
 
-Three real issues found while reading the repo. All are Stage 1 work (tasks 1.2, 1.3, 1.5, 5.1).
-
-1. **Inter is declared but never loaded.** `$font-family-base: 'Inter'` is set in
-   `_typography.scss`, but `index.html` has no font link and `@fontsource/inter` is not a
-   dependency. The app currently renders in system sans without warning.
-2. **No chart library is installed.** This is the one open technical decision — see §6.
-3. **Tokens are SCSS-only.** PrimeNG overrides and chart configs both need these values at
-   runtime. Bridge the SCSS tokens to CSS custom properties on `:root` so there is one source
-   of truth, rather than duplicating hex codes into chart configs.
-
----
-
-## 6. Open decisions — need the user
-
-| Decision | Recommendation | Why it matters |
-|---|---|---|
-| Chart library | **ApexCharts (`ng-apexcharts`)** | Closest visual match out of the box (gradient areas, true sparkline mode, combo bar+line). ~130 KB gzipped. Alternative: Chart.js via PrimeNG `<p-chart>` — already bundled and lighter, but more manual config. Blocks Stage 5. |
-| Reference material | Screenshots into `docs/reference/` | Blocks Stage 6. See §2. |
-| Scope beyond `/ecommerce` | Build the shell to support more routes, but implement only `/ecommerce` | The plan's `MainLayout` is already designed for reuse |
+1. **Clear the blocker** (section 2). Nothing else unblocks Stage 6.
+2. **Stage 6** — 8 tasks, plan §10. Replace `ecommerce-page`'s provisional
+   layout with the real sections. `ChartArea` is built and unused, waiting for
+   it. Reconcile the `[verify]` fixtures against the reference.
+3. **Stage 7** — responsive pass. Already verified clean at 320/390/768/1440
+   throughout, so this should be confirmation rather than repair.
+4. **Stage 8** — accessibility. Landmarks, `aria-current`, focus ring and
+   reduced-motion are already in; contrast audit and keyboard sweep remain.
+5. **Stage 9** — visual parity against the reference.
 
 ---
 
-## 7. Next actions, in order
+## 6. Verifying UI changes
 
-Stages 1–4 are **unblocked** and can start immediately; Stage 5 needs only the chart-library call.
+Headless Chromium's `--screenshot` renders at a wide canvas and crops, which
+looks *identical* to horizontal overflow. It produced two false bug reports in
+this session. Use a real browser viewport instead:
 
-1. `npm install`
-2. **Stage 1 — foundation:** load Inter, bridge SCSS tokens to CSS custom properties, add the chart
-   palette and `$sidebar-width` / `$topbar-height`.
-3. **Stage 2 — app shell:** delete the `app.html` demo, add routing with `/ecommerce` as the default
-   redirect, build `MainLayout` + `Sidebar` + `Topbar`.
-4. **Stage 3 — UI primitives:** `UiCard`, `StatCard`, `DeltaBadge`, `IconChip`, skeletons.
-5. **Stage 4 — data layer:** models + `EcommerceService` returning delayed observables.
-6. **Stage 5 — charts:** once the library decision lands, build the four wrappers.
-7. **Stop.** Confirm the `[verify]` items before Stage 6.
+```bash
+npm install --prefix /tmp/shots playwright-core
+```
 
-Full task-level detail — 48 tasks across 9 stages — is in `docs/ecommerce-dashboard-plan.md` §10.
+then drive it with `chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' })`
+and a real `viewport`, comparing `document.documentElement.scrollWidth` against
+`clientWidth` to detect overflow for real.
+
+When a chart looks wrong, read the SVG's `d` and `stroke` attributes before
+theorising — that is what found the invisible-stroke bug in Stage 5, after a
+wrong guess about container width.
 
 ---
 
-## 8. Conventions to keep
+## 7. Conventions
 
 - Standalone components, `OnPush`, signal inputs (`input()` / `input.required()`).
-- PrimeNG owns interactive components; Bootstrap owns layout only. Never both on one element.
-- Feature components arrange and bind — they never define colors, radii or shadows.
-- Every card is a `UiCard`. No duplicated card CSS.
-- No `any`. 2-space indent, single quotes, 100-char width (`.editorconfig` + Prettier config in
-  `package.json`).
-- Commit to `claude/sleepy-fermat-ko7vfi`. Do not push elsewhere without asking.
+- PrimeNG owns interactive components; Bootstrap owns layout only. Never both.
+- Feature components arrange and bind — they never define colours, radii or
+  shadows. Those come from `UiCard` and the tokens.
+- Charts receive data only. Theme lives in `chart-theme.ts`.
+- No `any`. 2-space indent, single quotes, 100-char width.
+- Component SCSS has a 4 kB budget — keep page styles lean.
