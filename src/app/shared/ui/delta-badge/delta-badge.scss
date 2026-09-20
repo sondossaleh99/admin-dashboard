@@ -1,0 +1,25 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+:host(.delta-badge--up) {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  color: #15803d;
+}
+
+:host(.delta-badge--down) {
+  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+  color: #b91c1c;
+}
+
+.pi {
+  font-size: 10px;
+}

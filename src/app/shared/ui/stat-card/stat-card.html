@@ -1,0 +1,18 @@
+<app-ui-card>
+  <div class="stat">
+    <app-icon-chip [icon]="icon()" [tone]="tone()" />
+
+    <p class="stat__value tabular-nums">{{ value() }}</p>
+
+    <div class="stat__foot">
+      <span class="stat__label">{{ label() }}</span>
+      @if (delta() !== undefined) {
+        <app-delta-badge [value]="delta()!" />
+      }
+    </div>
+
+    @if (caption()) {
+      <p class="stat__caption">{{ caption() }}</p>
+    }
+  </div>
+</app-ui-card>
