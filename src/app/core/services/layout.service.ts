@@ -11,11 +11,11 @@ const COLLAPSED_KEY = 'admin-dashboard.sidebar-collapsed';
  */
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
-  private readonly collapsed = signal(readCollapsed());
-  private readonly drawer = signal(false);
+  private collapsed = signal(readCollapsed());
+  private drawer = signal(false);
 
-  readonly sidebarCollapsed = this.collapsed.asReadonly();
-  readonly drawerOpen = this.drawer.asReadonly();
+  sidebarCollapsed = this.collapsed.asReadonly();
+  drawerOpen = this.drawer.asReadonly();
 
   toggleSidebar(): void {
     this.collapsed.update((value) => {

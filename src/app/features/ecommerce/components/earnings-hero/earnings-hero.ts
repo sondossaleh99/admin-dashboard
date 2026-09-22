@@ -20,5 +20,5 @@ import { ChartSparkline, DeltaBadge, Earnings, UiCard } from '../../../../shared
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EarningsHero {
-  readonly earnings = input.required<Earnings>();
+  earnings = input.required<Earnings>();
 }

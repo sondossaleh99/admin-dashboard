@@ -19,11 +19,11 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmptyState {
-  readonly icon = input('pi-inbox');
-  readonly message = input.required<string>();
-  readonly hint = input<string>();
+  icon = input('pi-inbox');
+  message = input.required<string>();
+  hint = input<string>();
   /** Renders a button when set — used for the inline retry on a failed load. */
-  readonly actionLabel = input<string>();
+  actionLabel = input<string>();
 
-  readonly action = output<void>();
+  action = output<void>();
 }

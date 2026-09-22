@@ -17,10 +17,10 @@ import { ChartDonut, DonutSlice, SalesSlice, UiCard } from '../../../../shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SalesBreakdownCard {
-  readonly slices = input.required<readonly SalesSlice[]>();
-  readonly total = input.required<number>();
+  slices = input.required<SalesSlice[]>();
+  total = input.required<number>();
 
-  asDonutSlices(slices: readonly SalesSlice[]): DonutSlice[] {
+  asDonutSlices(slices: SalesSlice[]): DonutSlice[] {
     return slices.map((s) => ({ label: s.label, value: s.value }));
   }
 }

@@ -26,12 +26,12 @@ import { baseOptions, seriesColors } from './chart-theme';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartSparkline {
-  readonly data = input.required<readonly number[]>();
-  readonly height = input(48);
-  readonly slot = input(1);
-  readonly filled = input(true);
+  data = input.required<number[]>();
+  height = input(48);
+  slot = input(1);
+  filled = input(true);
 
-  readonly options = computed<ApexOptions>(() => {
+  options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const points = this.data();
     const color = seriesColors(6)[this.slot() - 1];

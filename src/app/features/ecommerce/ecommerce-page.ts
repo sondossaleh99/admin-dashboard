@@ -54,37 +54,37 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EcommercePage {
-  private readonly service = inject(EcommerceService);
-  private readonly locale = inject(LOCALE_ID);
+  service = inject(EcommerceService);
+  locale = inject(LOCALE_ID);
 
   /** Owns loading, error and value as signals, and gives retry a `reload()`. */
-  private readonly dashboard = rxResource({
+  dashboard = rxResource({
     stream: () => this.service.getDashboard()
   });
 
-  readonly data = this.dashboard.value;
-  readonly loading = computed(() => this.dashboard.status() === 'loading');
-  readonly error = computed(() => this.dashboard.status() === 'error');
+  data = this.dashboard.value;
+  loading = computed(() => this.dashboard.status() === 'loading');
+  error = computed(() => this.dashboard.status() === 'error');
 
   /** Revenue card's period filter. */
-  readonly range = signal<RevenueRange>(RevenueRange.TwelveMonths);
+  range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
   /** Derived, not stored: changing the range never mutates the source series. */
-  readonly revenue = computed(() => {
+  revenue = computed(() => {
     const points = this.data()?.revenue ?? [];
     return this.range() === RevenueRange.SixMonths ? points.slice(-6) : points;
   });
 
-  readonly revenueTotals = computed<RevenueTotals>(() => {
+  revenueTotals = computed<RevenueTotals>(() => {
     const points = this.revenue();
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
     return { budget, expense, margin: budget - expense };
   });
 
-  readonly revenuePeriods = computed(() => this.revenue().map((p) => p.period));
+  revenuePeriods = computed(() => this.revenue().map((p) => p.period));
 
-  readonly revenueSeries = computed<ComboSeries[]>(() => [
+  revenueSeries = computed<ComboSeries[]>(() => [
     { name: 'Budget', data: this.revenue().map((p) => p.budget) },
     { name: 'Expense', data: this.revenue().map((p) => p.expense) }
   ]);
@@ -96,14 +96,14 @@ export class EcommercePage {
    * the rule differs per KPI, and Angular's own format functions (the ones
    * the pipes call) keep it locale-aware rather than hand-rolled.
    */
-  readonly kpis = computed<KpiViewModel[]>(() =>
+  kpis = computed<KpiViewModel[]>(() =>
     (this.data()?.kpis ?? []).map((kpi) => ({
       ...kpi,
       display: this.format(kpi.value, kpi.format)
     }))
   );
 
-  readonly salesTotal = computed(() =>
+  salesTotal = computed(() =>
     (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
   );
 
@@ -113,7 +113,7 @@ export class EcommercePage {
    * See ActivityCard's doc comment: this stands in for a media/blog card the
    * reference site may use, which this build has no real content for.
    */
-  readonly activity = computed<ActivityEvent[]>(() =>
+  activity = computed<ActivityEvent[]>(() =>
     (this.data()?.recentOrders ?? []).slice(0, 5).map((order) => this.toActivityEvent(order))
   );
 
@@ -125,7 +125,7 @@ export class EcommercePage {
     this.dashboard.reload();
   }
 
-  private toActivityEvent(order: Order): ActivityEvent {
+  toActivityEvent(order: Order): ActivityEvent {
     const meta = OrderActivityLookup.getActivity()[order.status];
     return {
       id: order.id,
@@ -137,7 +137,7 @@ export class EcommercePage {
     };
   }
 
-  private format(value: number, as: Kpi['format']): string {
+  format(value: number, as: Kpi['format']): string {
     switch (as) {
       case 'currency':
         return formatCurrency(value, this.locale, '$', 'USD', '1.0-0');

@@ -23,5 +23,5 @@ import { ActivityEvent, UiCard } from '../../../../shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityCard {
-  readonly events = input.required<readonly ActivityEvent[]>();
+  events = input.required<ActivityEvent[]>();
 }

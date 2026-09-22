@@ -11,5 +11,5 @@ import { ChartSparkline, DeltaBadge, IconChip, UiCard, WeeklyStat } from '../../
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WeeklyStatsCard {
-  readonly stats = input.required<readonly WeeklyStat[]>();
+  stats = input.required<WeeklyStat[]>();
 }

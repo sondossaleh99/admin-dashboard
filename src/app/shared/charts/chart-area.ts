@@ -25,14 +25,14 @@ import { baseOptions, compactNumber, seriesColors } from './chart-theme';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartArea {
-  readonly name = input.required<string>();
-  readonly categories = input.required<readonly string[]>();
-  readonly data = input.required<readonly number[]>();
-  readonly height = input(240);
+  name = input.required<string>();
+  categories = input.required<string[]>();
+  data = input.required<number[]>();
+  height = input(240);
   /** Palette slot, so an area chart can match the KPI it belongs to. */
-  readonly slot = input(1);
+  slot = input(1);
 
-  readonly options = computed<ApexOptions>(() => {
+  options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const color = seriesColors(6)[this.slot() - 1];
 

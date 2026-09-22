@@ -17,9 +17,9 @@ import { NavItem } from '../../../../shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarNavItem {
-  readonly item = input.required<NavItem>();
-  readonly collapsed = input(false);
+  item = input.required<NavItem>();
+  collapsed = input(false);
 
   /** Emitted so the mobile drawer can close itself after a navigation. */
-  readonly navigate = output<void>();
+  navigate = output<void>();
 }

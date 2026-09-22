@@ -19,17 +19,17 @@ import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Topbar {
-  private readonly layout = inject(LayoutService);
-  private readonly host = inject(ElementRef<HTMLElement>);
-  private readonly userButton = viewChild<ElementRef<HTMLButtonElement>>('userButton');
+  layout = inject(LayoutService);
+  host = inject(ElementRef<HTMLElement>);
+  userButton = viewChild<ElementRef<HTMLButtonElement>>('userButton');
 
-  readonly user = CURRENT_USER;
-  readonly search = signal('');
-  readonly userMenuOpen = signal(false);
+  user = CURRENT_USER;
+  search = signal('');
+  userMenuOpen = signal(false);
 
-  readonly actions: TopbarAction[] = TopbarActionsLookup.getActions();
+  actions: TopbarAction[] = TopbarActionsLookup.getActions();
 
-  readonly userMenu: UserMenuItem[] = UserMenuLookup.getItems();
+  userMenu: UserMenuItem[] = UserMenuLookup.getItems();
 
   openDrawer(): void {
     this.layout.openDrawer();

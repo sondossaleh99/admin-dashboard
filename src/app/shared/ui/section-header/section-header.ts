@@ -18,6 +18,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SectionHeader {
-  readonly title = input.required<string>();
-  readonly subtitle = input<string>();
+  title = input.required<string>();
+  subtitle = input<string>();
 }

@@ -33,12 +33,12 @@ import { baseOptions, compactNumber, seriesColors } from './chart-theme';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartCombo {
-  readonly categories = input.required<readonly string[]>();
+  categories = input.required<string[]>();
   /** First series renders as columns, second as a line. */
-  readonly series = input.required<readonly ComboSeries[]>();
-  readonly height = input(320);
+  series = input.required<ComboSeries[]>();
+  height = input(320);
 
-  readonly options = computed<ApexOptions>(() => {
+  options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const [columns, line] = this.series();
     const colors = seriesColors(2);

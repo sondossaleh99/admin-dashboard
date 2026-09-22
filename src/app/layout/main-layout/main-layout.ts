@@ -19,10 +19,10 @@ import { Topbar } from '../topbar';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainLayout {
-  private readonly layout = inject(LayoutService);
+  layout = inject(LayoutService);
 
-  readonly collapsed = this.layout.sidebarCollapsed;
-  readonly drawerOpen = this.layout.drawerOpen;
+  collapsed = this.layout.sidebarCollapsed;
+  drawerOpen = this.layout.drawerOpen;
 
   closeDrawer(): void {
     this.layout.closeDrawer();

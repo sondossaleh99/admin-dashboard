@@ -13,10 +13,10 @@ import { SidebarNavItem } from './components';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Sidebar {
-  private readonly layout = inject(LayoutService);
+  layout = inject(LayoutService);
 
-  readonly groups = NavigationLookup.getGroups();
-  readonly collapsed = this.layout.sidebarCollapsed;
+  groups = NavigationLookup.getGroups();
+  collapsed = this.layout.sidebarCollapsed;
 
   toggle(): void {
     this.layout.toggleSidebar();

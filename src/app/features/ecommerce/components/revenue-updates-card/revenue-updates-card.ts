@@ -19,14 +19,14 @@ import { ChartCombo, ComboSeries, RevenueRange, RevenueTotals, UiCard } from '..
 })
 export class RevenueUpdatesCard {
   /** Exposed so the template can reference members directly, e.g. `RevenueRange.SixMonths`. */
-  readonly RevenueRange = RevenueRange;
+  RevenueRange = RevenueRange;
 
-  readonly periods = input.required<readonly string[]>();
-  readonly series = input.required<readonly ComboSeries[]>();
-  readonly totals = input.required<RevenueTotals>();
-  readonly range = input.required<RevenueRange>();
+  periods = input.required<string[]>();
+  series = input.required<ComboSeries[]>();
+  totals = input.required<RevenueTotals>();
+  range = input.required<RevenueRange>();
 
-  readonly rangeChange = output<RevenueRange>();
+  rangeChange = output<RevenueRange>();
 
   setRange(range: RevenueRange): void {
     this.rangeChange.emit(range);

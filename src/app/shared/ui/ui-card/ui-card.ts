@@ -15,9 +15,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiCard {
-  readonly title = input<string>();
-  readonly subtitle = input<string>();
+  title = input<string>();
+  subtitle = input<string>();
 
   /** Drops body padding for cards whose content owns its own edges (tables, charts). */
-  readonly flush = input(false);
+  flush = input(false);
 }

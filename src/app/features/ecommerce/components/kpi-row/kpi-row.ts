@@ -24,5 +24,5 @@ import { KpiViewModel, StatCard } from '../../../../shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KpiRow {
-  readonly kpis = input.required<readonly KpiViewModel[]>();
+  kpis = input.required<KpiViewModel[]>();
 }

@@ -15,11 +15,11 @@ import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IconChip {
-  readonly icon = input.required<string>();
-  readonly tone = input<IconChipTone>(IconChipTone.Primary);
-  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  icon = input.required<string>();
+  tone = input<IconChipTone>(IconChipTone.Primary);
+  size = input<'sm' | 'md' | 'lg'>('md');
 
-  readonly hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
+  hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
 
-  readonly color = computed(() => IconChipToneLookup.getColors()[this.tone()]);
+  color = computed(() => IconChipToneLookup.getColors()[this.tone()]);
 }

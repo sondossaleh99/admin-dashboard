@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkeletonBlock {
-  readonly width = input('100%');
-  readonly height = input('16px');
-  readonly radius = input('var(--radius-sm)');
+  width = input('100%');
+  height = input('16px');
+  radius = input('var(--radius-sm)');
 }

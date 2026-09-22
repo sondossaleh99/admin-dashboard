@@ -29,11 +29,11 @@ import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-them
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartDonut {
-  readonly slices = input.required<readonly DonutSlice[]>();
-  readonly centerLabel = input('Total');
-  readonly height = input(260);
+  slices = input.required<DonutSlice[]>();
+  centerLabel = input('Total');
+  height = input(260);
 
-  readonly options = computed<ApexOptions>(() => {
+  options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const ink = chartInk();
     const slices = this.slices().slice(0, 4);

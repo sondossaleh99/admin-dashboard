@@ -24,11 +24,11 @@ import { DecimalPipe } from '@angular/common';
 })
 export class DeltaBadge {
   /** Signed percentage, e.g. `-12.4`. */
-  readonly value = input.required<number>();
+  value = input.required<number>();
 
-  readonly isUp = computed(() => this.value() >= 0);
-  readonly magnitude = computed(() => Math.abs(this.value()));
-  readonly label = computed(
+  isUp = computed(() => this.value() >= 0);
+  magnitude = computed(() => Math.abs(this.value()));
+  label = computed(
     () => `${this.isUp() ? 'Up' : 'Down'} ${this.magnitude()} percent`
   );
 }

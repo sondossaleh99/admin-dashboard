@@ -14,12 +14,12 @@ import { UiCard } from '../ui-card';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatCard {
-  readonly label = input.required<string>();
+  label = input.required<string>();
   /** Pre-formatted by the caller, so currency and compact forms both fit. */
-  readonly value = input.required<string>();
-  readonly icon = input.required<string>();
-  readonly tone = input<IconChipTone>(IconChipTone.Primary);
+  value = input.required<string>();
+  icon = input.required<string>();
+  tone = input<IconChipTone>(IconChipTone.Primary);
   /** Signed percentage. Omit when there is no comparison period. */
-  readonly delta = input<number>();
-  readonly caption = input<string>();
+  delta = input<number>();
+  caption = input<string>();
 }

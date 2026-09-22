@@ -21,16 +21,16 @@ const SEARCH_DEBOUNCE_MS = 250;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RecentOrdersTable {
-  private readonly destroyRef = inject(DestroyRef);
-  private debounceHandle?: ReturnType<typeof setTimeout>;
+  destroyRef = inject(DestroyRef);
+  debounceHandle?: ReturnType<typeof setTimeout>;
 
-  readonly orders = input.required<readonly Order[]>();
+  orders = input.required<Order[]>();
 
-  /** p-table's `value` input wants a mutable array; the source stays readonly. */
-  readonly tableValue = computed(() => [...this.orders()]);
+  /** p-table's `value` input wants a mutable array; the input signal itself is never mutated. */
+  tableValue = computed(() => [...this.orders()]);
 
-  readonly searchTerm = signal('');
-  readonly rows = 6;
+  searchTerm = signal('');
+  rows = 6;
 
   /**
    * Takes a plain string rather than `OrderStatus`: PrimeNG's named `#body`
@@ -42,7 +42,7 @@ export class RecentOrdersTable {
     return OrderStatusLookup.getLabels()[status as OrderStatus] ?? status;
   }
 
-  readonly subtitle = computed(() => `${this.orders().length} orders`);
+  subtitle = computed(() => `${this.orders().length} orders`);
 
   constructor() {
     this.destroyRef.onDestroy(() => clearTimeout(this.debounceHandle));

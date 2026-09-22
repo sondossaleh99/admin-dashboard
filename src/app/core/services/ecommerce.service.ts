@@ -14,7 +14,7 @@ import { EcommerceDashboard } from '../../shared';
  */
 @Injectable({ providedIn: 'root' })
 export class EcommerceService {
-  private readonly latencyMs = 300;
+  latencyMs = 300;
 
   getDashboard(): Observable<EcommerceDashboard> {
     return of(ECOMMERCE_DASHBOARD).pipe(delay(this.latencyMs));
