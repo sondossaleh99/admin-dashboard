@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MainLayout } from './layout/main-layout';
+import { MainLayout } from './layout';
 
 export const routes: Routes = [
   {
@@ -10,8 +10,7 @@ export const routes: Routes = [
       {
         path: 'ecommerce',
         title: 'Ecommerce · Admin Dashboard',
-        loadComponent: () =>
-          import('./features/ecommerce/ecommerce-page').then((m) => m.EcommercePage)
+        loadComponent: () => import('./features/ecommerce').then((m) => m.EcommercePage)
       },
       {
         path: '**',
