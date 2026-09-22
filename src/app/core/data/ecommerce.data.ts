@@ -1,3 +1,4 @@
+import { IconChipTone, OrderStatus } from '../../shared/enum';
 import {
   EcommerceDashboard,
   Kpi,
@@ -5,7 +6,7 @@ import {
   RevenuePoint,
   SalesSlice,
   WeeklyStat
-} from '../models/dashboard.model';
+} from '../../shared/interface';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.
@@ -18,15 +19,15 @@ import {
 // pipes, so nothing here is a pre-formatted string.
 // -----------------------------------------------------------------------------
 
-const KPIS: readonly Kpi[] = [
-  { id: 'customers', label: 'Customers', value: 39354, format: 'number', delta: 4, icon: 'pi-users', tone: 'primary' },
-  { id: 'products', label: 'Products', value: 4396, format: 'number', delta: 23, icon: 'pi-box', tone: 'series-2' },
-  { id: 'sales', label: 'Sales', value: 42339, format: 'currency', delta: 38, icon: 'pi-chart-bar', tone: 'series-3' },
-  { id: 'refunds', label: 'Refunds', value: 1274, format: 'number', delta: -12, icon: 'pi-replay', tone: 'series-4' }
+const KPIS: Kpi[] = [
+  { id: 'customers', label: 'Customers', value: 39354, format: 'number', delta: 4, icon: 'pi-users', tone: IconChipTone.Primary },
+  { id: 'products', label: 'Products', value: 4396, format: 'number', delta: 23, icon: 'pi-box', tone: IconChipTone.Series2 },
+  { id: 'sales', label: 'Sales', value: 42339, format: 'currency', delta: 38, icon: 'pi-chart-bar', tone: IconChipTone.Series3 },
+  { id: 'refunds', label: 'Refunds', value: 1274, format: 'number', delta: -12, icon: 'pi-replay', tone: IconChipTone.Series4 }
 ];
 
 // Twelve months. The 6-month range filter slices the tail of this series.
-const REVENUE: readonly RevenuePoint[] = [
+const REVENUE: RevenuePoint[] = [
   { period: 'Jan', budget: 38000, expense: 24000 },
   { period: 'Feb', budget: 42000, expense: 27500 },
   { period: 'Mar', budget: 46500, expense: 31000 },
@@ -43,14 +44,14 @@ const REVENUE: readonly RevenuePoint[] = [
 
 // Four slices: the chart palette validates all-pairs up to four, which is what
 // a donut needs since every slice is visible against every other.
-const SALES_BREAKDOWN: readonly SalesSlice[] = [
+const SALES_BREAKDOWN: SalesSlice[] = [
   { label: 'Online store', value: 18450 },
   { label: 'Marketplace', value: 12300 },
   { label: 'Retail', value: 8720 },
   { label: 'Wholesale', value: 3776 }
 ];
 
-const WEEKLY_STATS: readonly WeeklyStat[] = [
+const WEEKLY_STATS: WeeklyStat[] = [
   {
     id: 'top-sales',
     label: 'Top sales',
@@ -80,19 +81,19 @@ const WEEKLY_STATS: readonly WeeklyStat[] = [
   }
 ];
 
-const RECENT_ORDERS: readonly Order[] = [
-  { id: 'ORD-4821', customer: 'Amelia Hart', item: 'Wireless headphones', placedAt: '2026-09-14', total: 249.0, status: 'paid' },
-  { id: 'ORD-4820', customer: 'Noah Bennett', item: 'Mechanical keyboard', placedAt: '2026-09-14', total: 139.5, status: 'pending' },
-  { id: 'ORD-4819', customer: 'Layla Haddad', item: 'Standing desk', placedAt: '2026-09-13', total: 612.0, status: 'paid' },
-  { id: 'ORD-4818', customer: 'Ethan Brooks', item: '4K monitor', placedAt: '2026-09-13', total: 429.99, status: 'refunded' },
-  { id: 'ORD-4817', customer: 'Maya Osman', item: 'Ergonomic chair', placedAt: '2026-09-12', total: 358.0, status: 'paid' },
-  { id: 'ORD-4816', customer: 'Liam Carter', item: 'USB-C dock', placedAt: '2026-09-12', total: 96.75, status: 'cancelled' },
-  { id: 'ORD-4815', customer: 'Sara Nasser', item: 'Laptop stand', placedAt: '2026-09-11', total: 64.0, status: 'paid' },
-  { id: 'ORD-4814', customer: 'Owen Fletcher', item: 'Webcam 1080p', placedAt: '2026-09-11', total: 82.4, status: 'pending' },
-  { id: 'ORD-4813', customer: 'Dana Aziz', item: 'Noise-cancelling earbuds', placedAt: '2026-09-10', total: 179.0, status: 'paid' },
-  { id: 'ORD-4812', customer: 'Jack Thornton', item: 'Portable SSD 1TB', placedAt: '2026-09-10', total: 143.2, status: 'paid' },
-  { id: 'ORD-4811', customer: 'Nora Khalil', item: 'Desk lamp', placedAt: '2026-09-09', total: 48.9, status: 'refunded' },
-  { id: 'ORD-4810', customer: 'Isaac Moore', item: 'Cable organiser', placedAt: '2026-09-09', total: 22.0, status: 'paid' }
+const RECENT_ORDERS: Order[] = [
+  { id: 'ORD-4821', customer: 'Amelia Hart', item: 'Wireless headphones', placedAt: '2026-09-14', total: 249.0, status: OrderStatus.Paid },
+  { id: 'ORD-4820', customer: 'Noah Bennett', item: 'Mechanical keyboard', placedAt: '2026-09-14', total: 139.5, status: OrderStatus.Pending },
+  { id: 'ORD-4819', customer: 'Layla Haddad', item: 'Standing desk', placedAt: '2026-09-13', total: 612.0, status: OrderStatus.Paid },
+  { id: 'ORD-4818', customer: 'Ethan Brooks', item: '4K monitor', placedAt: '2026-09-13', total: 429.99, status: OrderStatus.Refunded },
+  { id: 'ORD-4817', customer: 'Maya Osman', item: 'Ergonomic chair', placedAt: '2026-09-12', total: 358.0, status: OrderStatus.Paid },
+  { id: 'ORD-4816', customer: 'Liam Carter', item: 'USB-C dock', placedAt: '2026-09-12', total: 96.75, status: OrderStatus.Cancelled },
+  { id: 'ORD-4815', customer: 'Sara Nasser', item: 'Laptop stand', placedAt: '2026-09-11', total: 64.0, status: OrderStatus.Paid },
+  { id: 'ORD-4814', customer: 'Owen Fletcher', item: 'Webcam 1080p', placedAt: '2026-09-11', total: 82.4, status: OrderStatus.Pending },
+  { id: 'ORD-4813', customer: 'Dana Aziz', item: 'Noise-cancelling earbuds', placedAt: '2026-09-10', total: 179.0, status: OrderStatus.Paid },
+  { id: 'ORD-4812', customer: 'Jack Thornton', item: 'Portable SSD 1TB', placedAt: '2026-09-10', total: 143.2, status: OrderStatus.Paid },
+  { id: 'ORD-4811', customer: 'Nora Khalil', item: 'Desk lamp', placedAt: '2026-09-09', total: 48.9, status: OrderStatus.Refunded },
+  { id: 'ORD-4810', customer: 'Isaac Moore', item: 'Cable organiser', placedAt: '2026-09-09', total: 22.0, status: OrderStatus.Paid }
 ];
 
 export const ECOMMERCE_DASHBOARD: EcommerceDashboard = {

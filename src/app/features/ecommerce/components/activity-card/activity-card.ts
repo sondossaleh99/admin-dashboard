@@ -1,19 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
+import { ActivityEvent } from '../../../../shared/interface';
 import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
-
-export type ActivityTone = 'success' | 'warning' | 'info' | 'danger';
-
-/** One line in the activity feed. */
-export interface ActivityEvent {
-  readonly id: string;
-  readonly icon: string;
-  readonly tone: ActivityTone;
-  readonly title: string;
-  readonly detail: string;
-  readonly timestamp: string;
-}
 
 /**
  * Recent-activity feed.

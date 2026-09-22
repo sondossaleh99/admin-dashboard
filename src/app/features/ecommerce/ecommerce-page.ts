@@ -2,27 +2,27 @@ import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal
 import { rxResource } from '@angular/core/rxjs-interop';
 import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
-import { Kpi, Order, OrderStatus, RevenueRange } from '../../core/models/dashboard.model';
+import { ActivityTone, OrderStatus, RevenueRange } from '../../shared/enum';
+import { ActivityEvent, ComboSeries, Kpi, KpiViewModel, Order, RevenueTotals } from '../../shared/interface';
 import { EcommerceService } from '../../core/services/ecommerce.service';
 import { EmptyState } from '../../shared/ui/empty-state/empty-state';
 import { SectionHeader } from '../../shared/ui/section-header/section-header';
 import { SkeletonBlock } from '../../shared/ui/skeleton-block/skeleton-block';
 import { UiCard } from '../../shared/ui/ui-card/ui-card';
-import { ActivityCard, ActivityEvent, ActivityTone } from './components/activity-card/activity-card';
+import { ActivityCard } from './components/activity-card/activity-card';
 import { EarningsHero } from './components/earnings-hero/earnings-hero';
-import { KpiRow, KpiViewModel } from './components/kpi-row/kpi-row';
-import { ComboSeries } from '../../shared/charts/chart-combo';
+import { KpiRow } from './components/kpi-row/kpi-row';
 import { RecentOrdersTable } from './components/recent-orders-table/recent-orders-table';
-import { RevenueTotals, RevenueUpdatesCard } from './components/revenue-updates-card/revenue-updates-card';
+import { RevenueUpdatesCard } from './components/revenue-updates-card/revenue-updates-card';
 import { SalesBreakdownCard } from './components/sales-breakdown-card/sales-breakdown-card';
 import { WeeklyStatsCard } from './components/weekly-stats-card/weekly-stats-card';
 
 /** Maps an order's status to the activity feed's icon and tone. */
 const ORDER_ACTIVITY: Record<OrderStatus, { icon: string; tone: ActivityTone; verb: string }> = {
-  paid: { icon: 'pi-check-circle', tone: 'success', verb: 'was paid' },
-  pending: { icon: 'pi-clock', tone: 'warning', verb: 'is awaiting payment' },
-  refunded: { icon: 'pi-replay', tone: 'info', verb: 'was refunded' },
-  cancelled: { icon: 'pi-times-circle', tone: 'danger', verb: 'was cancelled' }
+  paid: { icon: 'pi-check-circle', tone: ActivityTone.Success, verb: 'was paid' },
+  pending: { icon: 'pi-clock', tone: ActivityTone.Warning, verb: 'is awaiting payment' },
+  refunded: { icon: 'pi-replay', tone: ActivityTone.Info, verb: 'was refunded' },
+  cancelled: { icon: 'pi-times-circle', tone: ActivityTone.Danger, verb: 'was cancelled' }
 };
 
 /**
@@ -65,12 +65,12 @@ export class EcommercePage {
   readonly error = computed(() => this.dashboard.status() === 'error');
 
   /** Revenue card's period filter. */
-  readonly range = signal<RevenueRange>('12m');
+  readonly range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
   /** Derived, not stored: changing the range never mutates the source series. */
   readonly revenue = computed(() => {
     const points = this.data()?.revenue ?? [];
-    return this.range() === '6m' ? points.slice(-6) : points;
+    return this.range() === RevenueRange.SixMonths ? points.slice(-6) : points;
   });
 
   readonly revenueTotals = computed<RevenueTotals>(() => {

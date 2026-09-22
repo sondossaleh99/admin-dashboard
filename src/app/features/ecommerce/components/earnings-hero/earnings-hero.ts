@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
-import { Earnings } from '../../../../core/models/dashboard.model';
+import { Earnings } from '../../../../shared/interface';
 import { ChartSparkline } from '../../../../shared/charts/chart-sparkline';
 import { DeltaBadge } from '../../../../shared/ui/delta-badge/delta-badge';
 import { UiCard } from '../../../../shared/ui/ui-card/ui-card';

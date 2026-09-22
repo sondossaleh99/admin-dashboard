@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
-/** Slots map to the chart palette so a KPI's chip matches its series colour. */
-export type IconChipTone = 'primary' | 'series-2' | 'series-3' | 'series-4' | 'success' | 'danger';
+import { IconChipTone } from '../../enum/icon-chip-tone';
 
 /** The tinted rounded icon square used on stat cards and list rows. */
 @Component({
@@ -16,7 +15,7 @@ export type IconChipTone = 'primary' | 'series-2' | 'series-3' | 'series-4' | 's
 })
 export class IconChip {
   readonly icon = input.required<string>();
-  readonly tone = input<IconChipTone>('primary');
+  readonly tone = input<IconChipTone>(IconChipTone.Primary);
   readonly size = input<'sm' | 'md' | 'lg'>('md');
 
   readonly hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);

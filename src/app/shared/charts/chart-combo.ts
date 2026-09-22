@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
+import { ComboSeries } from '../interface/combo-series';
 import { baseOptions, compactNumber, seriesColors } from './chart-theme';
-
-export interface ComboSeries {
-  readonly name: string;
-  readonly data: readonly number[];
-}
 
 /**
  * Columns plus a line on one shared scale.

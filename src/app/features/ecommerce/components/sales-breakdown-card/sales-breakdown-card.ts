@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
-import { SalesSlice } from '../../../../core/models/dashboard.model';
-import { ChartDonut, DonutSlice } from '../../../../shared/charts/chart-donut';
+import { DonutSlice, SalesSlice } from '../../../../shared/interface';
+import { ChartDonut } from '../../../../shared/charts/chart-donut';
 import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
 
 /**

@@ -1,15 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
-import { RevenueRange } from '../../../../core/models/dashboard.model';
-import { ChartCombo, ComboSeries } from '../../../../shared/charts/chart-combo';
+import { RevenueRange } from '../../../../shared/enum/revenue-range';
+import { ComboSeries, RevenueTotals } from '../../../../shared/interface';
+import { ChartCombo } from '../../../../shared/charts/chart-combo';
 import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
-
-export interface RevenueTotals {
-  readonly budget: number;
-  readonly expense: number;
-  readonly margin: number;
-}
 
 /**
  * Budget-vs-expense combo chart with a period filter.
@@ -26,6 +21,9 @@ export interface RevenueTotals {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RevenueUpdatesCard {
+  /** Exposed so the template can reference members directly, e.g. `RevenueRange.SixMonths`. */
+  readonly RevenueRange = RevenueRange;
+
   readonly periods = input.required<readonly string[]>();
   readonly series = input.required<readonly ComboSeries[]>();
   readonly totals = input.required<RevenueTotals>();

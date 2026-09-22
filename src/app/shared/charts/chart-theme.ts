@@ -1,5 +1,7 @@
 import { ApexOptions } from 'ng-apexcharts';
 
+import { ChartInk } from '../interface/chart-ink';
+
 /**
  * One place where charts learn what the design system looks like.
  *
@@ -24,16 +26,6 @@ function cssVar(name: string, fallback = ''): string {
  */
 export function seriesColors(count: number): string[] {
   return Array.from({ length: count }, (_, i) => cssVar(`--chart-series-${i + 1}`));
-}
-
-export interface ChartInk {
-  readonly text: string;
-  readonly muted: string;
-  readonly grid: string;
-  readonly surface: string;
-  readonly tooltipBg: string;
-  readonly tooltipText: string;
-  readonly fontFamily: string;
 }
 
 export function chartInk(): ChartInk {
