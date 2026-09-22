@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 import { IconChipTone } from '../../enum/icon-chip-tone';
+import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
 
 /** The tinted rounded icon square used on stat cards and list rows. */
 @Component({
@@ -20,15 +21,5 @@ export class IconChip {
 
   readonly hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
 
-  readonly color = computed(() => {
-    const map: Record<IconChipTone, string> = {
-      primary: 'var(--color-primary)',
-      'series-2': 'var(--chart-series-2)',
-      'series-3': 'var(--chart-series-3)',
-      'series-4': 'var(--chart-series-4)',
-      success: 'var(--color-success)',
-      danger: 'var(--color-danger)'
-    };
-    return map[this.tone()];
-  });
+  readonly color = computed(() => IconChipToneLookup.getColors()[this.tone()]);
 }

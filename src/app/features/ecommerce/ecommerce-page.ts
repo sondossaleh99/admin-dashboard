@@ -4,13 +4,12 @@ import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
 import {
   ActivityEvent,
-  ActivityTone,
   ComboSeries,
   EmptyState,
   Kpi,
   KpiViewModel,
   Order,
-  OrderStatus,
+  OrderActivityLookup,
   RevenueRange,
   RevenueTotals,
   SectionHeader,
@@ -27,14 +26,6 @@ import {
   SalesBreakdownCard,
   WeeklyStatsCard
 } from './components';
-
-/** Maps an order's status to the activity feed's icon and tone. */
-const ORDER_ACTIVITY: Record<OrderStatus, { icon: string; tone: ActivityTone; verb: string }> = {
-  paid: { icon: 'pi-check-circle', tone: ActivityTone.Success, verb: 'was paid' },
-  pending: { icon: 'pi-clock', tone: ActivityTone.Warning, verb: 'is awaiting payment' },
-  refunded: { icon: 'pi-replay', tone: ActivityTone.Info, verb: 'was refunded' },
-  cancelled: { icon: 'pi-times-circle', tone: ActivityTone.Danger, verb: 'was cancelled' }
-};
 
 /**
  * Route target for `/ecommerce`.
@@ -135,7 +126,7 @@ export class EcommercePage {
   }
 
   private toActivityEvent(order: Order): ActivityEvent {
-    const meta = ORDER_ACTIVITY[order.status];
+    const meta = OrderActivityLookup.getActivity()[order.status];
     return {
       id: order.id,
       icon: meta.icon,

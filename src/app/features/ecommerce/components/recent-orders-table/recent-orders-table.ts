@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 
-import { Order, OrderStatus, UiCard } from '../../../../shared';
+import { Order, OrderStatus, OrderStatusLookup, UiCard } from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -32,13 +32,6 @@ export class RecentOrdersTable {
   readonly searchTerm = signal('');
   readonly rows = 6;
 
-  private readonly statusLabel: Record<OrderStatus, string> = {
-    paid: 'Paid',
-    pending: 'Pending',
-    refunded: 'Refunded',
-    cancelled: 'Cancelled'
-  };
-
   /**
    * Takes a plain string rather than `OrderStatus`: PrimeNG's named `#body`
    * template outlet has no `ngTemplateContextGuard`, so Angular's template
@@ -46,7 +39,7 @@ export class RecentOrdersTable {
    * `string`. A method boundary is simpler than fighting that inference.
    */
   statusLabelFor(status: string): string {
-    return this.statusLabel[status as OrderStatus] ?? status;
+    return OrderStatusLookup.getLabels()[status as OrderStatus] ?? status;
   }
 
   readonly subtitle = computed(() => `${this.orders().length} orders`);

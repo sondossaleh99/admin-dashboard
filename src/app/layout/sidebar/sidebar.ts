@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { NAV_GROUPS } from '../../core/data/nav.data';
 import { LayoutService } from '../../core/services/layout.service';
+import { NavigationLookup } from '../../shared';
 import { SidebarNavItem } from './components';
 
 @Component({
@@ -15,7 +15,7 @@ import { SidebarNavItem } from './components';
 export class Sidebar {
   private readonly layout = inject(LayoutService);
 
-  readonly groups = NAV_GROUPS;
+  readonly groups = NavigationLookup.getGroups();
   readonly collapsed = this.layout.sidebarCollapsed;
 
   toggle(): void {

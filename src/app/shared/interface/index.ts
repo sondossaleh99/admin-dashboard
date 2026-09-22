@@ -14,3 +14,6 @@ export * from './combo-series';
 export * from './chart-ink';
 export * from './kpi-view-model';
 export * from './activity-event';
+export * from './activity-config';
+export * from './topbar-action';
+export * from './user-menu-item';

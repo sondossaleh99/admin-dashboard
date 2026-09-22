@@ -10,17 +10,7 @@ import {
 
 import { CURRENT_USER } from '../../core/data/user.data';
 import { LayoutService } from '../../core/services/layout.service';
-
-interface TopbarAction {
-  readonly icon: string;
-  readonly label: string;
-  readonly badge?: number;
-}
-
-interface UserMenuItem {
-  readonly label: string;
-  readonly icon: string;
-}
+import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from '../../shared';
 
 @Component({
   selector: 'app-topbar',
@@ -37,17 +27,9 @@ export class Topbar {
   readonly search = signal('');
   readonly userMenuOpen = signal(false);
 
-  readonly actions: readonly TopbarAction[] = [
-    { icon: 'pi-envelope', label: 'Messages', badge: 3 },
-    { icon: 'pi-bell', label: 'Notifications', badge: 5 },
-    { icon: 'pi-cog', label: 'Settings' }
-  ];
+  readonly actions: TopbarAction[] = TopbarActionsLookup.getActions();
 
-  readonly userMenu: readonly UserMenuItem[] = [
-    { label: 'Profile', icon: 'pi-user' },
-    { label: 'Account settings', icon: 'pi-cog' },
-    { label: 'Sign out', icon: 'pi-sign-out' }
-  ];
+  readonly userMenu: UserMenuItem[] = UserMenuLookup.getItems();
 
   openDrawer(): void {
     this.layout.openDrawer();
