@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
+import { IconChipTone } from '../../enum/icon-chip-tone';
 import { DeltaBadge } from '../delta-badge/delta-badge';
-import { IconChip, IconChipTone } from '../icon-chip/icon-chip';
+import { IconChip } from '../icon-chip/icon-chip';
 import { UiCard } from '../ui-card/ui-card';
 
 /** A KPI tile: icon chip, headline figure, period-over-period change, label. */
@@ -17,7 +18,7 @@ export class StatCard {
   /** Pre-formatted by the caller, so currency and compact forms both fit. */
   readonly value = input.required<string>();
   readonly icon = input.required<string>();
-  readonly tone = input<IconChipTone>('primary');
+  readonly tone = input<IconChipTone>(IconChipTone.Primary);
   /** Signed percentage. Omit when there is no comparison period. */
   readonly delta = input<number>();
   readonly caption = input<string>();

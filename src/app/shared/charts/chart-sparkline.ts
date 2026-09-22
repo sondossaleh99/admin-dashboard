@@ -31,7 +31,7 @@ export class ChartSparkline {
   readonly slot = input(1);
   readonly filled = input(true);
 
-  protected readonly options = computed<ApexOptions>(() => {
+  readonly options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const points = this.data();
     const color = seriesColors(6)[this.slot() - 1];

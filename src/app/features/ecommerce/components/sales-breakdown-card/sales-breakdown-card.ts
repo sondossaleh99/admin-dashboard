@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
-import { SalesSlice } from '../../../../core/models/dashboard.model';
-import { ChartDonut, DonutSlice } from '../../../../shared/charts/chart-donut';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { ChartDonut, DonutSlice, SalesSlice, UiCard } from '../../../../shared';
 
 /**
  * Composition-of-a-whole donut plus its legend.
@@ -22,7 +20,7 @@ export class SalesBreakdownCard {
   readonly slices = input.required<readonly SalesSlice[]>();
   readonly total = input.required<number>();
 
-  protected asDonutSlices(slices: readonly SalesSlice[]): DonutSlice[] {
+  asDonutSlices(slices: readonly SalesSlice[]): DonutSlice[] {
     return slices.map((s) => ({ label: s.label, value: s.value }));
   }
 }

@@ -6,16 +6,16 @@
     <button
       type="button"
       class="range__option"
-      [class.range__option--on]="range() === '6m'"
-      (click)="setRange('6m')"
-      [attr.aria-pressed]="range() === '6m'"
+      [class.range__option--on]="range() === RevenueRange.SixMonths"
+      (click)="setRange(RevenueRange.SixMonths)"
+      [attr.aria-pressed]="range() === RevenueRange.SixMonths"
     >6 months</button>
     <button
       type="button"
       class="range__option"
-      [class.range__option--on]="range() === '12m'"
-      (click)="setRange('12m')"
-      [attr.aria-pressed]="range() === '12m'"
+      [class.range__option--on]="range() === RevenueRange.TwelveMonths"
+      (click)="setRange(RevenueRange.TwelveMonths)"
+      [attr.aria-pressed]="range() === RevenueRange.TwelveMonths"
     >12 months</button>
   </div>
 

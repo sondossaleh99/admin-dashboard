@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
+import { ComboSeries } from '../interface/combo-series';
 import { baseOptions, compactNumber, seriesColors } from './chart-theme';
-
-export interface ComboSeries {
-  readonly name: string;
-  readonly data: readonly number[];
-}
 
 /**
  * Columns plus a line on one shared scale.
@@ -42,7 +38,7 @@ export class ChartCombo {
   readonly series = input.required<readonly ComboSeries[]>();
   readonly height = input(320);
 
-  protected readonly options = computed<ApexOptions>(() => {
+  readonly options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const [columns, line] = this.series();
     const colors = seriesColors(2);

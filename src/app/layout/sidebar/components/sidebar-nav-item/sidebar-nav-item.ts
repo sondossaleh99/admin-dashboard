@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
-import { NavItem } from '../../../../core/models/nav.model';
+import { NavItem } from '../../../../shared';
 
 /**
  * One sidebar row.

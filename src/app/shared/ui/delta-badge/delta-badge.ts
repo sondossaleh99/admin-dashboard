@@ -26,9 +26,9 @@ export class DeltaBadge {
   /** Signed percentage, e.g. `-12.4`. */
   readonly value = input.required<number>();
 
-  protected readonly isUp = computed(() => this.value() >= 0);
-  protected readonly magnitude = computed(() => Math.abs(this.value()));
-  protected readonly label = computed(
+  readonly isUp = computed(() => this.value() >= 0);
+  readonly magnitude = computed(() => Math.abs(this.value()));
+  readonly label = computed(
     () => `${this.isUp() ? 'Up' : 'Down'} ${this.magnitude()} percent`
   );
 }

@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
+import { DonutSlice } from '../interface/donut-slice';
 import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-theme';
-
-export interface DonutSlice {
-  readonly label: string;
-  readonly value: number;
-}
 
 /**
  * Composition of a whole, with the total in the middle.
@@ -37,7 +33,7 @@ export class ChartDonut {
   readonly centerLabel = input('Total');
   readonly height = input(260);
 
-  protected readonly options = computed<ApexOptions>(() => {
+  readonly options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const ink = chartInk();
     const slices = this.slices().slice(0, 4);

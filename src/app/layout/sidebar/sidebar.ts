@@ -15,19 +15,19 @@ import { SidebarNavItem } from './components';
 export class Sidebar {
   private readonly layout = inject(LayoutService);
 
-  protected readonly groups = NAV_GROUPS;
-  protected readonly collapsed = this.layout.sidebarCollapsed;
+  readonly groups = NAV_GROUPS;
+  readonly collapsed = this.layout.sidebarCollapsed;
 
-  protected toggle(): void {
+  toggle(): void {
     this.layout.toggleSidebar();
   }
 
   /** Mobile: tapping a destination should also dismiss the drawer. */
-  protected onNavigate(): void {
+  onNavigate(): void {
     this.layout.closeDrawer();
   }
 
-  protected closeDrawer(): void {
+  closeDrawer(): void {
     this.layout.closeDrawer();
   }
 }

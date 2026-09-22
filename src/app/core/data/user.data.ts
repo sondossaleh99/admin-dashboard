@@ -1,4 +1,4 @@
-import { User } from '../models/user.model';
+import { User } from '../../shared';
 
 /** Placeholder identity until authentication exists. */
 export const CURRENT_USER: User = {

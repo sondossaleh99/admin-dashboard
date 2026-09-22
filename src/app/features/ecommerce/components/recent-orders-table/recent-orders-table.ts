@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 
-import { Order, OrderStatus } from '../../../../core/models/dashboard.model';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { Order, OrderStatus, UiCard } from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -28,10 +27,10 @@ export class RecentOrdersTable {
   readonly orders = input.required<readonly Order[]>();
 
   /** p-table's `value` input wants a mutable array; the source stays readonly. */
-  protected readonly tableValue = computed(() => [...this.orders()]);
+  readonly tableValue = computed(() => [...this.orders()]);
 
-  protected readonly searchTerm = signal('');
-  protected readonly rows = 6;
+  readonly searchTerm = signal('');
+  readonly rows = 6;
 
   private readonly statusLabel: Record<OrderStatus, string> = {
     paid: 'Paid',
@@ -46,18 +45,18 @@ export class RecentOrdersTable {
    * checker can't narrow `let-row` to `Order` and widens its fields to
    * `string`. A method boundary is simpler than fighting that inference.
    */
-  protected statusLabelFor(status: string): string {
+  statusLabelFor(status: string): string {
     return this.statusLabel[status as OrderStatus] ?? status;
   }
 
-  protected readonly subtitle = computed(() => `${this.orders().length} orders`);
+  readonly subtitle = computed(() => `${this.orders().length} orders`);
 
   constructor() {
     this.destroyRef.onDestroy(() => clearTimeout(this.debounceHandle));
   }
 
   /** Debounced so a fast typist doesn't refilter the table on every keystroke. */
-  protected onSearchInput(value: string, dt: Table): void {
+  onSearchInput(value: string, dt: Table): void {
     clearTimeout(this.debounceHandle);
     this.debounceHandle = setTimeout(() => {
       this.searchTerm.set(value);
