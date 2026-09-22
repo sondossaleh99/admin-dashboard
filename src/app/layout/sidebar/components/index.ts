@@ -1,1 +1,1 @@
-export { SidebarNavItem } from './sidebar-nav-item';
+export * from './sidebar-nav-item';

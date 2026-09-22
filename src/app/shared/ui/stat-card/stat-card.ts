@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IconChipTone } from '../../enum/icon-chip-tone';
-import { DeltaBadge } from '../delta-badge/delta-badge';
-import { IconChip } from '../icon-chip/icon-chip';
-import { UiCard } from '../ui-card/ui-card';
+import { DeltaBadge } from '../delta-badge';
+import { IconChip } from '../icon-chip';
+import { UiCard } from '../ui-card';
 
 /** A KPI tile: icon chip, headline figure, period-over-period change, label. */
 @Component({

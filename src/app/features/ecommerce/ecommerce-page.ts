@@ -18,13 +18,15 @@ import {
   UiCard
 } from '../../shared';
 import { EcommerceService } from '../../core/services/ecommerce.service';
-import { ActivityCard } from './components/activity-card/activity-card';
-import { EarningsHero } from './components/earnings-hero/earnings-hero';
-import { KpiRow } from './components/kpi-row/kpi-row';
-import { RecentOrdersTable } from './components/recent-orders-table/recent-orders-table';
-import { RevenueUpdatesCard } from './components/revenue-updates-card/revenue-updates-card';
-import { SalesBreakdownCard } from './components/sales-breakdown-card/sales-breakdown-card';
-import { WeeklyStatsCard } from './components/weekly-stats-card/weekly-stats-card';
+import {
+  ActivityCard,
+  EarningsHero,
+  KpiRow,
+  RecentOrdersTable,
+  RevenueUpdatesCard,
+  SalesBreakdownCard,
+  WeeklyStatsCard
+} from './components';
 
 /** Maps an order's status to the activity feed's icon and tone. */
 const ORDER_ACTIVITY: Record<OrderStatus, { icon: string; tone: ActivityTone; verb: string }> = {
