@@ -2,13 +2,22 @@ import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal
 import { rxResource } from '@angular/core/rxjs-interop';
 import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
-import { ActivityTone, OrderStatus, RevenueRange } from '../../shared/enum';
-import { ActivityEvent, ComboSeries, Kpi, KpiViewModel, Order, RevenueTotals } from '../../shared/interface';
+import {
+  ActivityEvent,
+  ActivityTone,
+  ComboSeries,
+  EmptyState,
+  Kpi,
+  KpiViewModel,
+  Order,
+  OrderStatus,
+  RevenueRange,
+  RevenueTotals,
+  SectionHeader,
+  SkeletonBlock,
+  UiCard
+} from '../../shared';
 import { EcommerceService } from '../../core/services/ecommerce.service';
-import { EmptyState } from '../../shared/ui/empty-state/empty-state';
-import { SectionHeader } from '../../shared/ui/section-header/section-header';
-import { SkeletonBlock } from '../../shared/ui/skeleton-block/skeleton-block';
-import { UiCard } from '../../shared/ui/ui-card/ui-card';
 import { ActivityCard } from './components/activity-card/activity-card';
 import { EarningsHero } from './components/earnings-hero/earnings-hero';
 import { KpiRow } from './components/kpi-row/kpi-row';

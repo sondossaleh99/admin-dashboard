@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 
-import { RevenueRange } from '../../../../shared/enum/revenue-range';
-import { ComboSeries, RevenueTotals } from '../../../../shared/interface';
-import { ChartCombo } from '../../../../shared/charts/chart-combo';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { ChartCombo, ComboSeries, RevenueRange, RevenueTotals, UiCard } from '../../../../shared';
 
 /**
  * Budget-vs-expense combo chart with a period filter.

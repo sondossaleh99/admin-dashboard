@@ -1,12 +1,13 @@
-import { IconChipTone, OrderStatus } from '../../shared/enum';
 import {
   EcommerceDashboard,
+  IconChipTone,
   Kpi,
   Order,
+  OrderStatus,
   RevenuePoint,
   SalesSlice,
   WeeklyStat
-} from '../../shared/interface';
+} from '../../shared';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.

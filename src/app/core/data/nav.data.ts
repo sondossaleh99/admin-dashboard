@@ -1,4 +1,4 @@
-import { NavGroup } from '../../shared/interface';
+import { NavGroup } from '../../shared';
 
 /**
  * Sidebar structure.

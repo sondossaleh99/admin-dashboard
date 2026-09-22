@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
-import { DonutSlice, SalesSlice } from '../../../../shared/interface';
-import { ChartDonut } from '../../../../shared/charts/chart-donut';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { ChartDonut, DonutSlice, SalesSlice, UiCard } from '../../../../shared';
 
 /**
  * Composition-of-a-whole donut plus its legend.

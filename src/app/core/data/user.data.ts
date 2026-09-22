@@ -1,4 +1,4 @@
-import { User } from '../../shared/interface';
+import { User } from '../../shared';
 
 /** Placeholder identity until authentication exists. */
 export const CURRENT_USER: User = {

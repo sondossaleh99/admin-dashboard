@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { ActivityEvent } from '../../../../shared/interface';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { ActivityEvent, UiCard } from '../../../../shared';
 
 /**
  * Recent-activity feed.

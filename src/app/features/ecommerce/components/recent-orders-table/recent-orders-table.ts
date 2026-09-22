@@ -2,9 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Table, TableModule } from 'primeng/table';
 
-import { OrderStatus } from '../../../../shared/enum';
-import { Order } from '../../../../shared/interface';
-import { UiCard } from '../../../../shared/ui/ui-card/ui-card';
+import { Order, OrderStatus, UiCard } from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
