@@ -8,8 +8,7 @@ import {
   viewChild
 } from '@angular/core';
 
-import { CURRENT_USER } from '../../core/data/user.data';
-import { LayoutService } from '../../core/services/layout.service';
+import { CURRENT_USER, LayoutService } from '../../core';
 import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from '../../shared';
 
 @Component({

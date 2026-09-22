@@ -16,7 +16,7 @@ import {
   SkeletonBlock,
   UiCard
 } from '../../shared';
-import { EcommerceService } from '../../core/services/ecommerce.service';
+import { EcommerceService } from '../../core';
 import {
   ActivityCard,
   EarningsHero,
