@@ -19,9 +19,9 @@ export class IconChip {
   readonly tone = input<IconChipTone>('primary');
   readonly size = input<'sm' | 'md' | 'lg'>('md');
 
-  protected readonly hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
+  readonly hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
 
-  protected readonly color = computed(() => {
+  readonly color = computed(() => {
     const map: Record<IconChipTone, string> = {
       primary: 'var(--color-primary)',
       'series-2': 'var(--chart-series-2)',

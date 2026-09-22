@@ -22,7 +22,7 @@ export class SalesBreakdownCard {
   readonly slices = input.required<readonly SalesSlice[]>();
   readonly total = input.required<number>();
 
-  protected asDonutSlices(slices: readonly SalesSlice[]): DonutSlice[] {
+  asDonutSlices(slices: readonly SalesSlice[]): DonutSlice[] {
     return slices.map((s) => ({ label: s.label, value: s.value }));
   }
 }

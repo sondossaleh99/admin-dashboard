@@ -32,7 +32,7 @@ export class ChartArea {
   /** Palette slot, so an area chart can match the KPI it belongs to. */
   readonly slot = input(1);
 
-  protected readonly options = computed<ApexOptions>(() => {
+  readonly options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const color = seriesColors(6)[this.slot() - 1];
 

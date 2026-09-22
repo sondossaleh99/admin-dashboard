@@ -60,29 +60,29 @@ export class EcommercePage {
     stream: () => this.service.getDashboard()
   });
 
-  protected readonly data = this.dashboard.value;
-  protected readonly loading = computed(() => this.dashboard.status() === 'loading');
-  protected readonly error = computed(() => this.dashboard.status() === 'error');
+  readonly data = this.dashboard.value;
+  readonly loading = computed(() => this.dashboard.status() === 'loading');
+  readonly error = computed(() => this.dashboard.status() === 'error');
 
   /** Revenue card's period filter. */
-  protected readonly range = signal<RevenueRange>('12m');
+  readonly range = signal<RevenueRange>('12m');
 
   /** Derived, not stored: changing the range never mutates the source series. */
-  protected readonly revenue = computed(() => {
+  readonly revenue = computed(() => {
     const points = this.data()?.revenue ?? [];
     return this.range() === '6m' ? points.slice(-6) : points;
   });
 
-  protected readonly revenueTotals = computed<RevenueTotals>(() => {
+  readonly revenueTotals = computed<RevenueTotals>(() => {
     const points = this.revenue();
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
     return { budget, expense, margin: budget - expense };
   });
 
-  protected readonly revenuePeriods = computed(() => this.revenue().map((p) => p.period));
+  readonly revenuePeriods = computed(() => this.revenue().map((p) => p.period));
 
-  protected readonly revenueSeries = computed<ComboSeries[]>(() => [
+  readonly revenueSeries = computed<ComboSeries[]>(() => [
     { name: 'Budget', data: this.revenue().map((p) => p.budget) },
     { name: 'Expense', data: this.revenue().map((p) => p.expense) }
   ]);
@@ -94,14 +94,14 @@ export class EcommercePage {
    * the rule differs per KPI, and Angular's own format functions (the ones
    * the pipes call) keep it locale-aware rather than hand-rolled.
    */
-  protected readonly kpis = computed<KpiViewModel[]>(() =>
+  readonly kpis = computed<KpiViewModel[]>(() =>
     (this.data()?.kpis ?? []).map((kpi) => ({
       ...kpi,
       display: this.format(kpi.value, kpi.format)
     }))
   );
 
-  protected readonly salesTotal = computed(() =>
+  readonly salesTotal = computed(() =>
     (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
   );
 
@@ -111,15 +111,15 @@ export class EcommercePage {
    * See ActivityCard's doc comment: this stands in for a media/blog card the
    * reference site may use, which this build has no real content for.
    */
-  protected readonly activity = computed<ActivityEvent[]>(() =>
+  readonly activity = computed<ActivityEvent[]>(() =>
     (this.data()?.recentOrders ?? []).slice(0, 5).map((order) => this.toActivityEvent(order))
   );
 
-  protected setRange(range: RevenueRange): void {
+  setRange(range: RevenueRange): void {
     this.range.set(range);
   }
 
-  protected retry(): void {
+  retry(): void {
     this.dashboard.reload();
   }
 

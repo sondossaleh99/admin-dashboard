@@ -37,7 +37,7 @@ export class ChartDonut {
   readonly centerLabel = input('Total');
   readonly height = input(260);
 
-  protected readonly options = computed<ApexOptions>(() => {
+  readonly options = computed<ApexOptions>(() => {
     const base = baseOptions();
     const ink = chartInk();
     const slices = this.slices().slice(0, 4);

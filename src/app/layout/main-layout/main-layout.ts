@@ -21,10 +21,10 @@ import { Topbar } from '../topbar';
 export class MainLayout {
   private readonly layout = inject(LayoutService);
 
-  protected readonly collapsed = this.layout.sidebarCollapsed;
-  protected readonly drawerOpen = this.layout.drawerOpen;
+  readonly collapsed = this.layout.sidebarCollapsed;
+  readonly drawerOpen = this.layout.drawerOpen;
 
-  protected closeDrawer(): void {
+  closeDrawer(): void {
     this.layout.closeDrawer();
   }
 }

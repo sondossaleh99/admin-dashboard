@@ -33,7 +33,7 @@ export class RevenueUpdatesCard {
 
   readonly rangeChange = output<RevenueRange>();
 
-  protected setRange(range: RevenueRange): void {
+  setRange(range: RevenueRange): void {
     this.rangeChange.emit(range);
   }
 }
