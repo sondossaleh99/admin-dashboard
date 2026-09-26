@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input, signal } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 
-import { Order, OrderStatus, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
+import { OrderStatus, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
+import { Order } from '../../models';
 
 const SEARCH_DEBOUNCE_MS = 250;
 

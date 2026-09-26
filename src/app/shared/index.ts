@@ -1,4 +1,4 @@
-export * from './interface';
+export * from './models';
 export * from './enum';
 export * from './lookup';
 export * from './charts';

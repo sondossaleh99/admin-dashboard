@@ -1,13 +1,12 @@
+import { IconChipTone, OrderStatus } from '../../shared';
 import {
   EcommerceDashboard,
-  IconChipTone,
   Kpi,
   Order,
-  OrderStatus,
   RevenuePoint,
   SalesSlice,
   WeeklyStat
-} from '../../shared';
+} from '../../features/ecommerce/models';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.

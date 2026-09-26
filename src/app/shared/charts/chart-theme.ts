@@ -1,6 +1,6 @@
 import { ApexOptions } from 'ng-apexcharts';
 
-import { ChartInk } from '../interface/chart-ink';
+import { ChartInk } from '../models/chart-ink';
 
 /**
  * One place where charts learn what the design system looks like.

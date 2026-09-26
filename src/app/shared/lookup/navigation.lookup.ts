@@ -1,4 +1,4 @@
-import { NavGroup } from '../interface/nav-group';
+import { NavGroup } from '../models/nav-group';
 
 /**
  * Sidebar structure.
