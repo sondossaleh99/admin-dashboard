@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
 
-import { ChartSparkline, DeltaBadge, Earnings, UiCard } from '../../../../shared';
+import { ChartSparkline, DeltaBadge, Earnings, SHARED_IMPORTS, UiCard } from '../../../../shared';
 
 /**
  * The dashboard's headline banner: total earnings, its trend, and the
@@ -14,7 +13,7 @@ import { ChartSparkline, DeltaBadge, Earnings, UiCard } from '../../../../shared
  */
 @Component({
   selector: 'app-earnings-hero',
-  imports: [CurrencyPipe, UiCard, ChartSparkline, DeltaBadge],
+  imports: [...SHARED_IMPORTS, UiCard, ChartSparkline, DeltaBadge],
   templateUrl: './earnings-hero.html',
   styleUrl: './earnings-hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CurrencyPipe, DecimalPipe } from '@angular/common';
 
-import { ChartDonut, DonutSlice, SalesSlice, UiCard } from '../../../../shared';
+import { ChartDonut, DonutSlice, SHARED_IMPORTS, SalesSlice, UiCard } from '../../../../shared';
 
 /**
  * Composition-of-a-whole donut plus its legend.
@@ -11,7 +10,7 @@ import { ChartDonut, DonutSlice, SalesSlice, UiCard } from '../../../../shared';
  */
 @Component({
   selector: 'app-sales-breakdown-card',
-  imports: [CurrencyPipe, DecimalPipe, UiCard, ChartDonut],
+  imports: [...SHARED_IMPORTS, UiCard, ChartDonut],
   templateUrl: './sales-breakdown-card.html',
   styleUrl: './sales-breakdown-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
