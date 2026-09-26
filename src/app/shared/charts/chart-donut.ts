@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
-import { DonutSlice } from './donut-slice.model';
+import { DonutSlice } from '../models/donut-slice';
 import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-theme';
 
 /**

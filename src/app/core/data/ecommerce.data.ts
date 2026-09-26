@@ -1,10 +1,12 @@
 import { IconChipTone, OrderStatus } from '../../shared';
-import { EcommerceDashboard } from './ecommerce-dashboard.model';
-import { Kpi } from './kpi.model';
-import { Order } from './order.model';
-import { RevenuePoint } from './revenue-point.model';
-import { SalesSlice } from './sales-slice.model';
-import { WeeklyStat } from './weekly-stat.model';
+import {
+  EcommerceDashboard,
+  Kpi,
+  Order,
+  RevenuePoint,
+  SalesSlice,
+  WeeklyStat
+} from '../../features/ecommerce/models';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.

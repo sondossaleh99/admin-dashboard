@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
-import { ComboSeries } from './combo-series.model';
+import { ComboSeries } from '../models/combo-series';
 import { baseOptions, compactNumber, seriesColors } from './chart-theme';
 
 /**

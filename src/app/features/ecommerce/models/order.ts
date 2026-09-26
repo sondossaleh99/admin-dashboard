@@ -1,4 +1,4 @@
-import { OrderStatus } from '../../shared';
+import { OrderStatus } from '../../../shared';
 
 /** A row in the recent orders table. */
 export interface Order {

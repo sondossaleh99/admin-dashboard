@@ -1,4 +1,4 @@
-import { TopbarAction } from './topbar-action.model';
+import { TopbarAction } from '../models/topbar-action';
 
 /** Icon buttons shown on the right side of the topbar. */
 export class TopbarActionsLookup {

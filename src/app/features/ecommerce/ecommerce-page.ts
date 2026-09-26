@@ -11,10 +11,8 @@ import {
   SectionHeader,
   SkeletonBlock
 } from '../../shared';
-import { EcommerceService, Kpi, Order } from '../../core';
-import { ActivityEvent } from './components/activity-card/activity-card.model';
-import { KpiViewModel } from './components/kpi-row/kpi-row.model';
-import { RevenueTotals } from './components/revenue-updates-card/revenue-updates-card.model';
+import { EcommerceService } from '../../core';
+import { ActivityEvent, Kpi, KpiViewModel, Order, RevenueTotals } from './models';
 import {
   ActivityCard,
   EarningsHero,

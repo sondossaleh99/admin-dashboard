@@ -4,6 +4,3 @@ export * from './topbar-actions.lookup';
 export * from './user-menu.lookup';
 export * from './navigation.lookup';
 export * from './icon-chip-tone.lookup';
-export * from './nav-item.model';
-export * from './topbar-action.model';
-export * from './user-menu-item.model';

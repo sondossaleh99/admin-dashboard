@@ -1,6 +1,6 @@
 import { ActivityTone } from '../enum/activity-tone';
 import { OrderStatus } from '../enum/order-status';
-import { ActivityConfig } from './activity-config.model';
+import { ActivityConfig } from '../models/activity-config';
 
 /** Maps an order's status to the activity feed's icon, tone and verb. */
 export class OrderActivityLookup {
