@@ -1,4 +1,4 @@
-import { UserMenuItem } from '../models/user-menu-item';
+import { UserMenuItem } from './user-menu-item.model';
 
 /** Rows shown in the topbar's user dropdown. */
 export class UserMenuLookup {

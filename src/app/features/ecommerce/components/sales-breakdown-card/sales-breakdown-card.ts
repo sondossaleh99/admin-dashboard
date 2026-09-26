@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { ChartDonut, DonutSlice, SHARED_IMPORTS } from '../../../../shared';
-import { SalesSlice } from '../../models';
+import { SalesSlice } from '../../../../core';
 
 /**
  * Composition-of-a-whole donut plus its legend.

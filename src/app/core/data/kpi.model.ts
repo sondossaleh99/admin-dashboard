@@ -1,4 +1,4 @@
-import { IconChipTone } from '../../../shared';
+import { IconChipTone } from '../../shared';
 
 /** A KPI tile's figures. */
 export interface Kpi {

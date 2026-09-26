@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { ChartSparkline, DeltaBadge, SHARED_IMPORTS } from '../../../../shared';
-import { Earnings } from '../../models';
+import { Earnings } from '../../../../core';
 
 /**
  * The dashboard's headline banner: total earnings, its trend, and the
