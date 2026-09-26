@@ -1,13 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
-import {
-  ChartCombo,
-  ComboSeries,
-  RevenueRange,
-  RevenueTotals,
-  SHARED_IMPORTS,
-  UiCard
-} from '../../../../shared';
+import { ChartCombo, ComboSeries, RevenueRange, RevenueTotals, SHARED_IMPORTS } from '../../../../shared';
 
 /**
  * Budget-vs-expense combo chart with a period filter.
@@ -18,7 +11,7 @@ import {
  */
 @Component({
   selector: 'app-revenue-updates-card',
-  imports: [...SHARED_IMPORTS, UiCard, ChartCombo],
+  imports: [...SHARED_IMPORTS, ChartCombo],
   templateUrl: './revenue-updates-card.html',
   styleUrl: './revenue-updates-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

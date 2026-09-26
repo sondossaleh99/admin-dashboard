@@ -12,9 +12,9 @@ import {
   OrderActivityLookup,
   RevenueRange,
   RevenueTotals,
+  SHARED_IMPORTS,
   SectionHeader,
-  SkeletonBlock,
-  UiCard
+  SkeletonBlock
 } from '../../shared';
 import { EcommerceService } from '../../core';
 import {
@@ -37,7 +37,7 @@ import {
 @Component({
   selector: 'app-ecommerce-page',
   imports: [
-    UiCard,
+    ...SHARED_IMPORTS,
     SectionHeader,
     SkeletonBlock,
     EmptyState,

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { ActivityEvent, SHARED_IMPORTS, UiCard } from '../../../../shared';
+import { ActivityEvent, SHARED_IMPORTS } from '../../../../shared';
 
 /**
  * Recent-activity feed.
@@ -16,7 +16,7 @@ import { ActivityEvent, SHARED_IMPORTS, UiCard } from '../../../../shared';
  */
 @Component({
   selector: 'app-activity-card',
-  imports: [...SHARED_IMPORTS, UiCard],
+  imports: [...SHARED_IMPORTS],
   templateUrl: './activity-card.html',
   styleUrl: './activity-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

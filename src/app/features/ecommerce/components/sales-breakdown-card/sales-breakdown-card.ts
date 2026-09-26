@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { ChartDonut, DonutSlice, SHARED_IMPORTS, SalesSlice, UiCard } from '../../../../shared';
+import { ChartDonut, DonutSlice, SHARED_IMPORTS, SalesSlice } from '../../../../shared';
 
 /**
  * Composition-of-a-whole donut plus its legend.
@@ -10,7 +10,7 @@ import { ChartDonut, DonutSlice, SHARED_IMPORTS, SalesSlice, UiCard } from '../.
  */
 @Component({
   selector: 'app-sales-breakdown-card',
-  imports: [...SHARED_IMPORTS, UiCard, ChartDonut],
+  imports: [...SHARED_IMPORTS, ChartDonut],
   templateUrl: './sales-breakdown-card.html',
   styleUrl: './sales-breakdown-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

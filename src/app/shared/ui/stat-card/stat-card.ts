@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IconChipTone } from '../../enum/icon-chip-tone';
+import { SHARED_IMPORTS } from '../../imports/shared-imports';
 import { DeltaBadge } from '../delta-badge';
 import { IconChip } from '../icon-chip';
-import { UiCard } from '../ui-card';
 
 /** A KPI tile: icon chip, headline figure, period-over-period change, label. */
 @Component({
   selector: 'app-stat-card',
-  imports: [UiCard, IconChip, DeltaBadge],
+  imports: [...SHARED_IMPORTS, IconChip, DeltaBadge],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
