@@ -60,7 +60,15 @@ export class ChartSparklineComponent {
       // Only the endpoint is marked; a dot on every point would be noise.
       markers: {
         size: 0,
-        discrete: [{ seriesIndex: 0, dataPointIndex: lastIndex, size: 4, fillColor: color, strokeColor: color }],
+        discrete: [
+          {
+            seriesIndex: 0,
+            dataPointIndex: lastIndex,
+            size: 4,
+            fillColor: color,
+            strokeColor: color
+          }
+        ],
         hover: { size: 5 }
       },
       tooltip: { ...base.tooltip, fixed: { enabled: false }, marker: { show: false } }

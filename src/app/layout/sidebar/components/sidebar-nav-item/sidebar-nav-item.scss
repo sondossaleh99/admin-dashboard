@@ -16,7 +16,9 @@
   font-weight: var(--font-weight-medium);
   // Touch target: 12px padding + 20px line box clears 44px.
   min-height: 44px;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 
 a.nav-item:hover {

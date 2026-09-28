@@ -13,6 +13,7 @@ pushed (§5). Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8). 
 npm install
 npm start        # http://localhost:4200/ecommerce
 npm run build    # must stay clean — run it after every change
+npm run format   # Prettier (100 cols, single quotes, no trailing commas); format:check to verify
 ```
 
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·

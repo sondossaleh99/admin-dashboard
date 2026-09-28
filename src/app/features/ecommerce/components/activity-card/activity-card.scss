@@ -25,10 +25,18 @@
   border-radius: var(--radius-pill);
   font-size: 12px;
 
-  &--success { @include m.status-tint(success); }
-  &--warning { @include m.status-tint(warning, 18%); }
-  &--info { @include m.status-tint(info); }
-  &--danger { @include m.status-tint(danger); }
+  &--success {
+    @include m.status-tint(success);
+  }
+  &--warning {
+    @include m.status-tint(warning, 18%);
+  }
+  &--info {
+    @include m.status-tint(info);
+  }
+  &--danger {
+    @include m.status-tint(danger);
+  }
 }
 
 .activity__text {

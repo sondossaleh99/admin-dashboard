@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  LOCALE_ID,
+  computed,
+  inject,
+  signal
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 

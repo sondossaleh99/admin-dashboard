@@ -45,7 +45,9 @@
         <td>
           <span class="status status--{{ order.status }}">{{ statusLabelFor(order.status) }}</span>
         </td>
-        <td class="col-total tabular-nums">{{ order.total | currency: 'USD' : 'symbol' : '1.2-2' }}</td>
+        <td class="col-total tabular-nums">
+          {{ order.total | currency: 'USD' : 'symbol' : '1.2-2' }}
+        </td>
       </tr>
     </ng-template>
 

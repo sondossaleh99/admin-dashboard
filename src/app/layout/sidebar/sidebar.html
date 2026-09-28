@@ -13,7 +13,12 @@
       [attr.aria-expanded]="!collapsed()"
       aria-controls="sidebar-nav"
     >
-      <i class="pi" [class.pi-angle-double-left]="!collapsed()" [class.pi-angle-double-right]="collapsed()" aria-hidden="true"></i>
+      <i
+        class="pi"
+        [class.pi-angle-double-left]="!collapsed()"
+        [class.pi-angle-double-right]="collapsed()"
+        aria-hidden="true"
+      ></i>
       <span class="visually-hidden">{{ collapsed() ? 'Expand sidebar' : 'Collapse sidebar' }}</span>
     </button>
 
@@ -29,11 +34,7 @@
       <div class="sidebar__group">
         <h2 class="sidebar__group-label">{{ group.label }}</h2>
         @for (item of group.items; track item.route) {
-          <app-sidebar-nav-item
-            [item]="item"
-            [collapsed]="collapsed()"
-            (navigate)="onNavigate()"
-          />
+          <app-sidebar-nav-item [item]="item" [collapsed]="collapsed()" (navigate)="onNavigate()" />
         }
       </div>
     }

@@ -12,7 +12,12 @@ import { SHARED_IMPORTS } from '../../imports/shared-imports';
   selector: 'app-delta-badge',
   imports: [...SHARED_IMPORTS],
   template: `
-    <i class="pi" [class.pi-arrow-up]="isUp()" [class.pi-arrow-down]="!isUp()" aria-hidden="true"></i>
+    <i
+      class="pi"
+      [class.pi-arrow-up]="isUp()"
+      [class.pi-arrow-down]="!isUp()"
+      aria-hidden="true"
+    ></i>
     <span>{{ isUp() ? '+' : '−' }}{{ magnitude() | number: '1.0-1' }}%</span>
   `,
   styleUrl: './delta-badge.scss',
@@ -29,7 +34,5 @@ export class DeltaBadgeComponent {
 
   isUp = computed(() => this.value() >= 0);
   magnitude = computed(() => Math.abs(this.value()));
-  label = computed(
-    () => `${this.isUp() ? 'Up' : 'Down'} ${this.magnitude()} percent`
-  );
+  label = computed(() => `${this.isUp() ? 'Up' : 'Down'} ${this.magnitude()} percent`);
 }

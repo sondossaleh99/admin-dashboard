@@ -52,10 +52,18 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
 
-  &--paid { @include m.status-tint(success); }
-  &--pending { @include m.status-tint(warning, 18%); }
-  &--refunded { @include m.status-tint(info); }
-  &--cancelled { @include m.status-tint(danger); }
+  &--paid {
+    @include m.status-tint(success);
+  }
+  &--pending {
+    @include m.status-tint(warning, 18%);
+  }
+  &--refunded {
+    @include m.status-tint(info);
+  }
+  &--cancelled {
+    @include m.status-tint(danger);
+  }
 }
 
 .col-total {
