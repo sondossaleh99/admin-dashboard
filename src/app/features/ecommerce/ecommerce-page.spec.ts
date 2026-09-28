@@ -10,7 +10,7 @@ import {
   RevenueRange
 } from '../../shared';
 import { EcommercePageComponent } from './ecommerce-page';
-import { EcommerceService } from './services';
+import { EcommerceService } from './service';
 
 function order(id: string, status: OrderStatus): Order {
   return {

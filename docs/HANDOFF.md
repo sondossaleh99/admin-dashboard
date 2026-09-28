@@ -85,7 +85,7 @@ Everything tagged `[verify]` depends on this:
 |---|---|
 | `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
 | `shared/lookup/navigation.lookup.ts` | Nav group labels and ordering (moved here from the deleted `core/data/nav.data.ts`) |
-| `features/ecommerce/data/ecommerce.data.ts` | Every figure — shaped like the reference, not copied from it |
+| `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
 | `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
 | `ActivityCardComponent` | Built as a real-data activity feed, not a media/blog card — see its doc comment |
@@ -115,8 +115,8 @@ src/app/
     imports/       SHARED_IMPORTS
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (orchestrator) + components/ (7)
-                   + services/ecommerce.service (fixtures as an Observable)
-                   + data/ecommerce.data (mock fixtures, [verify])
+                   + service.ts (EcommerceService: fixtures as an Observable)
+                   + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
     not-found/
 ```
 
@@ -175,7 +175,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    a class with static getters (`OrderStatusLookup.getLabels()`). Each getter returns a fresh
    literal, with no `readonly` return types. The six today: `OrderActivityLookup`,
    `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
-   `IconChipToneLookup`. Deliberately *not* lookups: mock API fixtures (`ecommerce.data.ts`),
+   `IconChipToneLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[CurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
@@ -201,8 +201,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      Text on a solid colour fill is `--color-text-inverse`.
    - Charts receive data only. The theme lives in `chart-theme.ts`.
    - No `any`. Formatting is Prettier's (`npm run format`); don't hand-format around it.
-   - A feature's own service and mock data live inside the feature (`services/`, `data/`), never
-     in `core/`.
+   - A feature's own service and mock data sit directly in the feature folder as `service.ts` and
+     `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
+     feature has more than one such file.
    - Page logic (derived values, formatting, mapping) gets a spec. Specs render the page with its
      template overridden to `''`, so they test the logic without mounting charts.
    - Never guess a visual detail the design tokens don't define.
@@ -225,8 +226,8 @@ model is used in at least two files, so none live under `features/`. There is no
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
 - `core/` holds only app-wide code (`LayoutService`, `CURRENT_USER`). A feature's own service and
-  mock data live inside the feature (`features/ecommerce/services/`, `features/ecommerce/data/`), so
-  each new feature adds its own folders instead of growing `core`.
+  mock data live inside the feature (`features/ecommerce/service.ts`, `features/ecommerce/mock-data.ts`),
+  so each new feature adds its own files instead of growing `core`.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned
   `*.model.ts` files inside component folders, chart and lookup models beside their domains, and
   the dashboard data models into `core/data/`. The user had it reverted in `195b23a` and said not

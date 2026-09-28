@@ -23,7 +23,7 @@ import {
   SectionHeaderComponent,
   SkeletonBlockComponent
 } from '../../shared';
-import { EcommerceService } from './services';
+import { EcommerceService } from './service';
 import {
   ActivityCardComponent,
   EarningsHeroComponent,
