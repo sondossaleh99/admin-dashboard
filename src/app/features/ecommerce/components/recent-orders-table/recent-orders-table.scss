@@ -1,3 +1,5 @@
+@use '../../../../../styles/mixins' as m;
+
 .search {
   position: relative;
   display: flex;
@@ -50,10 +52,10 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
 
-  &--paid { background: color-mix(in srgb, var(--color-success) 14%, transparent); color: #15803d; }
-  &--pending { background: color-mix(in srgb, var(--color-warning) 18%, transparent); color: #b45309; }
-  &--refunded { background: color-mix(in srgb, var(--color-info) 14%, transparent); color: #1d4ed8; }
-  &--cancelled { background: color-mix(in srgb, var(--color-danger) 14%, transparent); color: #b91c1c; }
+  &--paid { @include m.status-tint(success); }
+  &--pending { @include m.status-tint(warning, 18%); }
+  &--refunded { @include m.status-tint(info); }
+  &--cancelled { @include m.status-tint(danger); }
 }
 
 .col-total {

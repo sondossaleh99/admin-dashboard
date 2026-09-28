@@ -20,6 +20,13 @@
   box-shadow: var(--shadow-sm);
 }
 
+// A status label or icon on a tint of its own colour, e.g. a "Paid" badge.
+// $tone is one of success, warning, danger or info.
+@mixin status-tint($tone, $strength: 14%) {
+  background: color-mix(in srgb, var(--color-#{$tone}) #{$strength}, transparent);
+  color: var(--color-#{$tone}-text);
+}
+
 // Mobile-first breakpoint helpers. min-width only, so styles always add.
 @mixin from($breakpoint) {
   @if $breakpoint == sm {

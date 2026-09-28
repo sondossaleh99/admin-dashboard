@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins' as m;
+
 :host {
   display: inline-flex;
   align-items: center;
@@ -11,13 +13,11 @@
 }
 
 :host(.delta-badge--up) {
-  background: color-mix(in srgb, var(--color-success) 12%, transparent);
-  color: #15803d;
+  @include m.status-tint(success, 12%);
 }
 
 :host(.delta-badge--down) {
-  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
-  color: #b91c1c;
+  @include m.status-tint(danger, 12%);
 }
 
 .pi {
