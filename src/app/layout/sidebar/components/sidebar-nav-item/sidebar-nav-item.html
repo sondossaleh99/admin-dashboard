@@ -1,14 +1,18 @@
 @let navItem = item();
 
 @if (navItem.disabled) {
-  <span class="nav-item nav-item--disabled" aria-disabled="true" [title]="navItem.label">
-    <i class="pi {{ navItem.icon }} nav-item__icon" aria-hidden="true"></i>
-    <span class="nav-item__label">{{ navItem.label }}</span>
-    <span class="nav-item__soon">Soon</span>
+  <span
+    class="nav-item nav-item--disabled d-flex align-items-center gap-3 fs-sm fw-medium"
+    aria-disabled="true"
+    [title]="navItem.label"
+  >
+    <i class="pi {{ navItem.icon }} nav-item__icon fs-md flex-shrink-0" aria-hidden="true"></i>
+    <span class="nav-item__label flex-1 text-truncate">{{ navItem.label }}</span>
+    <span class="nav-item__soon soon-tag">Soon</span>
   </span>
 } @else {
   <a
-    class="nav-item"
+    class="nav-item d-flex align-items-center gap-3 fs-sm fw-medium"
     [routerLink]="navItem.route"
     routerLinkActive="nav-item--active"
     #rla="routerLinkActive"
@@ -16,10 +20,10 @@
     [title]="collapsed() ? navItem.label : null"
     (click)="navigate.emit()"
   >
-    <i class="pi {{ navItem.icon }} nav-item__icon" aria-hidden="true"></i>
-    <span class="nav-item__label">{{ navItem.label }}</span>
+    <i class="pi {{ navItem.icon }} nav-item__icon fs-md flex-shrink-0" aria-hidden="true"></i>
+    <span class="nav-item__label flex-1 text-truncate">{{ navItem.label }}</span>
     @if (navItem.badge) {
-      <span class="nav-item__badge">{{ navItem.badge }}</span>
+      <span class="nav-item__badge count-badge flex-shrink-0 px-2 fs-xs">{{ navItem.badge }}</span>
     }
   </a>
 }
