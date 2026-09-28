@@ -1,9 +1,10 @@
 # Handoff — Ecommerce Dashboard
 
-**Updated:** 2026-09-26
-**Branch:** `init` — the default branch (there is no `main`)
-**State:** Stages 1–6 are merged. A series of post–Stage 6 architecture refactors is done and
-pushed (§5). Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8). `ng build` is clean.
+**Updated:** 2026-09-28
+**Branch:** `init` is the default branch (there is no `main`). The pre-feature cleanup (models,
+`*Component` names, feature-owned service/data, tokens, Prettier, tests) is on `feature-refactor`.
+**State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
+`ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
 ---
 
@@ -14,10 +15,15 @@ npm install
 npm start        # http://localhost:4200/ecommerce
 npm run build    # must stay clean — run it after every change
 npm run format   # Prettier (100 cols, single quotes, no trailing commas); format:check to verify
+npm test         # Karma in a Chrome window, re-runs on save
+npm run test:ci  # one headless run (ChromeHeadlessCI = --no-sandbox, for root/containers)
 ```
 
+In a container, point Karma at the bundled Chromium first:
+`export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
+
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 601 kB against a 700 kB warning /
+ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 598 kB against a 700 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -190,14 +196,20 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      `signal`, `computed`, `rxResource`).
    - PrimeNG owns interactive components; Bootstrap owns layout only. Never both.
    - Feature components arrange and bind. Colours, radii and shadows come from `UiCardComponent` and the
-     tokens.
+     tokens. No component stylesheet contains a hex colour: use a `--color-*` token, and
+     `@include m.status-tint($tone)` (`_mixins.scss`) for a status label or icon on its own tint.
+     Text on a solid colour fill is `--color-text-inverse`.
    - Charts receive data only. The theme lives in `chart-theme.ts`.
-   - No `any`. 2-space indent, single quotes, 100-char width.
+   - No `any`. Formatting is Prettier's (`npm run format`); don't hand-format around it.
+   - A feature's own service and mock data live inside the feature (`services/`, `data/`), never
+     in `core/`.
+   - Page logic (derived values, formatting, mapping) gets a spec. Specs render the page with its
+     template overridden to `''`, so they test the logic without mounting charts.
    - Never guess a visual detail the design tokens don't define.
 
 ---
 
-## 6. Models — current placement, a known wrinkle, and a reverted attempt
+## 6. Models — current placement and a reverted attempt
 
 Current placement (as of the `feature-refactor` branch):
 
@@ -232,6 +244,8 @@ model is used in at least two files, so none live under `features/`. There is no
 | Bundle budget 500 kB → 700 kB | The app's floor is 478 kB before any feature. The plan's DoD was updated to match. |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
 | Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
+| `data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it keeps every `?? []` fallback in the page's computed values real (caught by a spec). |
+| Prettier `trailingComma: none` | Matches the existing code, so adopting Prettier reflowed 20 files instead of 57. |
 
 ---
 
@@ -247,8 +261,7 @@ model is used in at least two files, so none live under `features/`. There is no
 4. **Stage 9 — visual parity** against the reference, once it's reachable. Revisit
    `EarningsHeroComponent`'s missing decorative background and `ActivityCardComponent`'s activity-feed substitution
    first: those are the two items most likely to change shape, not just figures.
-5. **The user's calls, not yours:** what to do with PR #9, and whether to fix the
-   `core → features` wrinkle (§6).
+5. **The user's call, not yours:** what to do with PR #9.
 
 `ChartAreaComponent` remains built and unused. No page section calls for a distinct single-trend area chart
 beyond what `ChartSparklineComponent` already covers (hero, weekly stats), and forcing it in would mean
