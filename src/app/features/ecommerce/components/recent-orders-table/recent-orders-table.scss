@@ -1,46 +1,8 @@
 @use '../../../../../styles/mixins' as m;
 
-.search {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  .pi {
-    position: absolute;
-    inset-inline-start: var(--space-3);
-    color: var(--color-text-muted);
-    font-size: var(--font-size-xs);
-    pointer-events: none;
-  }
-}
-
 .search__input {
   width: 180px;
   height: 32px;
-  padding-inline: var(--space-8) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-background);
-  font: inherit;
-  font-size: var(--font-size-xs);
-  color: var(--color-text);
-
-  &::placeholder {
-    color: var(--color-text-muted);
-  }
-
-  &:focus {
-    background: var(--color-surface);
-    border-color: var(--color-primary);
-  }
-}
-
-// The card is `flush` (no body padding) so the table can run edge to edge;
-// padding is reintroduced here at the cell level instead.
-.order-id {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
-  margin-inline-end: var(--space-1);
 }
 
 .status {
@@ -70,19 +32,14 @@
   text-align: end;
 }
 
-.empty {
-  text-align: center;
-  padding: var(--space-8) !important;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-}
-
 // PrimeNG renders the table's own DOM outside this component's ability to
 // target it with plain class selectors once styleClass is applied to the
 // root; scoped to .orders-table so the blast radius stays this one table.
 :host ::ng-deep .orders-table {
   font-size: var(--font-size-sm);
 
+  // The card is `flush` (no body padding) so the table can run edge to edge;
+  // padding is reintroduced here at the cell level instead.
   th,
   td {
     padding: var(--space-3) var(--space-4);

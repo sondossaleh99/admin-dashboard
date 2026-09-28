@@ -1,20 +1,4 @@
-.hero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-6);
-}
-
-.hero__label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-}
-
 .hero__value {
-  margin: var(--space-1) 0 var(--space-3);
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
   letter-spacing: -0.025em;
   line-height: 1.05;
 }
@@ -23,20 +7,4 @@
   flex: 1 1 180px;
   min-width: 140px;
   max-width: 260px;
-}
-
-.hero__split {
-  display: flex;
-  gap: var(--space-8);
-}
-
-.hero__split-label {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
-}
-
-.hero__split-value {
-  margin-top: var(--space-1);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
 }

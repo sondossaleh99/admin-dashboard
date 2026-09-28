@@ -1,4 +1,4 @@
-<div class="page">
+<div class="d-flex flex-column gap-6">
   <app-section-header title="Ecommerce" subtitle="Overview of sales, revenue and recent orders." />
 
   @if (error()) {
@@ -17,7 +17,7 @@
       @for (placeholder of [1, 2, 3, 4]; track placeholder) {
         <div class="col-12 col-sm-6 col-xl-3">
           <app-ui-card>
-            <div class="page__skeleton">
+            <div class="d-flex flex-column gap-3">
               <app-skeleton-block width="44px" height="44px" radius="var(--radius-lg)" />
               <app-skeleton-block width="60%" height="28px" />
               <app-skeleton-block width="40%" height="14px" />

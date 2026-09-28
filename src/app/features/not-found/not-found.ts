@@ -5,11 +5,13 @@ import { RouterLink } from '@angular/router';
   selector: 'app-not-found',
   imports: [RouterLink],
   template: `
-    <div class="not-found">
-      <p class="not-found__code">404</p>
-      <h1>Page not found</h1>
-      <p class="not-found__hint">That destination does not exist yet.</p>
-      <a routerLink="/ecommerce" class="not-found__link">Back to the dashboard</a>
+    <div class="not-found text-center">
+      <p class="fs-3xl fw-bold text-primary">404</p>
+      <h1 class="fs-xl my-2">Page not found</h1>
+      <p class="text-secondary mb-6">That destination does not exist yet.</p>
+      <a routerLink="/ecommerce" class="not-found__link d-inline-block py-3 px-5 fw-semibold">
+        Back to the dashboard
+      </a>
     </div>
   `,
   styleUrl: './not-found.scss',

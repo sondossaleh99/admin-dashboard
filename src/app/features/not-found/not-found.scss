@@ -4,32 +4,12 @@
   @include m.card;
   padding: var(--space-10) var(--space-8);
   max-width: 62ch;
-  text-align: center;
-}
-
-.not-found__code {
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
-h1 {
-  font-size: var(--font-size-xl);
-  margin: var(--space-2) 0;
-}
-
-.not-found__hint {
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-6);
 }
 
 .not-found__link {
-  display: inline-block;
-  padding: var(--space-3) var(--space-5);
   border-radius: var(--radius-md);
   background: var(--color-primary);
   color: var(--color-text-inverse);
-  font-weight: var(--font-weight-semibold);
 
   &:hover {
     background: var(--color-primary-dark);
