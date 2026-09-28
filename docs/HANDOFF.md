@@ -136,7 +136,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 3. **Import paths and direction.**
    - Code *outside* `shared/` or `core/` imports from the root barrel:
-     `import { UiCard, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
+     `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
    - Code *inside* `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
    - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
