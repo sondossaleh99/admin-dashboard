@@ -105,7 +105,7 @@ src/app/
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
-  features/                        barrel: features/index.ts
+  features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (orchestrator) + components/ (7)
     not-found/
 ```
@@ -140,14 +140,13 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - Code *inside* `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
    - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
-   - Feature models are **not** barrel-exported. Import them by direct file path
-     (`'./components/kpi-row/kpi.model'`, `'./activity-event.model'`).
+   - Models live in `shared/models` and are imported through the `shared` barrel (§6).
    - Lazy `loadComponent` routes import the closest **per-feature** barrel
-     (`'./features/ecommerce'`), never the root `'./features'`. The root barrel would merge every
+     (`'./features/ecommerce'`). There is deliberately no root `features/index.ts`: it would merge every
      route's lazy chunk into one. A cosmetic side effect: lazy chunks are named `index` in the
      build output.
    - Direction: `features` and `layout` → `shared` and `core`. `shared` never imports `features`
-     or `core`. One known exception is noted in §6.
+     or `core`.
 
 4. **No access modifiers by default** (`private` / `protected` / `public`). Keep one only when it
    enforces real encapsulation. The sole exception today: `LayoutService`'s `collapsed` and

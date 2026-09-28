@@ -5,7 +5,7 @@ import { ChartInk } from '../models/chart-ink';
 /**
  * One place where charts learn what the design system looks like.
  *
- * Every value is read from the CSS custom properties emitted in Stage 1, so a
+ * Every value is read from the CSS custom properties in `_tokens.scss`, so a
  * token change reaches the charts without touching TypeScript, and no hex code
  * is ever restated in a chart config.
  */
@@ -56,8 +56,8 @@ export function baseOptions(): ApexOptions {
       foreColor: ink.muted,
       toolbar: { show: false },
       zoom: { enabled: false },
-      // Sized by its container, never by fixed pixels, so the responsive pass
-      // in Stage 7 is a CSS change rather than a config change.
+      // Sized by its container, never by fixed pixels, so responsive changes
+      // are CSS changes rather than config changes.
       parentHeightOffset: 0,
       animations: {
         enabled: !prefersReducedMotion(),

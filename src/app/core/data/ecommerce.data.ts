@@ -14,7 +14,7 @@ import {
 //
 // Figures are placeholders shaped like the reference dashboard's, not copied
 // from it — the live page could not be loaded from the build environment. They
-// must be reconciled during the Stage 6 visual audit. [verify]
+// must be reconciled against the reference during the visual audit. [verify]
 //
 // Values are stored raw. Formatting happens at render time through Angular's
 // pipes, so nothing here is a pre-formatted string.

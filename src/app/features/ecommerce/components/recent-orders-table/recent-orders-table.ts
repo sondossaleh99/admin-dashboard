@@ -9,8 +9,8 @@ const SEARCH_DEBOUNCE_MS = 250;
  * Sortable, paginated, searchable orders table.
  *
  * PrimeNG owns this component's interactivity — sorting, pagination and the
- * filter predicate — which is exactly the kind of weight the plan reserves
- * PrimeNG for (see Stage 2's decision to drop it from the topbar dropdown).
+ * filter predicate — the kind of weight PrimeNG is reserved for (the topbar
+ * dropdown is hand-rolled instead because PrimeNG's menu cost 131 kB).
  */
 @Component({
   selector: 'app-recent-orders-table',

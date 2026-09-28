@@ -30,9 +30,9 @@ import {
 /**
  * Route target for `/ecommerce`.
  *
- * Stage 6: assembles the designed sections from Stage 3's primitives and
- * Stage 5's chart wrappers. This component owns data fetching, derived state
- * and formatting; every section below it is presentational.
+ * Assembles the dashboard sections from the shared UI primitives and chart
+ * wrappers. This component owns data fetching, derived state and formatting;
+ * every section below it is presentational.
  */
 @Component({
   selector: 'app-ecommerce-page',
