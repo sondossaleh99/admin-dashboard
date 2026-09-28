@@ -1,12 +1,12 @@
-import { IconChipTone } from '../../../shared';
+import { IconChipTone } from '../enum/icon-chip-tone';
+import { KpiFormat } from '../enum/kpi-format';
 
 /** A KPI tile's figures. */
 export interface Kpi {
   id: string;
   label: string;
   value: number;
-  /** Controls how `value` is rendered: as money, a plain count, or a percentage. */
-  format: 'currency' | 'number' | 'percent';
+  format: KpiFormat;
   /** Signed percentage change against the previous period. */
   delta: number;
   icon: string;

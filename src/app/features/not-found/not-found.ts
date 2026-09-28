@@ -15,4 +15,4 @@ import { RouterLink } from '@angular/router';
   styleUrl: './not-found.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotFound {}
+export class NotFoundComponent {}

@@ -25,7 +25,7 @@ import { baseOptions, seriesColors } from './chart-theme';
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartSparkline {
+export class ChartSparklineComponent {
   data = input.required<number[]>();
   height = input(48);
   slot = input(1);
@@ -60,7 +60,15 @@ export class ChartSparkline {
       // Only the endpoint is marked; a dot on every point would be noise.
       markers: {
         size: 0,
-        discrete: [{ seriesIndex: 0, dataPointIndex: lastIndex, size: 4, fillColor: color, strokeColor: color }],
+        discrete: [
+          {
+            seriesIndex: 0,
+            dataPointIndex: lastIndex,
+            size: 4,
+            fillColor: color,
+            strokeColor: color
+          }
+        ],
         hover: { size: 5 }
       },
       tooltip: { ...base.tooltip, fixed: { enabled: false }, marker: { show: false } }

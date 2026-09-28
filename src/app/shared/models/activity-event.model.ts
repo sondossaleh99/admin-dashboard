@@ -1,4 +1,4 @@
-import { ActivityTone } from '../../../shared';
+import { ActivityTone } from '../enum/activity-tone';
 
 /** One line in the activity feed. */
 export interface ActivityEvent {

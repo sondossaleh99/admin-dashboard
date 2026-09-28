@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  inject,
+  input,
+  signal
+} from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 
-import { OrderStatus, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
-import { Order } from '../../models';
+import { Order, OrderStatus, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -10,8 +17,8 @@ const SEARCH_DEBOUNCE_MS = 250;
  * Sortable, paginated, searchable orders table.
  *
  * PrimeNG owns this component's interactivity — sorting, pagination and the
- * filter predicate — which is exactly the kind of weight the plan reserves
- * PrimeNG for (see Stage 2's decision to drop it from the topbar dropdown).
+ * filter predicate — the kind of weight PrimeNG is reserved for (the topbar
+ * dropdown is hand-rolled instead because PrimeNG's menu cost 131 kB).
  */
 @Component({
   selector: 'app-recent-orders-table',
@@ -20,7 +27,7 @@ const SEARCH_DEBOUNCE_MS = 250;
   styleUrl: './recent-orders-table.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RecentOrdersTable {
+export class RecentOrdersTableComponent {
   destroyRef = inject(DestroyRef);
   debounceHandle?: ReturnType<typeof setTimeout>;
 

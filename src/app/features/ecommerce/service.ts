@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
 
-import { ECOMMERCE_DASHBOARD } from '../data/ecommerce.data';
-import { EcommerceDashboard } from '../../features/ecommerce/models';
+import { ECOMMERCE_DASHBOARD } from './mock-data';
+import { EcommerceDashboard } from '../../shared';
 
 /**
  * Supplies the ecommerce dashboard's data.

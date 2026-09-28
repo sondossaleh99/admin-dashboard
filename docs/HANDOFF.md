@@ -1,9 +1,10 @@
 # Handoff — Ecommerce Dashboard
 
-**Updated:** 2026-09-26
-**Branch:** `init` — the default branch (there is no `main`)
-**State:** Stages 1–6 are merged. A series of post–Stage 6 architecture refactors is done and
-pushed (§5). Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8). `ng build` is clean.
+**Updated:** 2026-09-28
+**Branch:** `init` is the default branch (there is no `main`). The pre-feature cleanup (models,
+`*Component` names, feature-owned service/data, tokens, Prettier, tests) is on `feature-refactor`.
+**State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
+`ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
 ---
 
@@ -13,10 +14,16 @@ pushed (§5). Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8). 
 npm install
 npm start        # http://localhost:4200/ecommerce
 npm run build    # must stay clean — run it after every change
+npm run format   # Prettier (100 cols, single quotes, no trailing commas); format:check to verify
+npm test         # Karma in a Chrome window, re-runs on save
+npm run test:ci  # one headless run (ChromeHeadlessCI = --no-sandbox, for root/containers)
 ```
 
+In a container, point Karma at the bundled Chromium first:
+`export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
+
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 601 kB against a 700 kB warning /
+ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 598 kB against a 700 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -51,7 +58,7 @@ Post–Stage 6 commits on `init`, oldest first:
 | `1d96982` | Dropped `readonly` everywhere and `private` everywhere but one place (§5.3) |
 | `4169e0f`, `0dd4046` | `core` barrels, and consumers routed through them |
 | `9e96789` | Root barrels for `layout` and `features` |
-| `268acfc`, `14d7371` | `SHARED_IMPORTS` (pipes, then `UiCard` added after re-analysis) |
+| `268acfc`, `14d7371` | `SHARED_IMPORTS` (pipes, then `UiCardComponent` added after re-analysis) |
 | `54dda9d` | `shared/interface` → `shared/models` + `features/ecommerce/models` |
 | `fe774d7` | Relocated models by ownership — **reverted by `195b23a`** at the user's request (§6) |
 
@@ -78,10 +85,10 @@ Everything tagged `[verify]` depends on this:
 |---|---|
 | `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
 | `shared/lookup/navigation.lookup.ts` | Nav group labels and ordering (moved here from the deleted `core/data/nav.data.ts`) |
-| `core/data/ecommerce.data.ts` | Every figure — shaped like the reference, not copied from it |
+| `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
-| `EarningsHero` | No decorative background was added — there is nothing to base one on |
-| `ActivityCard` | Built as a real-data activity feed, not a media/blog card — see its doc comment |
+| `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
+| `ActivityCardComponent` | Built as a real-data activity feed, not a media/blog card — see its doc comment |
 
 ---
 
@@ -90,23 +97,26 @@ Everything tagged `[verify]` depends on this:
 ```
 src/app/
   app.routes.ts    MainLayout from './layout'; lazy routes import the closest feature barrel
-  core/                            barrel: core/index.ts → data, services
-    data/          ecommerce.data (mock fixtures, [verify]), user.data (CURRENT_USER)
-    services/      ecommerce.service (fixtures as an Observable), layout.service (chrome state)
+  core/                            barrel: core/index.ts → config, data, services
+    config/        primeng-preset (AppPreset, used by app.config.ts)
+    data/          user.data (CURRENT_USER)
+    services/      layout.service (chrome state)
   layout/                          barrel: layout/index.ts
     main-layout/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        9 shared interfaces (see §6)
-    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone
+    models/        19 shared interfaces (see §6)
+    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
     lookup/        6 *Lookup classes
-    charts/        chart-theme + chart-area / -combo / -donut / -sparkline
+    charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
-  features/                        barrel: features/index.ts
-    ecommerce/     ecommerce-page (orchestrator) + components/ (7) + models/ (10)
+  features/                        no root barrel: routes import each feature's own index.ts
+    ecommerce/     ecommerce-page (orchestrator) + components/ (7)
+                   + service.ts (EcommerceService: fixtures as an Observable)
+                   + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
     not-found/
 ```
 
@@ -131,80 +141,93 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `imports`, `core/data`, `core/services`) list their files in one `index.ts`. Root barrels:
    `shared`, `core`, `layout`, `features`.
 
-2. **Import paths and direction.**
+2. **Component class names end in `Component`.** `WeeklyStatsCardComponent`, `UiCardComponent`,
+   `AppComponent`. File names stay kebab-case without the suffix (`weekly-stats-card.ts`).
+
+3. **Import paths and direction.**
    - Code *outside* `shared/` or `core/` imports from the root barrel:
-     `import { UiCard, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
+     `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
    - Code *inside* `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
-   - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`,
-     `'./models'`).
+   - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
+   - Models live in `shared/models` and are imported through the `shared` barrel (§6).
    - Lazy `loadComponent` routes import the closest **per-feature** barrel
-     (`'./features/ecommerce'`), never the root `'./features'`. The root barrel would merge every
+     (`'./features/ecommerce'`). There is deliberately no root `features/index.ts`: it would merge every
      route's lazy chunk into one. A cosmetic side effect: lazy chunks are named `index` in the
      build output.
    - Direction: `features` and `layout` → `shared` and `core`. `shared` never imports `features`
-     or `core`. One known exception is noted in §6.
+     or `core`.
 
-3. **No access modifiers by default** (`private` / `protected` / `public`). Keep one only when it
+4. **No access modifiers by default** (`private` / `protected` / `public`). Keep one only when it
    enforces real encapsulation. The sole exception today: `LayoutService`'s `collapsed` and
    `drawer` writable signals are `private`. It's an injected singleton shared by three
    components, and `toggleSidebar()` pairs every mutation with a `localStorage` write that a
    direct `.set()` would bypass.
 
-4. **No `readonly`** — not on class fields (including `input()`, `signal()` and `computed()`
+5. **No `readonly`** — not on class fields (including `input()`, `signal()` and `computed()`
    fields), interface properties, or array types (`Kpi[]`, not `readonly Kpi[]`).
 
-5. **Types.** One interface per file, with a kebab-case filename. String-literal unions are string
+6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are string
    `enum`s in `shared/enum/`, one per file. A template reaches an enum through a component field
    (`RevenueRange = RevenueRange;`), since templates can't see imports.
 
-6. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
+7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getLabels()`). Each getter returns a fresh
    literal, with no `readonly` return types. The six today: `OrderActivityLookup`,
    `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
-   `IconChipToneLookup`. Deliberately *not* lookups: mock API fixtures (`ecommerce.data.ts`),
+   `IconChipToneLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
 
-7. **`SHARED_IMPORTS`** (`shared/imports/`) is `[CurrencyPipe, DatePipe, DecimalPipe, UiCard]`,
+8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[CurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
    spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartCombo]`. It's
    a plain array on purpose: importing a wrapper component does **not** re-export that
    component's own imports. Kept out on purpose:
    - `TableModule`: one use.
    - `NgApexchartsModule`: it would drag ~450–950 kB of ApexCharts into unrelated components.
    - Router directives: two uses or fewer, and each is central to what its component is.
-   - `DeltaBadge` and `IconChip`: listing them explicitly tells a reader what that card shows.
+   - `DeltaBadgeComponent` and `IconChipComponent`: listing them explicitly tells a reader what that card shows.
 
-8. **Component folders.** A complex component with sub-parts gets a nested `components/` folder
+9. **Component folders.** A complex component with sub-parts gets a nested `components/` folder
    with barrels at each level (e.g. `sidebar/components/sidebar-nav-item/`). A simple one stays
    flat with its own `index.ts`.
 
-9. **Carried over from Stages 1–6, still binding:**
+10. **Carried over from Stages 1–6, still binding:**
    - Standalone components, `OnPush`, and signal APIs (`input`, `input.required`, `output`,
      `signal`, `computed`, `rxResource`).
    - PrimeNG owns interactive components; Bootstrap owns layout only. Never both.
-   - Feature components arrange and bind. Colours, radii and shadows come from `UiCard` and the
-     tokens.
+   - Feature components arrange and bind. Colours, radii and shadows come from `UiCardComponent` and the
+     tokens. No component stylesheet contains a hex colour: use a `--color-*` token, and
+     `@include m.status-tint($tone)` (`_mixins.scss`) for a status label or icon on its own tint.
+     Text on a solid colour fill is `--color-text-inverse`.
    - Charts receive data only. The theme lives in `chart-theme.ts`.
-   - No `any`. 2-space indent, single quotes, 100-char width.
+   - No `any`. Formatting is Prettier's (`npm run format`); don't hand-format around it.
+   - A feature's own service and mock data sit directly in the feature folder as `service.ts` and
+     `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
+     feature has more than one such file.
+   - Page logic (derived values, formatting, mapping) gets a spec. Specs render the page with its
+     template overridden to `''`, so they test the logic without mounting charts.
    - Never guess a visual detail the design tokens don't define.
 
 ---
 
-## 6. Models — current placement, a known wrinkle, and a reverted attempt
+## 6. Models — current placement and a reverted attempt
 
-Current placement (as of `54dda9d`):
+Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (9) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig` |
-| `features/ecommerce/models/` (10) | `Kpi`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `Order`, `Earnings`, `EcommerceDashboard`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent` |
+| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+
+**Rule:** a model used in more than one file lives in `shared/models`, is exported from its
+`index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
+beside that file as `<name>.model.ts`, never exported from an `index.ts`. Today every ecommerce
+model is used in at least two files, so none live under `features/`. There is no `features/ecommerce/models/` folder.
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
-- **Known wrinkle:** `core/data/ecommerce.data.ts` and `core/services/ecommerce.service.ts` import
-  from `features/ecommerce/models` — a `core → features` dependency. Both files are
-  ecommerce-specific but live in `core/`. It's left as-is. Raise it with the user rather than
-  fixing it unasked.
+- `core/` holds only app-wide code (`LayoutService`, `CURRENT_USER`). A feature's own service and
+  mock data live inside the feature (`features/ecommerce/service.ts`, `features/ecommerce/mock-data.ts`),
+  so each new feature adds its own files instead of growing `core`.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned
   `*.model.ts` files inside component folders, chart and lookup models beside their domains, and
   the dashboard data models into `core/data/`. The user had it reverted in `195b23a` and said not
@@ -222,6 +245,8 @@ Current placement (as of `54dda9d`):
 | Bundle budget 500 kB → 700 kB | The app's floor is 478 kB before any feature. The plan's DoD was updated to match. |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
 | Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
+| `data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it keeps every `?? []` fallback in the page's computed values real (caught by a spec). |
+| Prettier `trailingComma: none` | Matches the existing code, so adopting Prettier reflowed 20 files instead of 57. |
 
 ---
 
@@ -235,14 +260,13 @@ Current placement (as of `54dda9d`):
 3. **Stage 8 — accessibility.** Landmarks, `aria-current`, the focus ring and reduced-motion are
    already in. The contrast audit and a keyboard sweep remain.
 4. **Stage 9 — visual parity** against the reference, once it's reachable. Revisit
-   `EarningsHero`'s missing decorative background and `ActivityCard`'s activity-feed substitution
+   `EarningsHeroComponent`'s missing decorative background and `ActivityCardComponent`'s activity-feed substitution
    first: those are the two items most likely to change shape, not just figures.
-5. **The user's calls, not yours:** what to do with PR #9, and whether to fix the
-   `core → features` wrinkle (§6).
+5. **The user's call, not yours:** what to do with PR #9.
 
-`ChartArea` remains built and unused. No page section calls for a distinct single-trend area chart
-beyond what `ChartSparkline` already covers (hero, weekly stats), and forcing it in would mean
-inventing a placement.
+`ChartAreaComponent` (plan item 5.4) was built but never used by any page, so it was deleted at the
+user's request. If a future page needs it (e.g. the sidebar's Charts › Area entry), restore it with
+`git show 00c91f1:src/app/shared/charts/chart-area.ts` and re-add it to `shared/charts/index.ts`.
 
 ---
 
@@ -276,6 +300,6 @@ what found the invisible-stroke bug in Stage 5, after a wrong guess about contai
 - Every task ends the same way: `npm run build` clean → a commit with a descriptive message → push
   to `init` → a short report (what changed, which files, intentional exceptions and why, build
   status).
-- Expect judgment calls to be reviewed and sometimes reversed (e.g. `UiCard` joining
+- Expect judgment calls to be reviewed and sometimes reversed (e.g. `UiCardComponent` joining
   `SHARED_IMPORTS`, the reverted model move). State the reasoning behind each one so it can be
   evaluated.

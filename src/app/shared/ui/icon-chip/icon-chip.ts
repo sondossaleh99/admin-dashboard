@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
+import { IconChipSize } from '../../enum/icon-chip-size';
 import { IconChipTone } from '../../enum/icon-chip-tone';
 import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
 
@@ -14,10 +15,10 @@ import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IconChip {
+export class IconChipComponent {
   icon = input.required<string>();
   tone = input<IconChipTone>(IconChipTone.Primary);
-  size = input<'sm' | 'md' | 'lg'>('md');
+  size = input<IconChipSize>(IconChipSize.Medium);
 
   hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
 

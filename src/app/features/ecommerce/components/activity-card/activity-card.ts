@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { SHARED_IMPORTS } from '../../../../shared';
-import { ActivityEvent } from '../../models';
+import { ActivityEvent, SHARED_IMPORTS } from '../../../../shared';
 
 /**
  * Recent-activity feed.
@@ -10,7 +9,7 @@ import { ActivityEvent } from '../../models';
  * a format that would need real images and copy the reference site has, none
  * of which exists in this build's data model. Rather than invent marketing
  * content, this renders a feed derived from real order data (see
- * EcommercePage), which is the same information already on the page shown a
+ * EcommercePageComponent), which is the same information already on the page shown a
  * different way — an activity log rather than a media card. [verify] against
  * the reference once it is reachable; this is a documented substitution, not
  * a guess at unseen visual content.
@@ -22,6 +21,6 @@ import { ActivityEvent } from '../../models';
   styleUrl: './activity-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ActivityCard {
+export class ActivityCardComponent {
   events = input.required<ActivityEvent[]>();
 }

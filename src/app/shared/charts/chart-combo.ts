@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
-import { ComboSeries } from '../models/combo-series';
+import { ComboSeries } from '../models/combo-series.model';
 import { baseOptions, compactNumber, seriesColors } from './chart-theme';
 
 /**
@@ -32,7 +32,7 @@ import { baseOptions, compactNumber, seriesColors } from './chart-theme';
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartCombo {
+export class ChartComboComponent {
   categories = input.required<string[]>();
   /** First series renders as columns, second as a line. */
   series = input.required<ComboSeries[]>();

@@ -28,6 +28,12 @@ $warning: #f59e0b;
 $danger: #ef4444;
 $info: #3b82f6;
 
+// Darker text shades for status labels on a tinted background.
+$success-text: #15803d;
+$warning-text: #b45309;
+$danger-text: #b91c1c;
+$info-text: #1d4ed8;
+
 // -- Radius --------------------------------------------------------------
 $radius-sm: 6px;
 $radius-md: 8px;
@@ -41,7 +47,7 @@ $shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 $shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
 
 // -- Layout --------------------------------------------------------------
-// Confirm against the reference before Stage 6. [verify]
+// Confirm against the reference. [verify]
 $sidebar-width: 240px;
 $sidebar-width-collapsed: 72px;
 $topbar-height: 64px;

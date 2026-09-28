@@ -1,55 +1,66 @@
-import { ChangeDetectionStrategy, Component, LOCALE_ID, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  LOCALE_ID,
+  computed,
+  inject,
+  signal
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
 import {
+  ActivityEvent,
   ComboSeries,
-  EmptyState,
+  EmptyStateComponent,
+  KpiFormat,
+  KpiViewModel,
+  Order,
   OrderActivityLookup,
   RevenueRange,
+  RevenueTotals,
   SHARED_IMPORTS,
-  SectionHeader,
-  SkeletonBlock
+  SectionHeaderComponent,
+  SkeletonBlockComponent
 } from '../../shared';
-import { EcommerceService } from '../../core';
-import { ActivityEvent, Kpi, KpiViewModel, Order, RevenueTotals } from './models';
+import { EcommerceService } from './service';
 import {
-  ActivityCard,
-  EarningsHero,
-  KpiRow,
-  RecentOrdersTable,
-  RevenueUpdatesCard,
-  SalesBreakdownCard,
-  WeeklyStatsCard
+  ActivityCardComponent,
+  EarningsHeroComponent,
+  KpiRowComponent,
+  RecentOrdersTableComponent,
+  RevenueUpdatesCardComponent,
+  SalesBreakdownCardComponent,
+  WeeklyStatsCardComponent
 } from './components';
 
 /**
  * Route target for `/ecommerce`.
  *
- * Stage 6: assembles the designed sections from Stage 3's primitives and
- * Stage 5's chart wrappers. This component owns data fetching, derived state
- * and formatting; every section below it is presentational.
+ * Assembles the dashboard sections from the shared UI primitives and chart
+ * wrappers. This component owns data fetching, derived state and formatting;
+ * every section below it is presentational.
  */
 @Component({
   selector: 'app-ecommerce-page',
   imports: [
     ...SHARED_IMPORTS,
-    SectionHeader,
-    SkeletonBlock,
-    EmptyState,
-    EarningsHero,
-    KpiRow,
-    RevenueUpdatesCard,
-    SalesBreakdownCard,
-    WeeklyStatsCard,
-    RecentOrdersTable,
-    ActivityCard
+    SectionHeaderComponent,
+    SkeletonBlockComponent,
+    EmptyStateComponent,
+    EarningsHeroComponent,
+    KpiRowComponent,
+    RevenueUpdatesCardComponent,
+    SalesBreakdownCardComponent,
+    WeeklyStatsCardComponent,
+    RecentOrdersTableComponent,
+    ActivityCardComponent
   ],
   templateUrl: './ecommerce-page.html',
   styleUrl: './ecommerce-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EcommercePage {
+export class EcommercePageComponent {
   service = inject(EcommerceService);
   locale = inject(LOCALE_ID);
 
@@ -58,7 +69,14 @@ export class EcommercePage {
     stream: () => this.service.getDashboard()
   });
 
-  data = this.dashboard.value;
+  /**
+   * The loaded dashboard, or `undefined` while loading or after a failure.
+   *
+   * `dashboard.value()` throws while the resource is in an error state, so it
+   * is only read once `hasValue()` confirms there is something to read. That
+   * keeps every `?? []` fallback below meaningful.
+   */
+  data = computed(() => (this.dashboard.hasValue() ? this.dashboard.value() : undefined));
   loading = computed(() => this.dashboard.status() === 'loading');
   error = computed(() => this.dashboard.status() === 'error');
 
@@ -106,7 +124,7 @@ export class EcommercePage {
   /**
    * Recent activity, derived from the same order data the table shows.
    *
-   * See ActivityCard's doc comment: this stands in for a media/blog card the
+   * See ActivityCardComponent's doc comment: this stands in for a media/blog card the
    * reference site may use, which this build has no real content for.
    */
   activity = computed<ActivityEvent[]>(() =>
@@ -133,11 +151,11 @@ export class EcommercePage {
     };
   }
 
-  format(value: number, as: Kpi['format']): string {
+  format(value: number, as: KpiFormat): string {
     switch (as) {
-      case 'currency':
+      case KpiFormat.Currency:
         return formatCurrency(value, this.locale, '$', 'USD', '1.0-0');
-      case 'percent':
+      case KpiFormat.Percent:
         return formatPercent(value / 100, this.locale, '1.0-1');
       default:
         return formatNumber(value, this.locale, '1.0-0');

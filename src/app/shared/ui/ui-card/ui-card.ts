@@ -14,7 +14,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   host: { '[class.ui-card--flush]': 'flush()' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UiCard {
+export class UiCardComponent {
   title = input<string>();
   subtitle = input<string>();
 

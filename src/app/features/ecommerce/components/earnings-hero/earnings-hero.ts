@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { ChartSparkline, DeltaBadge, SHARED_IMPORTS } from '../../../../shared';
-import { Earnings } from '../../models';
+import {
+  ChartSparklineComponent,
+  DeltaBadgeComponent,
+  Earnings,
+  SHARED_IMPORTS
+} from '../../../../shared';
 
 /**
  * The dashboard's headline banner: total earnings, its trend, and the
@@ -14,11 +18,11 @@ import { Earnings } from '../../models';
  */
 @Component({
   selector: 'app-earnings-hero',
-  imports: [...SHARED_IMPORTS, ChartSparkline, DeltaBadge],
+  imports: [...SHARED_IMPORTS, ChartSparklineComponent, DeltaBadgeComponent],
   templateUrl: './earnings-hero.html',
   styleUrl: './earnings-hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EarningsHero {
+export class EarningsHeroComponent {
   earnings = input.required<Earnings>();
 }

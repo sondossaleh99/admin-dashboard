@@ -20,18 +20,35 @@
   box-shadow: var(--shadow-sm);
 }
 
+// A status label or icon on a tint of its own colour, e.g. a "Paid" badge.
+// $tone is one of success, warning, danger or info.
+@mixin status-tint($tone, $strength: 14%) {
+  background: color-mix(in srgb, var(--color-#{$tone}) #{$strength}, transparent);
+  color: var(--color-#{$tone}-text);
+}
+
 // Mobile-first breakpoint helpers. min-width only, so styles always add.
 @mixin from($breakpoint) {
   @if $breakpoint == sm {
-    @media (min-width: v.$bp-sm) { @content; }
+    @media (min-width: v.$bp-sm) {
+      @content;
+    }
   } @else if $breakpoint == md {
-    @media (min-width: v.$bp-md) { @content; }
+    @media (min-width: v.$bp-md) {
+      @content;
+    }
   } @else if $breakpoint == lg {
-    @media (min-width: v.$bp-lg) { @content; }
+    @media (min-width: v.$bp-lg) {
+      @content;
+    }
   } @else if $breakpoint == xl {
-    @media (min-width: v.$bp-xl) { @content; }
+    @media (min-width: v.$bp-xl) {
+      @content;
+    }
   } @else if $breakpoint == xxl {
-    @media (min-width: v.$bp-xxl) { @content; }
+    @media (min-width: v.$bp-xxl) {
+      @content;
+    }
   } @else {
     @error 'Unknown breakpoint `#{$breakpoint}`. Use sm, md, lg, xl or xxl.';
   }

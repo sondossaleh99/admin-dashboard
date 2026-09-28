@@ -2,18 +2,18 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IconChipTone } from '../../enum/icon-chip-tone';
 import { SHARED_IMPORTS } from '../../imports/shared-imports';
-import { DeltaBadge } from '../delta-badge';
-import { IconChip } from '../icon-chip';
+import { DeltaBadgeComponent } from '../delta-badge';
+import { IconChipComponent } from '../icon-chip';
 
 /** A KPI tile: icon chip, headline figure, period-over-period change, label. */
 @Component({
   selector: 'app-stat-card',
-  imports: [...SHARED_IMPORTS, IconChip, DeltaBadge],
+  imports: [...SHARED_IMPORTS, IconChipComponent, DeltaBadgeComponent],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatCard {
+export class StatCardComponent {
   label = input.required<string>();
   /** Pre-formatted by the caller, so currency and compact forms both fit. */
   value = input.required<string>();

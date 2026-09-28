@@ -20,6 +20,7 @@
   --color-text: #{v.$text-primary};
   --color-text-secondary: #{v.$text-secondary};
   --color-text-muted: #{v.$text-muted};
+  --color-text-inverse: #{v.$white};
 
   // -- Surfaces ----------------------------------------------------------
   --color-surface: #{v.$white};
@@ -32,6 +33,10 @@
   --color-warning: #{v.$warning};
   --color-danger: #{v.$danger};
   --color-info: #{v.$info};
+  --color-success-text: #{v.$success-text};
+  --color-warning-text: #{v.$warning-text};
+  --color-danger-text: #{v.$danger-text};
+  --color-info-text: #{v.$info-text};
 
   // -- Radius ------------------------------------------------------------
   --radius-sm: #{v.$radius-sm};

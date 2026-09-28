@@ -2,17 +2,17 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { LayoutService } from '../../core';
 import { NavigationLookup } from '../../shared';
-import { SidebarNavItem } from './components';
+import { SidebarNavItemComponent } from './components';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SidebarNavItem],
+  imports: [SidebarNavItemComponent],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
   host: { '[class.sidebar--collapsed]': 'collapsed()' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Sidebar {
+export class SidebarComponent {
   layout = inject(LayoutService);
 
   groups = NavigationLookup.getGroups();

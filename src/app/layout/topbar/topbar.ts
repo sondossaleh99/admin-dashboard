@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   inject,
   signal,
   viewChild
@@ -15,9 +14,13 @@ import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from 
   selector: 'app-topbar',
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+    '(document:keydown.escape)': 'onEscape()'
+  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Topbar {
+export class TopbarComponent {
   layout = inject(LayoutService);
   host = inject(ElementRef<HTMLElement>);
   userButton = viewChild<ElementRef<HTMLButtonElement>>('userButton');
@@ -39,7 +42,6 @@ export class Topbar {
   }
 
   /** Clicking anywhere outside the topbar dismisses the menu. */
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.userMenuOpen()) {
       return;
@@ -50,7 +52,6 @@ export class Topbar {
   }
 
   /** Escape closes and returns focus to the trigger, so keyboard users are not stranded. */
-  @HostListener('document:keydown.escape')
   onEscape(): void {
     if (this.userMenuOpen()) {
       this.userMenuOpen.set(false);

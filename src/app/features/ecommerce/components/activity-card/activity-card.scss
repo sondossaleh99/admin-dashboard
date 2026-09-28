@@ -1,3 +1,5 @@
+@use '../../../../../styles/mixins' as m;
+
 .activity {
   list-style: none;
   margin: 0;
@@ -23,10 +25,18 @@
   border-radius: var(--radius-pill);
   font-size: 12px;
 
-  &--success { background: color-mix(in srgb, var(--color-success) 14%, transparent); color: #15803d; }
-  &--warning { background: color-mix(in srgb, var(--color-warning) 18%, transparent); color: #b45309; }
-  &--info { background: color-mix(in srgb, var(--color-info) 14%, transparent); color: #1d4ed8; }
-  &--danger { background: color-mix(in srgb, var(--color-danger) 14%, transparent); color: #b91c1c; }
+  &--success {
+    @include m.status-tint(success);
+  }
+  &--warning {
+    @include m.status-tint(warning, 18%);
+  }
+  &--info {
+    @include m.status-tint(info);
+  }
+  &--danger {
+    @include m.status-tint(danger);
+  }
 }
 
 .activity__text {
