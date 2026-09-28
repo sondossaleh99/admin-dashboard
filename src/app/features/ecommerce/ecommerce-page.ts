@@ -69,7 +69,14 @@ export class EcommercePageComponent {
     stream: () => this.service.getDashboard()
   });
 
-  data = this.dashboard.value;
+  /**
+   * The loaded dashboard, or `undefined` while loading or after a failure.
+   *
+   * `dashboard.value()` throws while the resource is in an error state, so it
+   * is only read once `hasValue()` confirms there is something to read. That
+   * keeps every `?? []` fallback below meaningful.
+   */
+  data = computed(() => (this.dashboard.hasValue() ? this.dashboard.value() : undefined));
   loading = computed(() => this.dashboard.status() === 'loading');
   error = computed(() => this.dashboard.status() === 'error');
 
