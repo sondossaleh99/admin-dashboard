@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { SHARED_IMPORTS } from '../../../../shared';
-import { ActivityEvent } from './activity-event.model';
+import { ActivityEvent, SHARED_IMPORTS } from '../../../../shared';
 
 /**
  * Recent-activity feed.

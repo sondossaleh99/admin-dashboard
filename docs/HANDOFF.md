@@ -98,7 +98,7 @@ src/app/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        16 shared interfaces (see §6)
+    models/        19 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone
     lookup/        6 *Lookup classes
     charts/        chart-theme + chart-area / -combo / -donut / -sparkline
@@ -106,7 +106,7 @@ src/app/
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
   features/                        barrel: features/index.ts
-    ecommerce/     ecommerce-page (orchestrator) + components/ (7; three hold their own models)
+    ecommerce/     ecommerce-page (orchestrator) + components/ (7)
     not-found/
 ```
 
@@ -197,14 +197,12 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (16) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, plus the dashboard data models `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat` (`*.model.ts`) |
-| `features/ecommerce/components/<component>/` | `ActivityEvent` → `activity-card`; `KpiViewModel` → `kpi-row`; `RevenueTotals` → `revenue-updates-card` |
+| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, plus the dashboard data models `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent` (`*.model.ts`) |
 
-**Rule:** a model used in more than one place (core data/services, the dashboard shape, several
-components) lives in `shared/models` and is exported from its `index.ts`. A model that is only the
-input contract of one component (built by `ecommerce-page` and passed to that child) stays in the
-component's folder as `<name>.model.ts`, is never exported from an `index.ts`, and is imported by
-direct file path. There is no `features/ecommerce/models/` folder.
+**Rule:** a model used in more than one file lives in `shared/models`, is exported from its
+`index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
+beside that file as `<name>.model.ts`, never exported from an `index.ts`. Today every ecommerce
+model is used in at least two files, so none live under `features/`. There is no `features/ecommerce/models/` folder.
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.

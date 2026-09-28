@@ -3,20 +3,20 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
 import {
+  ActivityEvent,
   ComboSeries,
   EmptyState,
   Kpi,
+  KpiViewModel,
   Order,
   OrderActivityLookup,
   RevenueRange,
+  RevenueTotals,
   SHARED_IMPORTS,
   SectionHeader,
   SkeletonBlock
 } from '../../shared';
 import { EcommerceService } from '../../core';
-import { ActivityEvent } from './components/activity-card/activity-event.model';
-import { KpiViewModel } from './components/kpi-row/kpi-view-model.model';
-import { RevenueTotals } from './components/revenue-updates-card/revenue-totals.model';
 import {
   ActivityCard,
   EarningsHero,

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { StatCard } from '../../../../shared';
-import { KpiViewModel } from './kpi-view-model.model';
+import { KpiViewModel, StatCard } from '../../../../shared';
 
 /** The four-tile KPI grid. Formatting is the caller's job — see EcommercePage. */
 @Component({
