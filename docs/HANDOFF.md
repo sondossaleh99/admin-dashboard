@@ -106,7 +106,8 @@ src/app/
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
   features/                        barrel: features/index.ts
-    ecommerce/     ecommerce-page (orchestrator) + components/ (7) + models/ (10)
+    ecommerce/     ecommerce-page (orchestrator) + ecommerce-dashboard model + components/ (7,
+                   each holding its own models)
     not-found/
 ```
 
@@ -136,8 +137,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      `import { UiCard, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
    - Code *inside* `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
-   - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`,
-     `'./models'`).
+   - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
+   - Feature models are **not** barrel-exported. Import them by direct file path
+     (`'./components/kpi-row/kpi'`, `'./activity-event'`).
    - Lazy `loadComponent` routes import the closest **per-feature** barrel
      (`'./features/ecommerce'`), never the root `'./features'`. The root barrel would merge every
      route's lazy chunk into one. A cosmetic side effect: lazy chunks are named `index` in the
@@ -192,17 +194,21 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 ## 6. Models — current placement, a known wrinkle, and a reverted attempt
 
-Current placement (as of `54dda9d`):
+Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
 | `shared/models/` (9) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig` |
-| `features/ecommerce/models/` (10) | `Kpi`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `Order`, `Earnings`, `EcommerceDashboard`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent` |
+| `features/ecommerce/` | `EcommerceDashboard` (page-level shape) |
+| `features/ecommerce/components/<component>/` | `ActivityEvent` → `activity-card`; `Earnings` → `earnings-hero`; `Kpi`, `KpiViewModel` → `kpi-row`; `Order` → `recent-orders-table`; `RevenuePoint`, `RevenueTotals` → `revenue-updates-card`; `SalesSlice` → `sales-breakdown-card`; `WeeklyStat` → `weekly-stats-card` |
+
+Feature models sit beside the component files and are never exported from an `index.ts`;
+consumers import them by direct file path. There is no `features/ecommerce/models/` folder.
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
 - **Known wrinkle:** `core/data/ecommerce.data.ts` and `core/services/ecommerce.service.ts` import
-  from `features/ecommerce/models` — a `core → features` dependency. Both files are
+  ecommerce models by direct path from `features/ecommerce/...` — a `core → features` dependency. Both files are
   ecommerce-specific but live in `core/`. It's left as-is. Raise it with the user rather than
   fixing it unasked.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned

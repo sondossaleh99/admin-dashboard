@@ -12,7 +12,11 @@ import {
   SkeletonBlock
 } from '../../shared';
 import { EcommerceService } from '../../core';
-import { ActivityEvent, Kpi, KpiViewModel, Order, RevenueTotals } from './models';
+import { ActivityEvent } from './components/activity-card/activity-event';
+import { Kpi } from './components/kpi-row/kpi';
+import { KpiViewModel } from './components/kpi-row/kpi-view-model';
+import { Order } from './components/recent-orders-table/order';
+import { RevenueTotals } from './components/revenue-updates-card/revenue-totals';
 import {
   ActivityCard,
   EarningsHero,

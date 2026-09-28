@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { ChartSparkline, DeltaBadge, IconChip, SHARED_IMPORTS } from '../../../../shared';
-import { WeeklyStat } from '../../models';
+import { WeeklyStat } from './weekly-stat';
 
 /** A short list of standout figures, each with its own trend line. */
 @Component({
