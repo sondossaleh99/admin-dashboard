@@ -24,7 +24,7 @@ import { baseOptions, compactNumber, seriesColors } from './chart-theme';
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartArea {
+export class ChartAreaComponent {
   name = input.required<string>();
   categories = input.required<string[]>();
   data = input.required<number[]>();

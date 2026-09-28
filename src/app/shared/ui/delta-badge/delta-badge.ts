@@ -23,7 +23,7 @@ import { SHARED_IMPORTS } from '../../imports/shared-imports';
   },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeltaBadge {
+export class DeltaBadgeComponent {
   /** Signed percentage, e.g. `-12.4`. */
   value = input.required<number>();
 

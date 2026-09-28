@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { KpiViewModel, StatCard } from '../../../../shared';
+import { KpiViewModel, StatCardComponent } from '../../../../shared';
 
-/** The four-tile KPI grid. Formatting is the caller's job — see EcommercePage. */
+/** The four-tile KPI grid. Formatting is the caller's job — see EcommercePageComponent. */
 @Component({
   selector: 'app-kpi-row',
-  imports: [StatCard],
+  imports: [StatCardComponent],
   template: `
     <div class="row g-4">
       @for (kpi of kpis(); track kpi.id) {
@@ -23,6 +23,6 @@ import { KpiViewModel, StatCard } from '../../../../shared';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class KpiRow {
+export class KpiRowComponent {
   kpis = input.required<KpiViewModel[]>();
 }

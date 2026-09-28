@@ -17,7 +17,7 @@ import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from 
   styleUrl: './topbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Topbar {
+export class TopbarComponent {
   layout = inject(LayoutService);
   host = inject(ElementRef<HTMLElement>);
   userButton = viewChild<ElementRef<HTMLButtonElement>>('userButton');

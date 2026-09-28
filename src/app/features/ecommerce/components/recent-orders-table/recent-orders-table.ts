@@ -19,7 +19,7 @@ const SEARCH_DEBOUNCE_MS = 250;
   styleUrl: './recent-orders-table.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RecentOrdersTable {
+export class RecentOrdersTableComponent {
   destroyRef = inject(DestroyRef);
   debounceHandle?: ReturnType<typeof setTimeout>;
 

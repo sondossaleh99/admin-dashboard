@@ -17,7 +17,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   styleUrl: './section-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SectionHeader {
+export class SectionHeaderComponent {
   title = input.required<string>();
   subtitle = input<string>();
 }

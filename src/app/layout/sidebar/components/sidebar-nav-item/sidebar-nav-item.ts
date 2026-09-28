@@ -16,7 +16,7 @@ import { NavItem } from '../../../../shared';
   styleUrl: './sidebar-nav-item.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SidebarNavItem {
+export class SidebarNavItemComponent {
   item = input.required<NavItem>();
   collapsed = input(false);
 

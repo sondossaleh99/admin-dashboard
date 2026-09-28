@@ -5,7 +5,7 @@ import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 import {
   ActivityEvent,
   ComboSeries,
-  EmptyState,
+  EmptyStateComponent,
   Kpi,
   KpiViewModel,
   Order,
@@ -13,18 +13,18 @@ import {
   RevenueRange,
   RevenueTotals,
   SHARED_IMPORTS,
-  SectionHeader,
-  SkeletonBlock
+  SectionHeaderComponent,
+  SkeletonBlockComponent
 } from '../../shared';
 import { EcommerceService } from '../../core';
 import {
-  ActivityCard,
-  EarningsHero,
-  KpiRow,
-  RecentOrdersTable,
-  RevenueUpdatesCard,
-  SalesBreakdownCard,
-  WeeklyStatsCard
+  ActivityCardComponent,
+  EarningsHeroComponent,
+  KpiRowComponent,
+  RecentOrdersTableComponent,
+  RevenueUpdatesCardComponent,
+  SalesBreakdownCardComponent,
+  WeeklyStatsCardComponent
 } from './components';
 
 /**
@@ -38,22 +38,22 @@ import {
   selector: 'app-ecommerce-page',
   imports: [
     ...SHARED_IMPORTS,
-    SectionHeader,
-    SkeletonBlock,
-    EmptyState,
-    EarningsHero,
-    KpiRow,
-    RevenueUpdatesCard,
-    SalesBreakdownCard,
-    WeeklyStatsCard,
-    RecentOrdersTable,
-    ActivityCard
+    SectionHeaderComponent,
+    SkeletonBlockComponent,
+    EmptyStateComponent,
+    EarningsHeroComponent,
+    KpiRowComponent,
+    RevenueUpdatesCardComponent,
+    SalesBreakdownCardComponent,
+    WeeklyStatsCardComponent,
+    RecentOrdersTableComponent,
+    ActivityCardComponent
   ],
   templateUrl: './ecommerce-page.html',
   styleUrl: './ecommerce-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EcommercePage {
+export class EcommercePageComponent {
   service = inject(EcommerceService);
   locale = inject(LOCALE_ID);
 
@@ -110,7 +110,7 @@ export class EcommercePage {
   /**
    * Recent activity, derived from the same order data the table shows.
    *
-   * See ActivityCard's doc comment: this stands in for a media/blog card the
+   * See ActivityCardComponent's doc comment: this stands in for a media/blog card the
    * reference site may use, which this build has no real content for.
    */
   activity = computed<ActivityEvent[]>(() =>

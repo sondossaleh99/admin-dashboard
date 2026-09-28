@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
   styleUrl: './empty-state.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmptyState {
+export class EmptyStateComponent {
   icon = input('pi-inbox');
   message = input.required<string>();
   hint = input<string>();

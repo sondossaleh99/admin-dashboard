@@ -28,7 +28,7 @@ import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-them
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartDonut {
+export class ChartDonutComponent {
   slices = input.required<DonutSlice[]>();
   centerLabel = input('Total');
   height = input(260);

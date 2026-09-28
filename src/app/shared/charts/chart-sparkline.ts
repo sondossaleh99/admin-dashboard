@@ -25,7 +25,7 @@ import { baseOptions, seriesColors } from './chart-theme';
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartSparkline {
+export class ChartSparklineComponent {
   data = input.required<number[]>();
   height = input(48);
   slot = input(1);
