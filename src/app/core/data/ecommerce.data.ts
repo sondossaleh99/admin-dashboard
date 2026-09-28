@@ -1,10 +1,10 @@
 import { IconChipTone, OrderStatus } from '../../shared';
-import { EcommerceDashboard } from '../../features/ecommerce/ecommerce-dashboard';
-import { Kpi } from '../../features/ecommerce/components/kpi-row/kpi';
-import { Order } from '../../features/ecommerce/components/recent-orders-table/order';
-import { RevenuePoint } from '../../features/ecommerce/components/revenue-updates-card/revenue-point';
-import { SalesSlice } from '../../features/ecommerce/components/sales-breakdown-card/sales-slice';
-import { WeeklyStat } from '../../features/ecommerce/components/weekly-stats-card/weekly-stat';
+import { EcommerceDashboard } from '../../features/ecommerce/ecommerce-dashboard.model';
+import { Kpi } from '../../features/ecommerce/components/kpi-row/kpi.model';
+import { Order } from '../../features/ecommerce/components/recent-orders-table/order.model';
+import { RevenuePoint } from '../../features/ecommerce/components/revenue-updates-card/revenue-point.model';
+import { SalesSlice } from '../../features/ecommerce/components/sales-breakdown-card/sales-slice.model';
+import { WeeklyStat } from '../../features/ecommerce/components/weekly-stats-card/weekly-stat.model';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.

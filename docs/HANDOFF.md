@@ -139,7 +139,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
    - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
    - Feature models are **not** barrel-exported. Import them by direct file path
-     (`'./components/kpi-row/kpi'`, `'./activity-event'`).
+     (`'./components/kpi-row/kpi.model'`, `'./activity-event.model'`).
    - Lazy `loadComponent` routes import the closest **per-feature** barrel
      (`'./features/ecommerce'`), never the root `'./features'`. The root barrel would merge every
      route's lazy chunk into one. A cosmetic side effect: lazy chunks are named `index` in the
@@ -202,8 +202,8 @@ Current placement (as of the `feature-refactor` branch):
 | `features/ecommerce/` | `EcommerceDashboard` (page-level shape) |
 | `features/ecommerce/components/<component>/` | `ActivityEvent` → `activity-card`; `Earnings` → `earnings-hero`; `Kpi`, `KpiViewModel` → `kpi-row`; `Order` → `recent-orders-table`; `RevenuePoint`, `RevenueTotals` → `revenue-updates-card`; `SalesSlice` → `sales-breakdown-card`; `WeeklyStat` → `weekly-stats-card` |
 
-Feature models sit beside the component files and are never exported from an `index.ts`;
-consumers import them by direct file path. There is no `features/ecommerce/models/` folder.
+Feature models are named `<name>.model.ts`, sit beside the component files, and are never
+exported from an `index.ts`; consumers import them by direct file path. There is no `features/ecommerce/models/` folder.
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.

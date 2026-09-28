@@ -12,11 +12,11 @@ import {
   SkeletonBlock
 } from '../../shared';
 import { EcommerceService } from '../../core';
-import { ActivityEvent } from './components/activity-card/activity-event';
-import { Kpi } from './components/kpi-row/kpi';
-import { KpiViewModel } from './components/kpi-row/kpi-view-model';
-import { Order } from './components/recent-orders-table/order';
-import { RevenueTotals } from './components/revenue-updates-card/revenue-totals';
+import { ActivityEvent } from './components/activity-card/activity-event.model';
+import { Kpi } from './components/kpi-row/kpi.model';
+import { KpiViewModel } from './components/kpi-row/kpi-view-model.model';
+import { Order } from './components/recent-orders-table/order.model';
+import { RevenueTotals } from './components/revenue-updates-card/revenue-totals.model';
 import {
   ActivityCard,
   EarningsHero,

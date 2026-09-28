@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { ChartCombo, ComboSeries, RevenueRange, SHARED_IMPORTS } from '../../../../shared';
-import { RevenueTotals } from './revenue-totals';
+import { RevenueTotals } from './revenue-totals.model';
 
 /**
  * Budget-vs-expense combo chart with a period filter.
