@@ -2,6 +2,7 @@ import {
   EcommerceDashboard,
   IconChipTone,
   Kpi,
+  KpiFormat,
   Order,
   OrderStatus,
   RevenuePoint,
@@ -21,10 +22,10 @@ import {
 // -----------------------------------------------------------------------------
 
 const KPIS: Kpi[] = [
-  { id: 'customers', label: 'Customers', value: 39354, format: 'number', delta: 4, icon: 'pi-users', tone: IconChipTone.Primary },
-  { id: 'products', label: 'Products', value: 4396, format: 'number', delta: 23, icon: 'pi-box', tone: IconChipTone.Series2 },
-  { id: 'sales', label: 'Sales', value: 42339, format: 'currency', delta: 38, icon: 'pi-chart-bar', tone: IconChipTone.Series3 },
-  { id: 'refunds', label: 'Refunds', value: 1274, format: 'number', delta: -12, icon: 'pi-replay', tone: IconChipTone.Series4 }
+  { id: 'customers', label: 'Customers', value: 39354, format: KpiFormat.Number, delta: 4, icon: 'pi-users', tone: IconChipTone.Primary },
+  { id: 'products', label: 'Products', value: 4396, format: KpiFormat.Number, delta: 23, icon: 'pi-box', tone: IconChipTone.Series2 },
+  { id: 'sales', label: 'Sales', value: 42339, format: KpiFormat.Currency, delta: 38, icon: 'pi-chart-bar', tone: IconChipTone.Series3 },
+  { id: 'refunds', label: 'Refunds', value: 1274, format: KpiFormat.Number, delta: -12, icon: 'pi-replay', tone: IconChipTone.Series4 }
 ];
 
 // Twelve months. The 6-month range filter slices the tail of this series.

@@ -6,7 +6,7 @@ import {
   ActivityEvent,
   ComboSeries,
   EmptyStateComponent,
-  Kpi,
+  KpiFormat,
   KpiViewModel,
   Order,
   OrderActivityLookup,
@@ -137,11 +137,11 @@ export class EcommercePageComponent {
     };
   }
 
-  format(value: number, as: Kpi['format']): string {
+  format(value: number, as: KpiFormat): string {
     switch (as) {
-      case 'currency':
+      case KpiFormat.Currency:
         return formatCurrency(value, this.locale, '$', 'USD', '1.0-0');
-      case 'percent':
+      case KpiFormat.Percent:
         return formatPercent(value / 100, this.locale, '1.0-1');
       default:
         return formatNumber(value, this.locale, '1.0-0');

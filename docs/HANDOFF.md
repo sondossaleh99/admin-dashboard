@@ -99,7 +99,7 @@ src/app/
     topbar/
   shared/                          barrel: shared/index.ts
     models/        19 shared interfaces (see §6)
-    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone
+    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat
     lookup/        6 *Lookup classes
     charts/        chart-theme + chart-area / -combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
@@ -201,7 +201,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, plus the dashboard data models `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent` (`*.model.ts`) |
+| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
