@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { ChartDonutComponent, DonutSlice, SHARED_IMPORTS, SalesSlice } from '../../../../shared';
+import { ChartDonutComponent, SHARED_IMPORTS, SalesSlice } from '../../../../shared';
 
 /**
  * Composition-of-a-whole donut plus its legend.
@@ -18,8 +18,4 @@ import { ChartDonutComponent, DonutSlice, SHARED_IMPORTS, SalesSlice } from '../
 export class SalesBreakdownCardComponent {
   slices = input.required<SalesSlice[]>();
   total = input.required<number>();
-
-  asDonutSlices(slices: SalesSlice[]): DonutSlice[] {
-    return slices.map((s) => ({ label: s.label, value: s.value }));
-  }
 }

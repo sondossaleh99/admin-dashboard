@@ -90,7 +90,8 @@ Everything tagged `[verify]` depends on this:
 ```
 src/app/
   app.routes.ts    MainLayout from './layout'; lazy routes import the closest feature barrel
-  core/                            barrel: core/index.ts → data, services
+  core/                            barrel: core/index.ts → config, data, services
+    config/        primeng-preset (AppPreset, used by app.config.ts)
     data/          user.data (CURRENT_USER)
     services/      layout.service (chrome state)
   layout/                          barrel: layout/index.ts
@@ -99,7 +100,7 @@ src/app/
     topbar/
   shared/                          barrel: shared/index.ts
     models/        19 shared interfaces (see §6)
-    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat
+    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
     lookup/        6 *Lookup classes
     charts/        chart-theme + chart-area / -combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,

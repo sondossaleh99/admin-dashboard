@@ -2,7 +2,7 @@
   title="Sales breakdown"
   [subtitle]="(total() | currency: 'USD' : 'symbol' : '1.0-0') + ' total'"
 >
-  <app-chart-donut [slices]="asDonutSlices(slices())" centerLabel="Sales" [height]="220" />
+  <app-chart-donut [slices]="slices()" centerLabel="Sales" [height]="220" />
   <ul class="slices">
     @for (slice of slices(); track slice.label; let i = $index) {
       <li>
