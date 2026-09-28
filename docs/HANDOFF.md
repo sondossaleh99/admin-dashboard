@@ -98,7 +98,7 @@ src/app/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        9 shared interfaces (see §6)
+    models/        16 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone
     lookup/        6 *Lookup classes
     charts/        chart-theme + chart-area / -combo / -donut / -sparkline
@@ -106,8 +106,7 @@ src/app/
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
   features/                        barrel: features/index.ts
-    ecommerce/     ecommerce-page (orchestrator) + ecommerce-dashboard model + components/ (7,
-                   each holding its own models)
+    ecommerce/     ecommerce-page (orchestrator) + components/ (7; three hold their own models)
     not-found/
 ```
 
@@ -198,19 +197,19 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (9) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig` |
-| `features/ecommerce/` | `EcommerceDashboard` (page-level shape) |
-| `features/ecommerce/components/<component>/` | `ActivityEvent` → `activity-card`; `Earnings` → `earnings-hero`; `Kpi`, `KpiViewModel` → `kpi-row`; `Order` → `recent-orders-table`; `RevenuePoint`, `RevenueTotals` → `revenue-updates-card`; `SalesSlice` → `sales-breakdown-card`; `WeeklyStat` → `weekly-stats-card` |
+| `shared/models/` (16) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, plus the dashboard data models `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat` (`*.model.ts`) |
+| `features/ecommerce/components/<component>/` | `ActivityEvent` → `activity-card`; `KpiViewModel` → `kpi-row`; `RevenueTotals` → `revenue-updates-card` |
 
-Feature models are named `<name>.model.ts`, sit beside the component files, and are never
-exported from an `index.ts`; consumers import them by direct file path. There is no `features/ecommerce/models/` folder.
+**Rule:** a model used in more than one place (core data/services, the dashboard shape, several
+components) lives in `shared/models` and is exported from its `index.ts`. A model that is only the
+input contract of one component (built by `ecommerce-page` and passed to that child) stays in the
+component's folder as `<name>.model.ts`, is never exported from an `index.ts`, and is imported by
+direct file path. There is no `features/ecommerce/models/` folder.
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
-- **Known wrinkle:** `core/data/ecommerce.data.ts` and `core/services/ecommerce.service.ts` import
-  ecommerce models by direct path from `features/ecommerce/...` — a `core → features` dependency. Both files are
-  ecommerce-specific but live in `core/`. It's left as-is. Raise it with the user rather than
-  fixing it unasked.
+- `core/data/ecommerce.data.ts` and `core/services/ecommerce.service.ts` import their models from
+  `shared`, so the earlier `core → features` dependency is gone.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned
   `*.model.ts` files inside component folders, chart and lookup models beside their domains, and
   the dashboard data models into `core/data/`. The user had it reverted in `195b23a` and said not

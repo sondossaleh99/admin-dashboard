@@ -1,4 +1,4 @@
-import { OrderStatus } from '../../../../shared';
+import { OrderStatus } from '../enum/order-status';
 
 /** A row in the recent orders table. */
 export interface Order {

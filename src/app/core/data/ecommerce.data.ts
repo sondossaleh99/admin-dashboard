@@ -1,10 +1,13 @@
-import { IconChipTone, OrderStatus } from '../../shared';
-import { EcommerceDashboard } from '../../features/ecommerce/ecommerce-dashboard.model';
-import { Kpi } from '../../features/ecommerce/components/kpi-row/kpi.model';
-import { Order } from '../../features/ecommerce/components/recent-orders-table/order.model';
-import { RevenuePoint } from '../../features/ecommerce/components/revenue-updates-card/revenue-point.model';
-import { SalesSlice } from '../../features/ecommerce/components/sales-breakdown-card/sales-slice.model';
-import { WeeklyStat } from '../../features/ecommerce/components/weekly-stats-card/weekly-stat.model';
+import {
+  EcommerceDashboard,
+  IconChipTone,
+  Kpi,
+  Order,
+  OrderStatus,
+  RevenuePoint,
+  SalesSlice,
+  WeeklyStat
+} from '../../shared';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.
