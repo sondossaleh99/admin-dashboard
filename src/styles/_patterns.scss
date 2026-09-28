@@ -1,0 +1,115 @@
+// =============================================================================
+// Small widgets that repeat across components. Each class carries the look
+// that is shared; the component adds size or position with utilities or its
+// own stylesheet.
+// =============================================================================
+
+@use 'mixins' as m;
+
+// Square icon-only button: sidebar controls (32px) and topbar actions (--lg).
+.btn-icon {
+  @include m.flex-center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-sunk);
+    color: var(--color-text);
+  }
+}
+
+.btn-icon--lg {
+  width: 40px;
+  height: 40px;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+}
+
+// Bordered secondary button, e.g. "Retry". Disabled reads as muted.
+.btn-outline {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--color-surface-sunk);
+  }
+
+  &:disabled {
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+  }
+}
+
+// Search input with a leading icon. The wrapper sets its own size and display.
+.search-field {
+  position: relative;
+}
+
+.search-field__icon {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--space-3);
+  display: flex;
+  align-items: center;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.search-field__input {
+  width: 100%;
+  padding-inline: var(--space-8) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+  font: inherit;
+  color: var(--color-text);
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:focus {
+    background: var(--color-surface);
+    border-color: var(--color-primary);
+  }
+}
+
+// Round unread/count badge on a solid fill.
+.count-badge {
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.count-badge--danger {
+  background: var(--color-danger);
+}
+
+// Outlined "Soon" marker on features that are not built yet.
+.soon-tag {
+  flex: none;
+  padding: 1px 5px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

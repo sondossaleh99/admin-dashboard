@@ -11,7 +11,23 @@
 // and ~200 kB of CSS nobody uses.
 // =============================================================================
 
-@use 'bootstrap/scss/bootstrap-grid' as *;
+// Bootstrap's spacing scale is replaced by the project's, so its m-*, p-* and
+// g-* classes use the same numbers as the --space-N tokens (p-3 = 12px).
+@use 'spacing' as s;
+@use 'bootstrap/scss/bootstrap-grid' with (
+  $spacers: (
+    0: 0,
+    1: s.$spacing-1,
+    2: s.$spacing-2,
+    3: s.$spacing-3,
+    4: s.$spacing-4,
+    5: s.$spacing-5,
+    6: s.$spacing-6,
+    8: s.$spacing-8
+  )
+);
 
 @use 'tokens';
 @use 'base';
+@use 'patterns';
+@use 'utilities';

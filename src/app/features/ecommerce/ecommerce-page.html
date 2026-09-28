@@ -13,7 +13,7 @@
     </app-ui-card>
   } @else if (loading()) {
     <!-- Skeletons match the shape of the cards they stand in for. -->
-    <div class="row g-4">
+    <div class="row g-6">
       @for (placeholder of [1, 2, 3, 4]; track placeholder) {
         <div class="col-12 col-sm-6 col-xl-3">
           <app-ui-card>
@@ -31,7 +31,7 @@
 
     <app-kpi-row [kpis]="kpis()" />
 
-    <div class="row g-4">
+    <div class="row g-6">
       <div class="col-12 col-xl-8">
         <app-revenue-updates-card
           [periods]="revenuePeriods()"
@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-6">
       <div class="col-12 col-lg-5">
         <app-weekly-stats-card [stats]="dashboard.weeklyStats" />
       </div>
@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-6">
       <div class="col-12">
         <app-activity-card [events]="activity()" />
       </div>
