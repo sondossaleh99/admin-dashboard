@@ -78,7 +78,7 @@ Everything tagged `[verify]` depends on this:
 |---|---|
 | `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
 | `shared/lookup/navigation.lookup.ts` | Nav group labels and ordering (moved here from the deleted `core/data/nav.data.ts`) |
-| `core/data/ecommerce.data.ts` | Every figure — shaped like the reference, not copied from it |
+| `features/ecommerce/data/ecommerce.data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
 | `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
 | `ActivityCardComponent` | Built as a real-data activity feed, not a media/blog card — see its doc comment |
@@ -91,8 +91,8 @@ Everything tagged `[verify]` depends on this:
 src/app/
   app.routes.ts    MainLayout from './layout'; lazy routes import the closest feature barrel
   core/                            barrel: core/index.ts → data, services
-    data/          ecommerce.data (mock fixtures, [verify]), user.data (CURRENT_USER)
-    services/      ecommerce.service (fixtures as an Observable), layout.service (chrome state)
+    data/          user.data (CURRENT_USER)
+    services/      layout.service (chrome state)
   layout/                          barrel: layout/index.ts
     main-layout/
     sidebar/       + components/sidebar-nav-item/
@@ -107,6 +107,8 @@ src/app/
     imports/       SHARED_IMPORTS
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (orchestrator) + components/ (7)
+                   + services/ecommerce.service (fixtures as an Observable)
+                   + data/ecommerce.data (mock fixtures, [verify])
     not-found/
 ```
 
@@ -208,8 +210,9 @@ model is used in at least two files, so none live under `features/`. There is no
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
-- `core/data/ecommerce.data.ts` and `core/services/ecommerce.service.ts` import their models from
-  `shared`, so the earlier `core → features` dependency is gone.
+- `core/` holds only app-wide code (`LayoutService`, `CURRENT_USER`). A feature's own service and
+  mock data live inside the feature (`features/ecommerce/services/`, `features/ecommerce/data/`), so
+  each new feature adds its own folders instead of growing `core`.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned
   `*.model.ts` files inside component folders, chart and lookup models beside their domains, and
   the dashboard data models into `core/data/`. The user had it reverted in `195b23a` and said not

@@ -16,7 +16,7 @@ import {
   SectionHeaderComponent,
   SkeletonBlockComponent
 } from '../../shared';
-import { EcommerceService } from '../../core';
+import { EcommerceService } from './services';
 import {
   ActivityCardComponent,
   EarningsHeroComponent,

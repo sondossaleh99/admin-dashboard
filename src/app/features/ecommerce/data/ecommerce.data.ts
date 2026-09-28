@@ -7,7 +7,7 @@ import {
   RevenuePoint,
   SalesSlice,
   WeeklyStat
-} from '../../shared';
+} from '../../../shared';
 
 // -----------------------------------------------------------------------------
 // Mock fixtures.
