@@ -109,7 +109,7 @@ src/app/
     models/        19 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
     lookup/        6 *Lookup classes
-    charts/        chart-theme + chart-area / -combo / -donut / -sparkline
+    charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
@@ -263,9 +263,9 @@ model is used in at least two files, so none live under `features/`. There is no
    first: those are the two items most likely to change shape, not just figures.
 5. **The user's call, not yours:** what to do with PR #9.
 
-`ChartAreaComponent` remains built and unused. No page section calls for a distinct single-trend area chart
-beyond what `ChartSparklineComponent` already covers (hero, weekly stats), and forcing it in would mean
-inventing a placement.
+`ChartAreaComponent` (plan item 5.4) was built but never used by any page, so it was deleted at the
+user's request. If a future page needs it (e.g. the sidebar's Charts › Area entry), restore it with
+`git show 00c91f1:src/app/shared/charts/chart-area.ts` and re-add it to `shared/charts/index.ts`.
 
 ---
 
