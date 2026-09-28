@@ -1,37 +1,4 @@
-// Explicit vertical rhythm rather than a uniform gap: the label belongs close
-// to the figure it names, further from the icon chip above it.
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-
 .stat__value {
-  margin-top: var(--space-4);
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--color-text);
-}
-
-.stat__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  margin-top: var(--space-1);
-}
-
-.stat__label {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.stat__caption {
-  margin-top: var(--space-2);
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
 }
