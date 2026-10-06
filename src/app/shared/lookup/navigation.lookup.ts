@@ -1,12 +1,5 @@
 import { NavGroup } from '../models/nav-group.model';
 
-/**
- * Sidebar structure.
- *
- * Only `/ecommerce` is implemented; the rest are shown disabled so the sidebar
- * reads as complete without offering dead links. Group labels and ordering are
- * still to be confirmed against the reference. [verify]
- */
 export class NavigationLookup {
   static getGroups(): NavGroup[] {
     return [

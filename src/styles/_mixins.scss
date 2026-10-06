@@ -12,7 +12,6 @@
   justify-content: space-between;
 }
 
-// The card surface. Defined once — UiCard is the only component that applies it.
 @mixin card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -20,14 +19,11 @@
   box-shadow: var(--shadow-sm);
 }
 
-// A status label or icon on a tint of its own colour, e.g. a "Paid" badge.
-// $tone is one of success, warning, danger or info.
 @mixin status-tint($tone, $strength: 14%) {
   background: color-mix(in srgb, var(--color-#{$tone}) #{$strength}, transparent);
   color: var(--color-#{$tone}-text);
 }
 
-// Mobile-first breakpoint helpers. min-width only, so styles always add.
 @mixin from($breakpoint) {
   @if $breakpoint == sm {
     @media (min-width: v.$bp-sm) {
@@ -54,7 +50,6 @@
   }
 }
 
-// Truncate to a single line.
 @mixin truncate {
   overflow: hidden;
   text-overflow: ellipsis;

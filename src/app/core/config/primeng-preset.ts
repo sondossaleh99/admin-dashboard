@@ -1,11 +1,6 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
-/**
- * PrimeNG theme: Aura with the brand teal as its primary scale.
- *
- * 500 matches `$primary` in `src/styles/_variables.scss`; keep the two in step.
- */
 export const AppPreset = definePreset(Aura, {
   semantic: {
     primary: {

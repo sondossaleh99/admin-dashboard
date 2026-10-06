@@ -8,13 +8,6 @@ import {
   SHARED_IMPORTS
 } from '../../../../shared';
 
-/**
- * Budget-vs-expense combo chart with a period filter.
- *
- * The filter is presentational only: `range` reflects the parent's signal and
- * `rangeChange` reports the click. EcommercePageComponent owns deriving the filtered
- * series, so this component never mutates the source data.
- */
 @Component({
   selector: 'app-revenue-updates-card',
   imports: [...SHARED_IMPORTS, ChartComboComponent],
@@ -23,7 +16,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RevenueUpdatesCardComponent {
-  /** Exposed so the template can reference members directly, e.g. `RevenueRange.SixMonths`. */
   RevenueRange = RevenueRange;
 
   periods = input.required<string[]>();

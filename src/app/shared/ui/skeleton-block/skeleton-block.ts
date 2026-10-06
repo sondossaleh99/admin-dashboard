@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-/**
- * A loading placeholder.
- *
- * Callers size it to the content it stands in for — a skeleton shaped like the
- * real card avoids the layout jump a generic spinner causes on load.
- */
 @Component({
   selector: 'app-skeleton-block',
   template: '',

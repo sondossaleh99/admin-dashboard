@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-/** A heading above a group of cards, with room for controls on the right. */
 @Component({
   selector: 'app-section-header',
   template: `

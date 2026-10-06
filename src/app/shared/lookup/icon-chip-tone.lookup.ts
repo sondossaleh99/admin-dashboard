@@ -1,6 +1,5 @@
 import { IconChipTone } from '../enum/icon-chip-tone';
 
-/** CSS colour token for each icon-chip tone. */
 export class IconChipToneLookup {
   static getColors(): Record<IconChipTone, string> {
     return {

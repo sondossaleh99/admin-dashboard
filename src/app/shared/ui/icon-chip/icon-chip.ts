@@ -4,7 +4,6 @@ import { IconChipSize } from '../../enum/icon-chip-size';
 import { IconChipTone } from '../../enum/icon-chip-tone';
 import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
 
-/** The tinted rounded icon square used on stat cards and list rows. */
 @Component({
   selector: 'app-icon-chip',
   template: `<i class="pi {{ icon() }}" aria-hidden="true"></i>`,

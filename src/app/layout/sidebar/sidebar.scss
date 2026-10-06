@@ -62,7 +62,6 @@
   }
 }
 
-// The collapse control is a desktop affordance; the close button is mobile-only.
 .sidebar__collapse {
   display: none;
 
@@ -97,9 +96,6 @@
   color: var(--color-text-muted);
 }
 
-// Collapsed rail: the brand row keeps only the expand control — hiding it here
-// would strand the user in the rail with no way back — and group captions
-// become a divider rule, since there is no room for their text.
 :host(.sidebar--collapsed) {
   .sidebar__name,
   .sidebar__mark {

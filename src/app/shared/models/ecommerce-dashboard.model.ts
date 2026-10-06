@@ -5,7 +5,6 @@ import { SalesSlice } from './sales-slice.model';
 import { WeeklyStat } from './weekly-stat.model';
 import { Order } from './order.model';
 
-/** Everything the ecommerce page renders, resolved in one call. */
 export interface EcommerceDashboard {
   earnings: Earnings;
   kpis: Kpi[];

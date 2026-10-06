@@ -3,12 +3,6 @@ import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 
 import { baseOptions, seriesColors } from './chart-theme';
 
-/**
- * A bare trend line — no axes, no grid, no legend.
- *
- * It sits beside a figure that already carries the value, so its only job is
- * shape. The final point is marked so the current value is locatable.
- */
 @Component({
   selector: 'app-chart-sparkline',
   imports: [NgApexchartsModule],
@@ -48,16 +42,12 @@ export class ChartSparklineComponent {
       colors: [color],
       series: [{ name: 'Trend', data: [...points] }],
       stroke: { width: 2, curve: 'smooth' },
-      // On a line chart ApexCharts applies fill.opacity to the STROKE, so an
-      // opacity of 0 here hides the line itself rather than suppressing an
-      // area fill. The unfilled variant simply has no fill to configure.
       fill: this.filled()
         ? {
             type: 'gradient',
             gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0, stops: [0, 100] }
           }
         : { type: 'solid', opacity: 1 },
-      // Only the endpoint is marked; a dot on every point would be noise.
       markers: {
         size: 0,
         discrete: [

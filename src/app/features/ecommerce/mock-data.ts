@@ -10,17 +10,6 @@ import {
   WeeklyStat
 } from '../../shared';
 
-// -----------------------------------------------------------------------------
-// Mock fixtures.
-//
-// Figures are placeholders shaped like the reference dashboard's, not copied
-// from it — the live page could not be loaded from the build environment. They
-// must be reconciled against the reference during the visual audit. [verify]
-//
-// Values are stored raw. Formatting happens at render time through Angular's
-// pipes, so nothing here is a pre-formatted string.
-// -----------------------------------------------------------------------------
-
 const KPIS: Kpi[] = [
   {
     id: 'customers',
@@ -60,7 +49,6 @@ const KPIS: Kpi[] = [
   }
 ];
 
-// Twelve months. The 6-month range filter slices the tail of this series.
 const REVENUE: RevenuePoint[] = [
   { period: 'Jan', budget: 38000, expense: 24000 },
   { period: 'Feb', budget: 42000, expense: 27500 },
@@ -76,8 +64,6 @@ const REVENUE: RevenuePoint[] = [
   { period: 'Dec', budget: 93438, expense: 52500 }
 ];
 
-// Four slices: the chart palette validates all-pairs up to four, which is what
-// a donut needs since every slice is visible against every other.
 const SALES_BREAKDOWN: SalesSlice[] = [
   { label: 'Online store', value: 18450 },
   { label: 'Marketplace', value: 12300 },

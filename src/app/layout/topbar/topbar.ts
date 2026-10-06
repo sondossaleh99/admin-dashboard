@@ -41,7 +41,6 @@ export class TopbarComponent {
     this.userMenuOpen.update((open) => !open);
   }
 
-  /** Clicking anywhere outside the topbar dismisses the menu. */
   onDocumentClick(event: MouseEvent): void {
     if (!this.userMenuOpen()) {
       return;
@@ -51,7 +50,6 @@ export class TopbarComponent {
     }
   }
 
-  /** Escape closes and returns focus to the trigger, so keyboard users are not stranded. */
   onEscape(): void {
     if (this.userMenuOpen()) {
       this.userMenuOpen.set(false);

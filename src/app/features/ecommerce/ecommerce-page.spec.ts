@@ -25,7 +25,6 @@ function order(id: string, status: OrderStatus): Order {
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-// Small, round figures so every expected value below can be checked by eye.
 const DASHBOARD: EcommerceDashboard = {
   earnings: { label: 'Earnings', total: 1000, delta: 5, budget: 800, expense: 200, trend: [1, 2] },
   kpis: [
@@ -57,7 +56,6 @@ const DASHBOARD: EcommerceDashboard = {
       tone: IconChipTone.Series2
     }
   ],
-  // Month n has budget n * 100 and expense n * 10.
   revenue: MONTHS.map((period, i) => ({ period, budget: (i + 1) * 100, expense: (i + 1) * 10 })),
   salesBreakdown: [
     { label: 'Online', value: 300 },
@@ -81,8 +79,6 @@ async function setup(response: () => Observable<EcommerceDashboard> = () => of(D
     imports: [EcommercePageComponent],
     providers: [{ provide: EcommerceService, useValue: { getDashboard } }]
   });
-  // The page's own logic is under test here, not its children, so the template
-  // (and the charts it would mount) is left out.
   TestBed.overrideComponent(EcommercePageComponent, { set: { template: '', imports: [] } });
 
   const fixture = TestBed.createComponent(EcommercePageComponent);
@@ -124,10 +120,8 @@ describe('EcommercePageComponent', () => {
     it('recomputes the totals and margin for the selected range', async () => {
       const { page } = await setup();
 
-      // 1 + 2 + … + 12 = 78
       expect(page.revenueTotals()).toEqual({ budget: 7800, expense: 780, margin: 7020 });
 
-      // 7 + 8 + … + 12 = 57
       page.setRange(RevenueRange.SixMonths);
       expect(page.revenueTotals()).toEqual({ budget: 5700, expense: 570, margin: 5130 });
     });

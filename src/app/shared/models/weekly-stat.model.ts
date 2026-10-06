@@ -1,4 +1,3 @@
-/** A row in the weekly stats list, with its own sparkline series. */
 export interface WeeklyStat {
   id: string;
   label: string;

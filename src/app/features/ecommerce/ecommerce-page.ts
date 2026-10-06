@@ -34,13 +34,6 @@ import {
   WeeklyStatsCardComponent
 } from './components';
 
-/**
- * Route target for `/ecommerce`.
- *
- * Assembles the dashboard sections from the shared UI primitives and chart
- * wrappers. This component owns data fetching, derived state and formatting;
- * every section below it is presentational.
- */
 @Component({
   selector: 'app-ecommerce-page',
   imports: [
@@ -64,26 +57,16 @@ export class EcommercePageComponent {
   service = inject(EcommerceService);
   locale = inject(LOCALE_ID);
 
-  /** Owns loading, error and value as signals, and gives retry a `reload()`. */
   dashboard = rxResource({
     stream: () => this.service.getDashboard()
   });
 
-  /**
-   * The loaded dashboard, or `undefined` while loading or after a failure.
-   *
-   * `dashboard.value()` throws while the resource is in an error state, so it
-   * is only read once `hasValue()` confirms there is something to read. That
-   * keeps every `?? []` fallback below meaningful.
-   */
   data = computed(() => (this.dashboard.hasValue() ? this.dashboard.value() : undefined));
   loading = computed(() => this.dashboard.status() === 'loading');
   error = computed(() => this.dashboard.status() === 'error');
 
-  /** Revenue card's period filter. */
   range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
-  /** Derived, not stored: changing the range never mutates the source series. */
   revenue = computed(() => {
     const points = this.data()?.revenue ?? [];
     return this.range() === RevenueRange.SixMonths ? points.slice(-6) : points;
@@ -103,13 +86,6 @@ export class EcommercePageComponent {
     { name: 'Expense', data: this.revenue().map((p) => p.expense) }
   ]);
 
-  /**
-   * KPIs with their figures already rendered for display.
-   *
-   * Formatting lives here rather than as a branch in any child's template:
-   * the rule differs per KPI, and Angular's own format functions (the ones
-   * the pipes call) keep it locale-aware rather than hand-rolled.
-   */
   kpis = computed<KpiViewModel[]>(() =>
     (this.data()?.kpis ?? []).map((kpi) => ({
       ...kpi,
@@ -121,12 +97,6 @@ export class EcommercePageComponent {
     (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
   );
 
-  /**
-   * Recent activity, derived from the same order data the table shows.
-   *
-   * See ActivityCardComponent's doc comment: this stands in for a media/blog card the
-   * reference site may use, which this build has no real content for.
-   */
   activity = computed<ActivityEvent[]>(() =>
     (this.data()?.recentOrders ?? []).slice(0, 5).map((order) => this.toActivityEvent(order))
   );
