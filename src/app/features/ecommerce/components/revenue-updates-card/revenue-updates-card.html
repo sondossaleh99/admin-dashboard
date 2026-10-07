@@ -2,10 +2,10 @@
   title="Revenue updates"
   [subtitle]="'Budget against expense, ' + periods().length + ' months'"
 >
-  <div card-actions class="range" role="group" aria-label="Period">
+  <div card-actions class="range d-flex gap-1" role="group" aria-label="Period">
     <button
       type="button"
-      class="range__option"
+      class="range__option py-1 px-3 fs-xs fw-medium"
       [class.range__option--on]="range() === RevenueRange.SixMonths"
       (click)="setRange(RevenueRange.SixMonths)"
       [attr.aria-pressed]="range() === RevenueRange.SixMonths"
@@ -14,7 +14,7 @@
     </button>
     <button
       type="button"
-      class="range__option"
+      class="range__option py-1 px-3 fs-xs fw-medium"
       [class.range__option--on]="range() === RevenueRange.TwelveMonths"
       (click)="setRange(RevenueRange.TwelveMonths)"
       [attr.aria-pressed]="range() === RevenueRange.TwelveMonths"
@@ -23,22 +23,22 @@
     </button>
   </div>
 
-  <div class="totals">
+  <div class="totals d-flex flex-wrap gap-8 pb-5 mb-4">
     <div>
-      <p class="totals__label">Budget</p>
-      <p class="totals__value tabular-nums">
+      <p class="fs-xs text-muted">Budget</p>
+      <p class="tabular-nums mt-1 fs-xl fw-semibold">
         {{ totals().budget | currency: 'USD' : 'symbol' : '1.0-0' }}
       </p>
     </div>
     <div>
-      <p class="totals__label">Expense</p>
-      <p class="totals__value tabular-nums">
+      <p class="fs-xs text-muted">Expense</p>
+      <p class="tabular-nums mt-1 fs-xl fw-semibold">
         {{ totals().expense | currency: 'USD' : 'symbol' : '1.0-0' }}
       </p>
     </div>
     <div>
-      <p class="totals__label">Margin</p>
-      <p class="totals__value tabular-nums">
+      <p class="fs-xs text-muted">Margin</p>
+      <p class="tabular-nums mt-1 fs-xl fw-semibold">
         {{ totals().margin | currency: 'USD' : 'symbol' : '1.0-0' }}
       </p>
     </div>

@@ -20,7 +20,10 @@ export class IconChipComponent {
   tone = input<IconChipTone>(IconChipTone.Primary);
   size = input<IconChipSize>(IconChipSize.Medium);
 
-  hostClasses = computed(() => `icon-chip icon-chip--${this.size()}`);
+  hostClasses = computed(
+    () =>
+      `icon-chip icon-chip--${this.size()} d-flex align-items-center justify-content-center flex-shrink-0`
+  );
 
   color = computed(() => IconChipToneLookup.getColors()[this.tone()]);
 }

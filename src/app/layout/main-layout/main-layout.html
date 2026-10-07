@@ -1,4 +1,4 @@
-<div class="shell" [class.shell--collapsed]="collapsed()">
+<div class="shell d-flex" [class.shell--collapsed]="collapsed()">
   <app-sidebar class="shell__sidebar" [class.shell__sidebar--open]="drawerOpen()" />
 
   <!-- Mobile only: dismisses the drawer. Hidden from the a11y tree because the
@@ -7,9 +7,11 @@
     <div class="shell__backdrop" (click)="closeDrawer()" aria-hidden="true"></div>
   }
 
-  <div class="shell__main">
+  <!-- min-w-0: without it a wide child (a table, a chart) would stretch the
+       column instead of scrolling inside it. -->
+  <div class="d-flex flex-column flex-1 min-w-0">
     <app-topbar />
-    <main class="shell__content" id="main-content">
+    <main class="shell__content flex-1" id="main-content">
       <router-outlet />
     </main>
   </div>

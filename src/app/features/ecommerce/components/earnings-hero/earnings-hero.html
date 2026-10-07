@@ -1,8 +1,8 @@
 <app-ui-card>
-  <div class="hero">
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-6">
     <div>
-      <p class="hero__label">{{ earnings().label }}</p>
-      <p class="hero__value tabular-nums">
+      <p class="fs-sm text-secondary">{{ earnings().label }}</p>
+      <p class="hero__value tabular-nums mt-1 mb-3 fs-3xl fw-bold">
         {{ earnings().total | currency: 'USD' : 'symbol' : '1.2-2' }}
       </p>
       <app-delta-badge [value]="earnings().delta" />
@@ -12,16 +12,16 @@
       <app-chart-sparkline [data]="earnings().trend" [height]="64" />
     </div>
 
-    <div class="hero__split">
+    <div class="d-flex gap-8">
       <div>
-        <p class="hero__split-label">Budget</p>
-        <p class="hero__split-value tabular-nums">
+        <p class="fs-xs text-muted">Budget</p>
+        <p class="tabular-nums mt-1 fs-lg fw-semibold">
           {{ earnings().budget | currency: 'USD' : 'symbol' : '1.0-0' }}
         </p>
       </div>
       <div>
-        <p class="hero__split-label">Expense</p>
-        <p class="hero__split-value tabular-nums">
+        <p class="fs-xs text-muted">Expense</p>
+        <p class="tabular-nums mt-1 fs-lg fw-semibold">
           {{ earnings().expense | currency: 'USD' : 'symbol' : '1.0-0' }}
         </p>
       </div>

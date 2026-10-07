@@ -1,8 +1,4 @@
-@use '../../../../styles/mixins' as m;
-
 :host {
-  @include m.flex-center;
-  flex: none;
   // colour-mix keeps the tint tied to the icon colour, so a new tone needs one
   // value rather than a matching background token.
   background: color-mix(in srgb, var(--chip-color) 12%, transparent);
