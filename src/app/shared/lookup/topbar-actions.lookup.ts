@@ -1,6 +1,5 @@
 import { TopbarAction } from '../models/topbar-action.model';
 
-/** Icon buttons shown on the right side of the topbar. */
 export class TopbarActionsLookup {
   static getActions(): TopbarAction[] {
     return [

@@ -1,18 +1,3 @@
-// =============================================================================
-// Global stylesheet.
-//
-// Order matters: Bootstrap's layout layer first, then our tokens and base so
-// they win on any collision.
-//
-// Bootstrap is pulled in as `bootstrap-grid` — containers, the 12-column grid
-// and the utilities API only. The component layer (buttons, cards, modals,
-// navs) is deliberately excluded: PrimeNG owns interactive components, so
-// shipping Bootstrap's versions too would mean two systems styling one element
-// and ~200 kB of CSS nobody uses.
-// =============================================================================
-
-// Bootstrap's spacing scale is replaced by the project's, so its m-*, p-* and
-// g-* classes use the same numbers as the --space-N tokens (p-3 = 12px).
 @use 'spacing' as s;
 @use 'bootstrap/scss/bootstrap-grid' with (
   $spacers: (

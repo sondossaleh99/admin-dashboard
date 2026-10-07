@@ -17,13 +17,11 @@
     height: 40px;
   }
 
-  // The wrapper is a block, so the icon spans its height to centre on the input.
   .search-field__icon {
     inset-block: 0;
   }
 }
 
-// Anchors the unread badge and each button's visually-hidden label.
 .topbar__action {
   position: relative;
 }
@@ -64,7 +62,6 @@
   color: var(--color-primary-dark);
 }
 
-// The name is supporting detail; below md the avatar carries the identity.
 .topbar__identity {
   text-align: start;
   line-height: 1.2;

@@ -1,8 +1,6 @@
 :host {
   display: block;
   background: var(--color-surface-sunk);
-  // The sheen is the only motion; reduced-motion callers get a static block,
-  // handled globally in _base.scss.
   background-image: linear-gradient(
     90deg,
     transparent 0%,

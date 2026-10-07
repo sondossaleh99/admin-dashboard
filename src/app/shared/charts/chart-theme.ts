@@ -2,14 +2,6 @@ import { ApexOptions } from 'ng-apexcharts';
 
 import { ChartInk } from '../models/chart-ink.model';
 
-/**
- * One place where charts learn what the design system looks like.
- *
- * Every value is read from the CSS custom properties in `_tokens.scss`, so a
- * token change reaches the charts without touching TypeScript, and no hex code
- * is ever restated in a chart config.
- */
-
 function cssVar(name: string, fallback = ''): string {
   if (typeof document === 'undefined') {
     return fallback;
@@ -17,13 +9,6 @@ function cssVar(name: string, fallback = ''): string {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
 }
 
-/**
- * Categorical series colours, in the validated fixed order.
- *
- * Slots are assigned by position and never cycled: a fifth series on an
- * all-pairs form (donut, scatter) folds into "Other" instead of wrapping back
- * to slot 1.
- */
 export function seriesColors(count: number): string[] {
   return Array.from({ length: count }, (_, i) => cssVar(`--chart-series-${i + 1}`));
 }
@@ -40,13 +25,6 @@ export function chartInk(): ChartInk {
   };
 }
 
-/**
- * Shared chassis for every chart.
- *
- * Axes and grid are deliberately recessive, and all chart text takes an ink
- * token rather than a series colour — the coloured mark beside a label is what
- * carries identity, not the label itself.
- */
 export function baseOptions(): ApexOptions {
   const ink = chartInk();
 
@@ -56,8 +34,6 @@ export function baseOptions(): ApexOptions {
       foreColor: ink.muted,
       toolbar: { show: false },
       zoom: { enabled: false },
-      // Sized by its container, never by fixed pixels, so responsive changes
-      // are CSS changes rather than config changes.
       parentHeightOffset: 0,
       animations: {
         enabled: !prefersReducedMotion(),
@@ -99,7 +75,6 @@ export function baseOptions(): ApexOptions {
   };
 }
 
-/** Charts animate once on load, unless the viewer asked them not to. */
 export function prefersReducedMotion(): boolean {
   if (typeof window === 'undefined' || !window.matchMedia) {
     return false;
@@ -107,7 +82,6 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-/** Compact axis labels: 93438 reads as 93.4k in an 11px tick. */
 export function compactNumber(value: number): string {
   const abs = Math.abs(value);
   if (abs >= 1_000_000) {

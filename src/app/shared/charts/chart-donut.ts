@@ -4,13 +4,6 @@ import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { DonutSlice } from '../models/donut-slice.model';
 import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-theme';
 
-/**
- * Composition of a whole, with the total in the middle.
- *
- * Capped at four slices because every slice sits against every other here, and
- * the palette only validates all-pairs separation to four. A fifth category
- * folds into "Other" rather than taking an unvalidated colour.
- */
 @Component({
   selector: 'app-chart-donut',
   imports: [NgApexchartsModule],
@@ -44,7 +37,6 @@ export class ChartDonutComponent {
       colors: seriesColors(slices.length),
       series: slices.map((slice) => slice.value),
       labels: slices.map((slice) => slice.label),
-      // A 2px ring in the surface colour keeps adjacent fills from touching.
       stroke: { width: 2, colors: [ink.surface] },
       legend: { ...base.legend, show: false },
       dataLabels: { enabled: false },

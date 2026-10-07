@@ -1,6 +1,5 @@
 import { UserMenuItem } from '../models/user-menu-item.model';
 
-/** Rows shown in the topbar's user dropdown. */
 export class UserMenuLookup {
   static getItems(): UserMenuItem[] {
     return [

@@ -3,12 +3,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { NavItem } from '../../../../shared';
 
-/**
- * One sidebar row.
- *
- * Renders as a link when navigable and as a plain element when disabled, so a
- * dead destination is never focusable or announced as a link.
- */
 @Component({
   selector: 'app-sidebar-nav-item',
   imports: [RouterLink, RouterLinkActive],
@@ -20,6 +14,5 @@ export class SidebarNavItemComponent {
   item = input.required<NavItem>();
   collapsed = input(false);
 
-  /** Emitted so the mobile drawer can close itself after a navigation. */
   navigate = output<void>();
 }

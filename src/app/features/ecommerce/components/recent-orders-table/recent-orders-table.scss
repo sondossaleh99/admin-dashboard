@@ -32,14 +32,9 @@
   text-align: end;
 }
 
-// PrimeNG renders the table's own DOM outside this component's ability to
-// target it with plain class selectors once styleClass is applied to the
-// root; scoped to .orders-table so the blast radius stays this one table.
 :host ::ng-deep .orders-table {
   font-size: var(--font-size-sm);
 
-  // The card is `flush` (no body padding) so the table can run edge to edge;
-  // padding is reintroduced here at the cell level instead.
   th,
   td {
     padding: var(--space-3) var(--space-4);

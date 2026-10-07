@@ -1,34 +1,23 @@
-// =============================================================================
-// CSS custom properties.
-// The single runtime source of truth: SCSS tokens are emitted here once, so
-// component styles, PrimeNG overrides and chart configs never restate a value.
-// Import this exactly once, from styles.scss.
-// =============================================================================
-
 @use 'sass:map';
 @use 'variables' as v;
 @use 'typography' as t;
 @use 'spacing' as s;
 
 :root {
-  // -- Brand -------------------------------------------------------------
   --color-primary: #{v.$primary};
   --color-primary-dark: #{v.$primary-dark};
   --color-primary-light: #{v.$primary-light};
 
-  // -- Text --------------------------------------------------------------
   --color-text: #{v.$text-primary};
   --color-text-secondary: #{v.$text-secondary};
   --color-text-muted: #{v.$text-muted};
   --color-text-inverse: #{v.$white};
 
-  // -- Surfaces ----------------------------------------------------------
   --color-surface: #{v.$white};
   --color-surface-sunk: #{v.$surface-sunk};
   --color-background: #{v.$background-color};
   --color-border: #{v.$border-color};
 
-  // -- Status ------------------------------------------------------------
   --color-success: #{v.$success};
   --color-warning: #{v.$warning};
   --color-danger: #{v.$danger};
@@ -38,26 +27,22 @@
   --color-danger-text: #{v.$danger-text};
   --color-info-text: #{v.$info-text};
 
-  // -- Radius ------------------------------------------------------------
   --radius-sm: #{v.$radius-sm};
   --radius-md: #{v.$radius-md};
   --radius-lg: #{v.$radius-lg};
   --radius-xl: #{v.$radius-xl};
   --radius-pill: #{v.$radius-pill};
 
-  // -- Shadows -----------------------------------------------------------
   --shadow-sm: #{v.$shadow-sm};
   --shadow-md: #{v.$shadow-md};
   --shadow-lg: #{v.$shadow-lg};
 
-  // -- Layout ------------------------------------------------------------
   --sidebar-width: #{v.$sidebar-width};
   --sidebar-width-collapsed: #{v.$sidebar-width-collapsed};
   --topbar-height: #{v.$topbar-height};
   --content-padding: #{v.$content-padding-mobile};
   --grid-gutter: #{v.$grid-gutter};
 
-  // -- Typography --------------------------------------------------------
   --font-family-base: #{t.$font-family-base};
   --font-size-xs: #{t.$font-size-xs};
   --font-size-sm: #{t.$font-size-sm};
@@ -71,7 +56,6 @@
   --font-weight-semibold: #{t.$font-weight-semibold};
   --font-weight-bold: #{t.$font-weight-bold};
 
-  // -- Spacing -----------------------------------------------------------
   --space-1: #{s.$spacing-1};
   --space-2: #{s.$spacing-2};
   --space-3: #{s.$spacing-3};
@@ -83,12 +67,9 @@
   --space-12: #{s.$spacing-12};
   --space-16: #{s.$spacing-16};
 
-  // -- Motion ------------------------------------------------------------
   --transition-fast: #{v.$transition-fast};
   --transition-base: #{v.$transition-base};
 
-  // -- Charts ------------------------------------------------------------
-  // Consumed by the chart wrappers so series colors never live in TS.
   @each $slot, $hex in v.$chart-series {
     --chart-series-#{$slot}: #{$hex};
   }
@@ -97,7 +78,6 @@
   --chart-tooltip-bg: #{v.$chart-tooltip-bg};
   --chart-tooltip-text: #{v.$chart-tooltip-text};
 
-  // Content gutter widens once there is room for it.
   @media (min-width: #{v.$bp-md}) {
     --content-padding: #{v.$content-padding};
   }

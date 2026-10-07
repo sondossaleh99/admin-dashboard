@@ -1,12 +1,5 @@
-// =============================================================================
-// Small widgets that repeat across components. Each class carries the look
-// that is shared; the component adds size or position with utilities or its
-// own stylesheet.
-// =============================================================================
-
 @use 'mixins' as m;
 
-// Square icon-only button: sidebar controls (32px) and topbar actions (--lg).
 .btn-icon {
   @include m.flex-center;
   flex: none;
@@ -32,7 +25,6 @@
   font-size: var(--font-size-md);
 }
 
-// Bordered secondary button, e.g. "Retry". Disabled reads as muted.
 .btn-outline {
   padding: var(--space-2) var(--space-4);
   border: 1px solid var(--color-border);
@@ -53,7 +45,6 @@
   }
 }
 
-// Search input with a leading icon. The wrapper sets its own size and display.
 .search-field {
   position: relative;
 }
@@ -84,7 +75,6 @@
   }
 }
 
-// Round unread/count badge on a solid fill.
 .count-badge {
   border-radius: var(--radius-pill);
   background: var(--color-primary);
@@ -98,7 +88,6 @@
   background: var(--color-danger);
 }
 
-// Outlined "Soon" marker on features that are not built yet.
 .soon-tag {
   padding: 1px 5px;
   border: 1px solid var(--color-border);

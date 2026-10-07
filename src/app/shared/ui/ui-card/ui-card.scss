@@ -15,7 +15,6 @@
   padding: var(--space-6);
 }
 
-// A head followed by a body would otherwise double the gap between them.
 header + .ui-card__body {
   padding-top: var(--space-4);
 }

@@ -1,38 +1,21 @@
-// =============================================================================
-// Utility classes that Bootstrap's grid build does not ship, generated from the
-// design tokens. Same conventions as Bootstrap: one job per class, and
-// !important so a utility always wins over a component's own styles.
-//
-// Spacing numbers match the --space-N tokens: gap-3 = --space-3 = 12px. The
-// Bootstrap m-*/p-*/g-* classes follow the same scale (configured in
-// styles.scss), so p-3 is 12px as well.
-//
-// Colours that change on hover or focus belong in component or pattern styles,
-// not here: an !important utility would pin the colour and kill the hover.
-// =============================================================================
-
 $space-steps: (1, 2, 3, 4, 5, 6, 8);
 $font-sizes: (xs, sm, md, lg, xl, 2xl, 3xl);
 $font-weights: (medium, semibold, bold);
 
-// -- Layout ----------------------------------------------------------------
 @each $step in $space-steps {
   .gap-#{$step} {
     gap: var(--space-#{$step}) !important;
   }
 }
 
-// `flex: 1` (basis 0%), which Bootstrap's flex-grow-1 and flex-fill are not.
 .flex-1 {
   flex: 1 1 0% !important;
 }
 
-// Lets a flex child shrink below its content width, so text-truncate can work.
 .min-w-0 {
   min-width: 0 !important;
 }
 
-// -- Typography ------------------------------------------------------------
 @each $size in $font-sizes {
   .fs-#{$size} {
     font-size: var(--font-size-#{$size}) !important;
@@ -71,7 +54,6 @@ $font-weights: (medium, semibold, bold);
   white-space: nowrap;
 }
 
-// -- Lists -----------------------------------------------------------------
 .list-unstyled {
   padding-inline-start: 0;
   list-style: none;

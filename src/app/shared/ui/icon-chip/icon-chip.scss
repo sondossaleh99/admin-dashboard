@@ -1,6 +1,4 @@
 :host {
-  // colour-mix keeps the tint tied to the icon colour, so a new tone needs one
-  // value rather than a matching background token.
   background: color-mix(in srgb, var(--chip-color) 12%, transparent);
   color: var(--chip-color);
   border-radius: var(--radius-lg);

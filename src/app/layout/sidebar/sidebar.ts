@@ -22,7 +22,6 @@ export class SidebarComponent {
     this.layout.toggleSidebar();
   }
 
-  /** Mobile: tapping a destination should also dismiss the drawer. */
   onNavigate(): void {
     this.layout.closeDrawer();
   }

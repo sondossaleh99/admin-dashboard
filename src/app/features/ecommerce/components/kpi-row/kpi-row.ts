@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { KpiViewModel, StatCardComponent } from '../../../../shared';
 
-/** The four-tile KPI grid. Formatting is the caller's job — see EcommercePageComponent. */
 @Component({
   selector: 'app-kpi-row',
   imports: [StatCardComponent],

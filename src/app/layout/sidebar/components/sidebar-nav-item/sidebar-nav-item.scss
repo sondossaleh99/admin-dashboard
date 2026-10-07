@@ -4,12 +4,9 @@
 
 .nav-item {
   position: relative;
-  // Left padding leaves room for the active indicator so the row does not
-  // shift when it becomes active.
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
-  // Touch target: 12px padding + 20px line box clears 44px.
   min-height: 44px;
   transition:
     background var(--transition-fast),
@@ -54,8 +51,6 @@ a.nav-item:hover {
   min-width: 20px;
 }
 
-// Collapsed rail: icon only, centred, labels hidden from sight and from
-// assistive tech (the title attribute carries the name).
 :host-context(.sidebar--collapsed) {
   .nav-item {
     justify-content: center;

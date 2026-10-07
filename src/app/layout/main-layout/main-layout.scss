@@ -1,9 +1,6 @@
 @use '../../../styles/mixins' as m;
 @use '../../../styles/variables' as v;
 
-// Flex row rather than a fixed sidebar plus a content margin: the sidebar is a
-// real column on desktop, so it always spans the full page height and the
-// content needs no offset to compensate.
 .shell {
   min-height: 100vh;
 }
@@ -13,7 +10,6 @@
   width: var(--sidebar-width);
   transition: width var(--transition-base);
 
-  // Below lg the sidebar leaves the flow entirely and slides in as a drawer.
   position: fixed;
   inset-block: 0;
   inset-inline-start: 0;
@@ -47,7 +43,6 @@
   padding: var(--content-padding);
 }
 
-// Collapsed rail — desktop only. Mobile always opens the full-width drawer.
 @include m.from(lg) {
   .shell--collapsed .shell__sidebar {
     width: var(--sidebar-width-collapsed);

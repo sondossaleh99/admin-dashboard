@@ -79,7 +79,8 @@ guessed.
 2. Save screenshots (desktop ~1440px and mobile ~390px) and/or the page's rendered HTML/CSS into
    `docs/reference/` and commit them. This works offline and is the more reliable option.
 
-Everything tagged `[verify]` depends on this:
+Everything below depends on this. The code no longer carries comments, so this table is the only
+record of what is `[verify]`:
 
 | Location | What needs confirming |
 |---|---|
@@ -88,7 +89,7 @@ Everything tagged `[verify]` depends on this:
 | `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
 | `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
-| `ActivityCardComponent` | Built as a real-data activity feed, not a media/blog card — see its doc comment |
+| `ActivityCardComponent` | Built as a real-data activity feed, not a media/blog card. The plan's media card needs images and copy the data model doesn't have, so it renders the recent orders as events instead of inventing content |
 
 ---
 

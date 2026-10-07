@@ -5,7 +5,6 @@
     </span>
     <span class="sidebar__name flex-1 fs-lg fw-bold text-truncate">Shoppy</span>
 
-    <!-- Desktop: collapse to the icon rail. -->
     <button
       type="button"
       class="btn-icon d-none d-lg-flex"
@@ -22,7 +21,6 @@
       <span class="visually-hidden">{{ collapsed() ? 'Expand sidebar' : 'Collapse sidebar' }}</span>
     </button>
 
-    <!-- Mobile: dismiss the drawer. -->
     <button type="button" class="btn-icon d-lg-none" (click)="closeDrawer()">
       <i class="pi pi-times" aria-hidden="true"></i>
       <span class="visually-hidden">Close navigation</span>
