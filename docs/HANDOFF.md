@@ -107,13 +107,14 @@ src/app/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        19 shared interfaces (see §6)
+    models/        18 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
     lookup/        6 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
+    pipes/         KpiValuePipe (formats a KPI value by its KpiFormat)
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (orchestrator) + components/ (7)
                    + service.ts (EcommerceService: fixtures as an Observable)
@@ -139,7 +140,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `export * from '…'`. A folder wrapping one component exports that file. A parent exports its
    child *folders*, never a file inside them: `export * from './ui-card'`, not
    `'./ui-card/ui-card'`. Flat multi-file folders (`enum`, `models`, `lookup`, `charts`,
-   `imports`, `core/data`, `core/services`) list their files in one `index.ts`. Root barrels:
+   `imports`, `pipes`, `core/data`, `core/services`) list their files in one `index.ts`. Root barrels:
    `shared`, `core`, `layout`, `features`.
 
 2. **Component class names end in `Component`.** `WeeklyStatsCardComponent`, `UiCardComponent`,
@@ -205,8 +206,10 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - A feature's own service and mock data sit directly in the feature folder as `service.ts` and
      `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
      feature has more than one such file.
-   - Page logic (derived values, formatting, mapping) gets a spec. Specs render the page with its
+   - Page logic (derived values, mapping) gets a spec. Specs render the page with its
      template overridden to `''`, so they test the logic without mounting charts.
+   - Formatting a value for display is a pipe in `shared/pipes/`, not a page method. Each pipe
+     gets its own spec.
    - Never guess a visual detail the design tokens don't define.
 
 11. **Styling: utilities first.** Layout, spacing and type go in the template as classes. A
@@ -238,7 +241,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `KpiViewModel`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+| `shared/models/` (18) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay

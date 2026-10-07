@@ -1,20 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  LOCALE_ID,
-  computed,
-  inject,
-  signal
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { formatCurrency, formatNumber, formatPercent } from '@angular/common';
 
 import {
   ActivityEvent,
   ComboSeries,
   EmptyStateComponent,
-  KpiFormat,
-  KpiViewModel,
   Order,
   OrderActivityLookup,
   RevenueRange,
@@ -54,7 +44,6 @@ import {
 })
 export class EcommercePageComponent {
   service = inject(EcommerceService);
-  locale = inject(LOCALE_ID);
 
   dashboard = rxResource({
     stream: () => this.service.getDashboard()
@@ -85,13 +74,6 @@ export class EcommercePageComponent {
     { name: 'Expense', data: this.revenue().map((p) => p.expense) }
   ]);
 
-  kpis = computed<KpiViewModel[]>(() =>
-    (this.data()?.kpis ?? []).map((kpi) => ({
-      ...kpi,
-      display: this.format(kpi.value, kpi.format)
-    }))
-  );
-
   salesTotal = computed(() =>
     (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
   );
@@ -118,16 +100,5 @@ export class EcommercePageComponent {
       detail: `${order.customer} · ${order.item}`,
       timestamp: order.placedAt
     };
-  }
-
-  format(value: number, as: KpiFormat): string {
-    switch (as) {
-      case KpiFormat.Currency:
-        return formatCurrency(value, this.locale, '$', 'USD', '1.0-0');
-      case KpiFormat.Percent:
-        return formatPercent(value / 100, this.locale, '1.0-1');
-      default:
-        return formatNumber(value, this.locale, '1.0-0');
-    }
   }
 }

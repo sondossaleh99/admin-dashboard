@@ -135,12 +135,6 @@ describe('EcommercePageComponent', () => {
     });
   });
 
-  it('formats each KPI by its own format', async () => {
-    const { page } = await setup();
-
-    expect(page.kpis().map((kpi) => kpi.display)).toEqual(['39,354', '$42,339', '12.5%']);
-  });
-
   it('totals the sales breakdown', async () => {
     const { page } = await setup();
 
@@ -174,7 +168,7 @@ describe('EcommercePageComponent', () => {
       const { page } = await setup(() => throwError(() => new Error('offline')));
 
       expect(page.error()).toBeTrue();
-      expect(page.kpis()).toEqual([]);
+      expect(page.data()).toBeUndefined();
       expect(page.activity()).toEqual([]);
     });
 
