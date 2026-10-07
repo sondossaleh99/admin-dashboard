@@ -1,0 +1,60 @@
+$space-steps: (1, 2, 3, 4, 5, 6, 8);
+$font-sizes: (xs, sm, md, lg, xl, 2xl, 3xl);
+$font-weights: (medium, semibold, bold);
+
+@each $step in $space-steps {
+  .gap-#{$step} {
+    gap: var(--space-#{$step}) !important;
+  }
+}
+
+.flex-1 {
+  flex: 1 1 0% !important;
+}
+
+.min-w-0 {
+  min-width: 0 !important;
+}
+
+@each $size in $font-sizes {
+  .fs-#{$size} {
+    font-size: var(--font-size-#{$size}) !important;
+  }
+}
+
+@each $weight in $font-weights {
+  .fw-#{$weight} {
+    font-weight: var(--font-weight-#{$weight}) !important;
+  }
+}
+
+.text-body {
+  color: var(--color-text) !important;
+}
+
+.text-secondary {
+  color: var(--color-text-secondary) !important;
+}
+
+.text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-unstyled {
+  padding-inline-start: 0;
+  list-style: none;
+}

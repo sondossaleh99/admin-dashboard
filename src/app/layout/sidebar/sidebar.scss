@@ -6,8 +6,6 @@
 }
 
 .sidebar {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   background: var(--color-surface);
   border-inline-end: 1px solid var(--color-border);
@@ -15,13 +13,9 @@
 }
 
 .sidebar__brand {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
   height: var(--topbar-height);
   padding-inline: var(--space-4);
   border-bottom: 1px solid var(--color-border);
-  flex: none;
 }
 
 .sidebar__mark {
@@ -32,52 +26,13 @@
   border-radius: var(--radius-md);
   background: var(--color-primary);
   color: var(--color-text-inverse);
-  font-size: var(--font-size-md);
 }
 
 .sidebar__name {
-  flex: 1;
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
   letter-spacing: -0.01em;
-  @include m.truncate;
-}
-
-.sidebar__collapse,
-.sidebar__close {
-  @include m.flex-center;
-  flex: none;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--color-text-muted);
-  cursor: pointer;
-
-  &:hover {
-    background: var(--color-surface-sunk);
-    color: var(--color-text);
-  }
-}
-
-.sidebar__collapse {
-  display: none;
-
-  @include m.from(lg) {
-    display: flex;
-  }
-}
-
-.sidebar__close {
-  @include m.from(lg) {
-    display: none;
-  }
 }
 
 .sidebar__nav {
-  flex: 1;
   overflow-y: auto;
   padding: var(--space-4) var(--space-3) var(--space-6);
 }
@@ -89,11 +44,8 @@
 .sidebar__group-label {
   padding-inline: var(--space-4);
   margin-bottom: var(--space-2);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
 }
 
 :host(.sidebar--collapsed) {

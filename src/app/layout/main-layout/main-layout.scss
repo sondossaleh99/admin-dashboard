@@ -2,7 +2,6 @@
 @use '../../../styles/variables' as v;
 
 .shell {
-  display: flex;
   min-height: 100vh;
 }
 
@@ -40,15 +39,7 @@
   }
 }
 
-.shell__main {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-width: 0;
-}
-
 .shell__content {
-  flex: 1;
   padding: var(--content-padding);
 }
 

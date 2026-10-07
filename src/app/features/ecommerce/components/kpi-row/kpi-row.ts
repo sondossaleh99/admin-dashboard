@@ -6,7 +6,7 @@ import { KpiViewModel, StatCardComponent } from '../../../../shared';
   selector: 'app-kpi-row',
   imports: [StatCardComponent],
   template: `
-    <div class="row g-4">
+    <div class="row g-6">
       @for (kpi of kpis(); track kpi.id) {
         <div class="col-12 col-sm-6 col-xl-3">
           <app-stat-card

@@ -3,15 +3,15 @@
   [subtitle]="(total() | currency: 'USD' : 'symbol' : '1.0-0') + ' total'"
 >
   <app-chart-donut [slices]="slices()" centerLabel="Sales" [height]="220" />
-  <ul class="slices">
+  <ul class="list-unstyled mt-4 mb-0 d-flex flex-column gap-4">
     @for (slice of slices(); track slice.label; let i = $index) {
-      <li>
+      <li class="d-flex align-items-center gap-3">
         <span
-          class="slices__swatch"
+          class="slices__swatch flex-shrink-0"
           [style.background]="'var(--chart-series-' + (i + 1) + ')'"
         ></span>
-        <span class="slices__label">{{ slice.label }}</span>
-        <span class="slices__value tabular-nums">{{ slice.value | number: '1.0-0' }}</span>
+        <span class="flex-1 fs-sm text-secondary text-truncate">{{ slice.label }}</span>
+        <span class="tabular-nums fs-sm fw-semibold">{{ slice.value | number: '1.0-0' }}</span>
       </li>
     }
   </ul>

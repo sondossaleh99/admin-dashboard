@@ -1,9 +1,9 @@
 <app-ui-card title="Recent orders" [subtitle]="subtitle()" [flush]="true">
-  <div card-actions class="search">
-    <i class="pi pi-search" aria-hidden="true"></i>
+  <div card-actions class="search-field d-flex align-items-center">
+    <i class="pi pi-search search-field__icon fs-xs" aria-hidden="true"></i>
     <input
       type="search"
-      class="search__input"
+      class="search__input search-field__input fs-xs"
       placeholder="Search orders"
       autocomplete="off"
       aria-label="Search orders"
@@ -37,7 +37,7 @@
     <ng-template #body let-order>
       <tr>
         <td>
-          <span class="order-id">#{{ order.id }}</span>
+          <span class="text-muted fs-xs me-1">#{{ order.id }}</span>
           {{ order.customer }}
         </td>
         <td class="col-item">{{ order.item }}</td>
@@ -53,7 +53,9 @@
 
     <ng-template #emptymessage>
       <tr>
-        <td colspan="5" class="empty">No orders match &ldquo;{{ searchTerm() }}&rdquo;.</td>
+        <td colspan="5" class="text-center p-8 text-muted fs-sm">
+          No orders match &ldquo;{{ searchTerm() }}&rdquo;.
+        </td>
       </tr>
     </ng-template>
   </p-table>

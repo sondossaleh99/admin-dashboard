@@ -209,6 +209,27 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      template overridden to `''`, so they test the logic without mounting charts.
    - Never guess a visual detail the design tokens don't define.
 
+11. **Styling: utilities first.** Layout, spacing and type go in the template as classes. A
+    component's `.scss` holds only what is unique to it: states (`--active`, `--collapsed`, hover),
+    `position`/`z-index`, fixed sizes, animation, `::ng-deep`, and tints. Anything that changes
+    with a state stays in SCSS, because an `!important` utility would override the state. When a
+    host element owns the layout, put the classes in the component's `host: { class: '…' }`.
+
+    | Need | Classes | Source |
+    |---|---|---|
+    | Flex layout | `d-flex`, `d-inline-flex`, `flex-column`, `flex-wrap`, `align-items-*`, `justify-content-*`, `flex-shrink-0`, `flex-1` (= `flex: 1`), `min-w-0` | Bootstrap grid build + `_utilities.scss` |
+    | Show/hide by width | `d-none d-md-block`, `d-lg-none`, … (breakpoints match `$bp-*`) | Bootstrap |
+    | Spacing | `m-*`, `p-*`, `mt-*`, `px-*`, … and `gap-*`: steps 0–6 and 8, equal to `--space-N` (`p-3` = 12px) | Bootstrap (scale set in `styles.scss`) + `_utilities.scss` |
+    | Grid gutters | `row g-6` (24px), same scale | Bootstrap |
+    | Type | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums` | `_utilities.scss`, `_base.scss` |
+    | Lists | `list-unstyled` (add `m-0` to drop the default margin) | `_utilities.scss` |
+    | Repeated widgets | `btn-icon` (+`--lg`), `btn-outline`, `search-field` (+`__icon`, `__input`), `count-badge` (+`--danger`), `soon-tag` | `_patterns.scss` |
+
+    Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
+    computed-style diff of every element, compared before and after, across the UI states
+    (desktop, mobile, collapsed rail, drawer, user menu, 6-month range, empty search, loading,
+    error, 404).
+
 ---
 
 ## 6. Models — current placement and a reverted attempt

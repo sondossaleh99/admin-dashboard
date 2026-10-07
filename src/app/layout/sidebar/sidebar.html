@@ -1,13 +1,13 @@
-<nav class="sidebar" aria-label="Main">
-  <div class="sidebar__brand">
-    <span class="sidebar__mark" aria-hidden="true">
+<nav class="sidebar d-flex flex-column" aria-label="Main">
+  <div class="sidebar__brand d-flex align-items-center gap-3 flex-shrink-0">
+    <span class="sidebar__mark fs-md" aria-hidden="true">
       <i class="pi pi-bolt"></i>
     </span>
-    <span class="sidebar__name">Shoppy</span>
+    <span class="sidebar__name flex-1 fs-lg fw-bold text-truncate">Shoppy</span>
 
     <button
       type="button"
-      class="sidebar__collapse"
+      class="btn-icon d-none d-lg-flex"
       (click)="toggle()"
       [attr.aria-expanded]="!collapsed()"
       aria-controls="sidebar-nav"
@@ -21,16 +21,16 @@
       <span class="visually-hidden">{{ collapsed() ? 'Expand sidebar' : 'Collapse sidebar' }}</span>
     </button>
 
-    <button type="button" class="sidebar__close" (click)="closeDrawer()">
+    <button type="button" class="btn-icon d-lg-none" (click)="closeDrawer()">
       <i class="pi pi-times" aria-hidden="true"></i>
       <span class="visually-hidden">Close navigation</span>
     </button>
   </div>
 
-  <div class="sidebar__nav" id="sidebar-nav">
+  <div class="sidebar__nav flex-1" id="sidebar-nav">
     @for (group of groups; track group.label) {
       <div class="sidebar__group">
-        <h2 class="sidebar__group-label">{{ group.label }}</h2>
+        <h2 class="sidebar__group-label fs-xs fw-semibold text-muted">{{ group.label }}</h2>
         @for (item of group.items; track item.route) {
           <app-sidebar-nav-item [item]="item" [collapsed]="collapsed()" (navigate)="onNavigate()" />
         }

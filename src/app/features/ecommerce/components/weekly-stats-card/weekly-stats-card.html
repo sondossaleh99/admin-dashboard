@@ -1,13 +1,13 @@
 <app-ui-card title="Weekly stats">
-  <ul class="stats">
+  <ul class="list-unstyled m-0 d-flex flex-column gap-5">
     @for (stat of stats(); track stat.id) {
-      <li>
+      <li class="d-flex align-items-center gap-3">
         <app-icon-chip [icon]="stat.icon" [size]="IconChipSize.Small" />
-        <span class="stats__text">
-          <span class="stats__label">{{ stat.label }}</span>
-          <span class="stats__caption">{{ stat.caption }}</span>
+        <span class="flex-1 min-w-0">
+          <span class="d-block fs-sm fw-medium">{{ stat.label }}</span>
+          <span class="d-block fs-xs text-muted">{{ stat.caption }}</span>
         </span>
-        <span class="stats__spark">
+        <span class="stats__spark flex-shrink-0">
           <app-chart-sparkline [data]="stat.trend" [slot]="2" [height]="36" [filled]="false" />
         </span>
         <app-delta-badge [value]="stat.delta" />

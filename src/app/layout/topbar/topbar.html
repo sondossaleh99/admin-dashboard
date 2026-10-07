@@ -1,14 +1,22 @@
-<header class="topbar">
-  <button type="button" class="topbar__icon topbar__menu" (click)="openDrawer()">
+<header class="topbar d-flex align-items-center gap-3">
+  <button
+    type="button"
+    class="topbar__action btn-icon btn-icon--lg d-lg-none"
+    (click)="openDrawer()"
+  >
     <i class="pi pi-bars" aria-hidden="true"></i>
     <span class="visually-hidden">Open navigation</span>
   </button>
 
-  <div class="topbar__search">
-    <i class="pi pi-search" aria-hidden="true"></i>
+  <div class="topbar__search search-field d-none d-md-block flex-1">
+    <i
+      class="pi pi-search search-field__icon d-flex align-items-center fs-sm"
+      aria-hidden="true"
+    ></i>
     <input
       type="search"
       id="topbar-search"
+      class="search-field__input"
       placeholder="Search"
       autocomplete="off"
       [value]="search()"
@@ -17,12 +25,14 @@
     <label class="visually-hidden" for="topbar-search">Search</label>
   </div>
 
-  <div class="topbar__actions">
+  <div class="d-flex align-items-center gap-1 ms-auto">
     @for (action of actions; track action.icon) {
-      <button type="button" class="topbar__icon">
+      <button type="button" class="topbar__action btn-icon btn-icon--lg">
         <i class="pi {{ action.icon }}" aria-hidden="true"></i>
         @if (action.badge) {
-          <span class="topbar__badge" aria-hidden="true">{{ action.badge }}</span>
+          <span class="topbar__badge count-badge count-badge--danger" aria-hidden="true">
+            {{ action.badge }}
+          </span>
         }
         <span class="visually-hidden">
           {{ action.label }}{{ action.badge ? ', ' + action.badge + ' unread' : '' }}
@@ -33,30 +43,38 @@
     <div class="topbar__user-wrap">
       <button
         type="button"
-        class="topbar__user"
+        class="topbar__user d-flex align-items-center gap-2 px-2 py-0"
         #userButton
         (click)="toggleUserMenu()"
         [attr.aria-expanded]="userMenuOpen()"
         aria-haspopup="menu"
         aria-controls="user-menu"
       >
-        <span class="topbar__avatar" aria-hidden="true">{{ user.initials }}</span>
-        <span class="topbar__identity">
-          <span class="topbar__greeting">Hi,</span>
-          <span class="topbar__name">{{ user.name }}</span>
+        <span
+          class="topbar__avatar d-flex align-items-center justify-content-center flex-shrink-0 fs-xs fw-semibold"
+          aria-hidden="true"
+          >{{ user.initials }}</span
+        >
+        <span class="topbar__identity d-none d-md-block">
+          <span class="d-block fs-xs text-muted">Hi,</span>
+          <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
         </span>
-        <i class="pi pi-angle-down topbar__chevron" aria-hidden="true"></i>
+        <i class="pi pi-angle-down d-none d-md-block fs-xs text-muted" aria-hidden="true"></i>
       </button>
 
       @if (userMenuOpen()) {
-        <div class="topbar__dropdown" id="user-menu" role="menu">
-          <div class="topbar__dropdown-head">
-            <span class="topbar__dropdown-name">{{ user.name }}</span>
-            <span class="topbar__dropdown-role">{{ user.role }}</span>
+        <div class="topbar__dropdown p-2" id="user-menu" role="menu">
+          <div class="topbar__dropdown-head pt-2 px-3 pb-3 mb-2">
+            <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
+            <span class="d-block fs-xs text-muted">{{ user.role }}</span>
           </div>
           @for (entry of userMenu; track entry.label) {
-            <button type="button" class="topbar__dropdown-item" role="menuitem">
-              <i class="pi {{ entry.icon }}" aria-hidden="true"></i>
+            <button
+              type="button"
+              class="topbar__dropdown-item d-flex align-items-center gap-3 py-2 px-3"
+              role="menuitem"
+            >
+              <i class="pi {{ entry.icon }} fs-sm text-muted" aria-hidden="true"></i>
               {{ entry.label }}
             </button>
           }

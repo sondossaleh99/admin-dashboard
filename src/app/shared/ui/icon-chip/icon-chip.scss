@@ -1,8 +1,4 @@
-@use '../../../../styles/mixins' as m;
-
 :host {
-  @include m.flex-center;
-  flex: none;
   background: color-mix(in srgb, var(--chip-color) 12%, transparent);
   color: var(--chip-color);
   border-radius: var(--radius-lg);

@@ -16,6 +16,7 @@ import { SHARED_IMPORTS } from '../../imports/shared-imports';
   `,
   styleUrl: './delta-badge.scss',
   host: {
+    class: 'd-inline-flex align-items-center gap-1 fs-xs fw-semibold',
     '[class.delta-badge--up]': 'isUp()',
     '[class.delta-badge--down]': '!isUp()',
     '[attr.aria-label]': 'label()'

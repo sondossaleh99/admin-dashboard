@@ -50,7 +50,6 @@ import {
     ActivityCardComponent
   ],
   templateUrl: './ecommerce-page.html',
-  styleUrl: './ecommerce-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EcommercePageComponent {

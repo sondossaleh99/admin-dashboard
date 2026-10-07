@@ -1,44 +1,8 @@
 @use '../../../../../styles/mixins' as m;
 
-.search {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  .pi {
-    position: absolute;
-    inset-inline-start: var(--space-3);
-    color: var(--color-text-muted);
-    font-size: var(--font-size-xs);
-    pointer-events: none;
-  }
-}
-
 .search__input {
   width: 180px;
   height: 32px;
-  padding-inline: var(--space-8) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-background);
-  font: inherit;
-  font-size: var(--font-size-xs);
-  color: var(--color-text);
-
-  &::placeholder {
-    color: var(--color-text-muted);
-  }
-
-  &:focus {
-    background: var(--color-surface);
-    border-color: var(--color-primary);
-  }
-}
-
-.order-id {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-xs);
-  margin-inline-end: var(--space-1);
 }
 
 .status {
@@ -66,13 +30,6 @@
 
 .col-total {
   text-align: end;
-}
-
-.empty {
-  text-align: center;
-  padding: var(--space-8) !important;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
 }
 
 :host ::ng-deep .orders-table {
