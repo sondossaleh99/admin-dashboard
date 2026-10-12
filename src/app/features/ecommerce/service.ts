@@ -9,6 +9,10 @@ import { EcommerceDashboard } from '../../shared';
 export class EcommerceService {
   latencyMs = 300;
 
+  getDashboard(): Observable<EcommerceDashboard> {
+    return of(ECOMMERCE_DASHBOARD).pipe(delay(this.latencyMs));
+  }
+
   dashboard = rxResource({
     stream: () => this.getDashboard()
   });
@@ -16,10 +20,6 @@ export class EcommerceService {
   data = computed(() => (this.dashboard.hasValue() ? this.dashboard.value() : undefined));
   loading = computed(() => this.dashboard.status() === 'loading');
   error = computed(() => this.dashboard.status() === 'error');
-
-  getDashboard(): Observable<EcommerceDashboard> {
-    return of(ECOMMERCE_DASHBOARD).pipe(delay(this.latencyMs));
-  }
 
   retry(): void {
     this.dashboard.reload();
