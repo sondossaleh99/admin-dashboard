@@ -117,7 +117,7 @@ src/app/
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat),
                    OrderStatusLabelPipe (labels an OrderStatus)
   features/                        no root barrel: routes import each feature's own index.ts
-    ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (7)
+    ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (8, incl. the loading skeleton)
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
                      owns data, loading, error and retry; provided by the page)
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])

@@ -1,14 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import {
-  EmptyStateComponent,
-  SHARED_IMPORTS,
-  SectionHeaderComponent,
-  SkeletonBlockComponent
-} from '../../shared';
+import { EmptyStateComponent, SHARED_IMPORTS, SectionHeaderComponent } from '../../shared';
 import { EcommerceService } from './service';
 import {
   ActivityCardComponent,
+  DashboardSkeletonComponent,
   EarningsHeroComponent,
   KpiRowComponent,
   RecentOrdersTableComponent,
@@ -22,8 +18,8 @@ import {
   imports: [
     ...SHARED_IMPORTS,
     SectionHeaderComponent,
-    SkeletonBlockComponent,
     EmptyStateComponent,
+    DashboardSkeletonComponent,
     EarningsHeroComponent,
     KpiRowComponent,
     RevenueUpdatesCardComponent,
