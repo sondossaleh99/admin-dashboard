@@ -7,7 +7,7 @@ import { baseOptions, seriesColors } from './chart-theme';
   selector: 'app-chart-sparkline',
   imports: [NgApexchartsModule],
   templateUrl: './chart-sparkline.html',
-  styles: [':host { display: block; }'],
+  host: { class: 'd-block' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartSparklineComponent {
