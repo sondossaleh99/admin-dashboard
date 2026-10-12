@@ -23,6 +23,16 @@ function setup() {
 }
 
 describe('RevenueUpdatesCardComponent', () => {
+  it('offers the six- and twelve-month ranges, in that order', () => {
+    const { card } = setup();
+
+    expect(card.ranges).toEqual([RevenueRange.SixMonths, RevenueRange.TwelveMonths]);
+    expect(card.ranges.map((range) => card.rangeOptions[range].label)).toEqual([
+      '6 months',
+      '12 months'
+    ]);
+  });
+
   it('shows all twelve months by default', () => {
     const { card } = setup();
 

@@ -5,7 +5,9 @@ import {
   ComboSeries,
   RevenuePoint,
   RevenueRange,
+  RevenueRangeLookup,
   RevenueTotals,
+  RevenueTotalsLookup,
   SHARED_IMPORTS
 } from '../../../../shared';
 
@@ -17,22 +19,23 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RevenueUpdatesCardComponent {
-  RevenueRange = RevenueRange;
+  ranges = Object.values(RevenueRange);
+  rangeOptions = RevenueRangeLookup.getOptions();
+
+  totalKeys: (keyof RevenueTotals)[] = ['budget', 'expense', 'margin'];
+  totalLabels = RevenueTotalsLookup.getLabels();
 
   points = input.required<RevenuePoint[]>();
 
   range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
-  visiblePoints = computed(() => {
-    const points = this.points();
-    return this.range() === RevenueRange.SixMonths ? points.slice(-6) : points;
-  });
+  visiblePoints = computed(() => this.points().slice(-this.rangeOptions[this.range()].months));
 
   periods = computed(() => this.visiblePoints().map((p) => p.period));
 
   series = computed<ComboSeries[]>(() => [
-    { name: 'Budget', data: this.visiblePoints().map((p) => p.budget) },
-    { name: 'Expense', data: this.visiblePoints().map((p) => p.expense) }
+    { name: this.totalLabels.budget, data: this.visiblePoints().map((p) => p.budget) },
+    { name: this.totalLabels.expense, data: this.visiblePoints().map((p) => p.expense) }
   ]);
 
   totals = computed<RevenueTotals>(() => {

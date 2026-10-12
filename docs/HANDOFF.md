@@ -107,9 +107,9 @@ src/app/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        18 shared interfaces (see §6)
+    models/        19 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
-    lookup/        6 *Lookup classes
+    lookup/        8 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
@@ -177,9 +177,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getLabels()`). Each getter returns a fresh
-   literal, with no `readonly` return types. The six today: `OrderActivityLookup`,
+   literal, with no `readonly` return types. The eight today: `OrderActivityLookup`,
    `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
-   `IconChipToneLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
+   `IconChipToneLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[CurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
@@ -248,7 +248,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (18) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `RevenueRangeConfig`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
