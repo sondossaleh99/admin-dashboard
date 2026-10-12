@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID } from '@angular/core';
+import { ApplicationConfig, DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -12,6 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     { provide: LOCALE_ID, useValue: 'en-US' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'USD' },
 
     providePrimeNG({
       theme: {

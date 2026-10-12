@@ -21,7 +21,7 @@
       <div>
         <p class="fs-xs text-muted">{{ totalLabels[key] }}</p>
         <p class="tabular-nums mt-1 fs-xl fw-semibold">
-          {{ totals()[key] | currency: 'USD' : 'symbol' : '1.0-0' }}
+          {{ totals()[key] | money }}
         </p>
       </div>
     }
