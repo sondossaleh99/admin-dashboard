@@ -90,35 +90,12 @@ describe('EcommercePageComponent', () => {
     expect(page.data()).toEqual(DASHBOARD);
   });
 
-  describe('activity', () => {
-    it('shows the five most recent orders', async () => {
-      const { page } = await setup();
-
-      expect(page.activity().map((event) => event.id)).toEqual(['1', '2', '3', '4', '5']);
-    });
-
-    it('describes each order by its status', async () => {
-      const { page } = await setup();
-
-      expect(page.activity().map((event) => event.title)).toEqual([
-        'Order #1 was paid',
-        'Order #2 is awaiting payment',
-        'Order #3 was refunded',
-        'Order #4 was cancelled',
-        'Order #5 was paid'
-      ]);
-      expect(page.activity()[0].detail).toBe('Customer 1 · Item 1');
-      expect(page.activity()[0].timestamp).toBe('2026-09-14');
-    });
-  });
-
   describe('when the request fails', () => {
     it('reports the error and loads nothing', async () => {
       const { page } = await setup(() => throwError(() => new Error('offline')));
 
       expect(page.error()).toBeTrue();
       expect(page.data()).toBeUndefined();
-      expect(page.activity()).toEqual([]);
     });
 
     it('asks the service again on retry', async () => {

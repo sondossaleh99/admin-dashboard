@@ -2,10 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import {
-  ActivityEvent,
   EmptyStateComponent,
-  Order,
-  OrderActivityLookup,
   SHARED_IMPORTS,
   SectionHeaderComponent,
   SkeletonBlockComponent
@@ -50,23 +47,7 @@ export class EcommercePageComponent {
   loading = computed(() => this.dashboard.status() === 'loading');
   error = computed(() => this.dashboard.status() === 'error');
 
-  activity = computed<ActivityEvent[]>(() =>
-    (this.data()?.recentOrders ?? []).slice(0, 5).map((order) => this.toActivityEvent(order))
-  );
-
   retry(): void {
     this.dashboard.reload();
-  }
-
-  toActivityEvent(order: Order): ActivityEvent {
-    const meta = OrderActivityLookup.getActivity()[order.status];
-    return {
-      id: order.id,
-      icon: meta.icon,
-      tone: meta.tone,
-      title: `Order #${order.id} ${meta.verb}`,
-      detail: `${order.customer} · ${order.item}`,
-      timestamp: order.placedAt
-    };
   }
 }
