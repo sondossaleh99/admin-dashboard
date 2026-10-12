@@ -135,12 +135,6 @@ describe('EcommercePageComponent', () => {
     });
   });
 
-  it('totals the sales breakdown', async () => {
-    const { page } = await setup();
-
-    expect(page.salesTotal()).toBe(500);
-  });
-
   describe('activity', () => {
     it('shows the five most recent orders', async () => {
       const { page } = await setup();

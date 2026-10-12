@@ -74,10 +74,6 @@ export class EcommercePageComponent {
     { name: 'Expense', data: this.revenue().map((p) => p.expense) }
   ]);
 
-  salesTotal = computed(() =>
-    (this.data()?.salesBreakdown ?? []).reduce((sum, slice) => sum + slice.value, 0)
-  );
-
   activity = computed<ActivityEvent[]>(() =>
     (this.data()?.recentOrders ?? []).slice(0, 5).map((order) => this.toActivityEvent(order))
   );
