@@ -114,7 +114,8 @@ src/app/
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
-    pipes/         KpiValuePipe (formats a KPI value by its KpiFormat)
+    pipes/         KpiValuePipe (formats a KPI value by its KpiFormat),
+                   OrderStatusLabelPipe (labels an OrderStatus)
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (7)
                    + service.ts (EcommerceService: loads the fixtures through rxResource and

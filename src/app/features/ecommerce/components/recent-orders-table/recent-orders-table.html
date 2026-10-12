@@ -2,12 +2,13 @@
   <div card-actions class="search-field d-flex align-items-center">
     <i class="pi pi-search search-field__icon fs-xs" aria-hidden="true"></i>
     <input
+      #search
       type="search"
       class="search__input search-field__input fs-xs"
       placeholder="Search orders"
       autocomplete="off"
       aria-label="Search orders"
-      (input)="onSearchInput($any($event.target).value, dt)"
+      (input)="onSearchInput(search.value)"
     />
   </div>
 
@@ -43,7 +44,9 @@
         <td class="col-item">{{ order.item }}</td>
         <td>{{ order.placedAt | date: 'd MMM' }}</td>
         <td>
-          <span class="status status--{{ order.status }}">{{ statusLabelFor(order.status) }}</span>
+          <span class="status status--{{ order.status }}">{{
+            order.status | orderStatusLabel
+          }}</span>
         </td>
         <td class="col-total tabular-nums">
           {{ order.total | currency: 'USD' : 'symbol' : '1.2-2' }}
