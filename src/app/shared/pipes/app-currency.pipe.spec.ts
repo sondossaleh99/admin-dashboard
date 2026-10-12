@@ -1,16 +1,16 @@
 import { DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { MoneyPipe } from './money.pipe';
+import { AppCurrencyPipe } from './app-currency.pipe';
 
 function createPipe(currencyCode = 'USD') {
   TestBed.configureTestingModule({
     providers: [{ provide: DEFAULT_CURRENCY_CODE, useValue: currencyCode }]
   });
-  return TestBed.runInInjectionContext(() => new MoneyPipe());
+  return TestBed.runInInjectionContext(() => new AppCurrencyPipe());
 }
 
-describe('MoneyPipe', () => {
+describe('AppCurrencyPipe', () => {
   it('formats whole dollars by default', () => {
     expect(createPipe().transform(424438.4)).toBe('$424,438');
   });

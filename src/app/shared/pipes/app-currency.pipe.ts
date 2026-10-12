@@ -1,8 +1,8 @@
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 
-@Pipe({ name: 'money' })
-export class MoneyPipe implements PipeTransform {
+@Pipe({ name: 'appCurrency' })
+export class AppCurrencyPipe implements PipeTransform {
   locale = inject(LOCALE_ID);
   currencyCode = inject(DEFAULT_CURRENCY_CODE);
 

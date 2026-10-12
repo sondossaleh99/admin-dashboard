@@ -1,3 +1,3 @@
+export * from './app-currency.pipe';
 export * from './kpi-value.pipe';
-export * from './money.pipe';
 export * from './order-status-label.pipe';

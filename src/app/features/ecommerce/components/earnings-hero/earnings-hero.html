@@ -3,7 +3,7 @@
     <div>
       <p class="fs-sm text-secondary">{{ earnings().label }}</p>
       <p class="hero__value tabular-nums mt-1 mb-3 fs-3xl fw-bold">
-        {{ earnings().total | money: 2 }}
+        {{ earnings().total | appCurrency: 2 }}
       </p>
       <app-delta-badge [value]="earnings().delta" />
     </div>
@@ -16,13 +16,13 @@
       <div>
         <p class="fs-xs text-muted">Budget</p>
         <p class="tabular-nums mt-1 fs-lg fw-semibold">
-          {{ earnings().budget | money }}
+          {{ earnings().budget | appCurrency }}
         </p>
       </div>
       <div>
         <p class="fs-xs text-muted">Expense</p>
         <p class="tabular-nums mt-1 fs-lg fw-semibold">
-          {{ earnings().expense | money }}
+          {{ earnings().expense | appCurrency }}
         </p>
       </div>
     </div>

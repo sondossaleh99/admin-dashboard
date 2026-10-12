@@ -116,7 +116,7 @@ src/app/
     imports/       SHARED_IMPORTS
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat),
                    OrderStatusLabelPipe (labels an OrderStatus),
-                   MoneyPipe (formats an amount in the app's default currency)
+                   AppCurrencyPipe (formats an amount in the app's default currency)
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (8, incl. the loading skeleton)
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
@@ -183,7 +183,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `IconChipToneLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
 
-8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[MoneyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
+8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
    spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartCombo]`. It's
    a plain array on purpose: importing a wrapper component does **not** re-export that
    component's own imports. Kept out on purpose:
@@ -216,7 +216,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - A component with logic gets a spec. Specs render the component with its template overridden
      to `''` and set inputs through `componentRef.setInput`, so they test the logic without
      mounting charts.
-   - Amounts are formatted with `| money` (whole units) or `| money: 2` (with cents). The
+   - Amounts are formatted with `| appCurrency` (whole units) or `| appCurrency: 2` (with cents). The
      currency is set once, by `DEFAULT_CURRENCY_CODE` in `app.config.ts`, next to `LOCALE_ID`.
      Don't use Angular's `currency` pipe with a hard-coded code.
    - Formatting a value for display is a pipe in `shared/pipes/`, not a page method. Each pipe
