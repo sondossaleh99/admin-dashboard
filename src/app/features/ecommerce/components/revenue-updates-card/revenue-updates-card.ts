@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 
 import {
   ChartComboComponent,
   ComboSeries,
+  RevenuePoint,
   RevenueRange,
   RevenueTotals,
   SHARED_IMPORTS
@@ -18,14 +19,30 @@ import {
 export class RevenueUpdatesCardComponent {
   RevenueRange = RevenueRange;
 
-  periods = input.required<string[]>();
-  series = input.required<ComboSeries[]>();
-  totals = input.required<RevenueTotals>();
-  range = input.required<RevenueRange>();
+  points = input.required<RevenuePoint[]>();
 
-  rangeChange = output<RevenueRange>();
+  range = signal<RevenueRange>(RevenueRange.TwelveMonths);
+
+  visiblePoints = computed(() => {
+    const points = this.points();
+    return this.range() === RevenueRange.SixMonths ? points.slice(-6) : points;
+  });
+
+  periods = computed(() => this.visiblePoints().map((p) => p.period));
+
+  series = computed<ComboSeries[]>(() => [
+    { name: 'Budget', data: this.visiblePoints().map((p) => p.budget) },
+    { name: 'Expense', data: this.visiblePoints().map((p) => p.expense) }
+  ]);
+
+  totals = computed<RevenueTotals>(() => {
+    const points = this.visiblePoints();
+    const budget = points.reduce((sum, p) => sum + p.budget, 0);
+    const expense = points.reduce((sum, p) => sum + p.expense, 0);
+    return { budget, expense, margin: budget - expense };
+  });
 
   setRange(range: RevenueRange): void {
-    this.rangeChange.emit(range);
+    this.range.set(range);
   }
 }

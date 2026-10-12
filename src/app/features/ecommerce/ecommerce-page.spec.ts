@@ -1,14 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of, throwError } from 'rxjs';
 
-import {
-  EcommerceDashboard,
-  IconChipTone,
-  KpiFormat,
-  Order,
-  OrderStatus,
-  RevenueRange
-} from '../../shared';
+import { EcommerceDashboard, IconChipTone, KpiFormat, Order, OrderStatus } from '../../shared';
 import { EcommercePageComponent } from './ecommerce-page';
 import { EcommerceService } from './service';
 
@@ -95,44 +88,6 @@ describe('EcommercePageComponent', () => {
     expect(page.loading()).toBeFalse();
     expect(page.error()).toBeFalse();
     expect(page.data()).toEqual(DASHBOARD);
-  });
-
-  describe('revenue range', () => {
-    it('shows all twelve months by default', async () => {
-      const { page } = await setup();
-
-      expect(page.range()).toBe(RevenueRange.TwelveMonths);
-      expect(page.revenuePeriods()).toEqual(MONTHS);
-    });
-
-    it('keeps only the last six months for the six-month range', async () => {
-      const { page } = await setup();
-
-      page.setRange(RevenueRange.SixMonths);
-
-      expect(page.revenuePeriods()).toEqual(['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
-      expect(page.revenueSeries()).toEqual([
-        { name: 'Budget', data: [700, 800, 900, 1000, 1100, 1200] },
-        { name: 'Expense', data: [70, 80, 90, 100, 110, 120] }
-      ]);
-    });
-
-    it('recomputes the totals and margin for the selected range', async () => {
-      const { page } = await setup();
-
-      expect(page.revenueTotals()).toEqual({ budget: 7800, expense: 780, margin: 7020 });
-
-      page.setRange(RevenueRange.SixMonths);
-      expect(page.revenueTotals()).toEqual({ budget: 5700, expense: 570, margin: 5130 });
-    });
-
-    it('never mutates the source series', async () => {
-      const { page } = await setup();
-
-      page.setRange(RevenueRange.SixMonths);
-
-      expect(page.data()?.revenue.length).toBe(12);
-    });
   });
 
   describe('activity', () => {
