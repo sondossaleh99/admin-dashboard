@@ -4,7 +4,6 @@ import { Order, OrderStatus } from '../../../../shared';
 import { RecentOrdersTableComponent } from './recent-orders-table';
 
 const SEARCH_DEBOUNCE_MS = 250;
-const PRIMENG_FILTER_DELAY_MS = 300;
 
 function order(id: string, customer: string): Order {
   return {
@@ -71,7 +70,7 @@ describe('RecentOrdersTableComponent', () => {
     expect(rows()).toBe(2);
 
     fixture.componentInstance.onSearchInput('Noah');
-    tick(SEARCH_DEBOUNCE_MS + PRIMENG_FILTER_DELAY_MS);
+    tick(SEARCH_DEBOUNCE_MS);
     fixture.detectChanges();
 
     expect(rows()).toBe(1);
