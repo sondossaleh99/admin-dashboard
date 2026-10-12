@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 import { ChartDonutComponent, SHARED_IMPORTS, SalesSlice } from '../../../../shared';
 
@@ -11,5 +11,6 @@ import { ChartDonutComponent, SHARED_IMPORTS, SalesSlice } from '../../../../sha
 })
 export class SalesBreakdownCardComponent {
   slices = input.required<SalesSlice[]>();
-  total = input.required<number>();
+
+  total = computed(() => this.slices().reduce((sum, slice) => sum + slice.value, 0));
 }

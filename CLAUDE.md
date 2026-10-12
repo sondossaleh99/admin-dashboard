@@ -28,6 +28,8 @@ npm run test:ci    # one headless test run
 - One interface per file in `shared/models/`; string unions are enums in `shared/enum/`.
 - Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
+- Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
+  `DEFAULT_CURRENCY_CODE` in `app.config.ts`.
 - No hex colours in component styles: use `--color-*` tokens. Utilities first; a component's
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.

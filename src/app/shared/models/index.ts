@@ -14,6 +14,6 @@ export * from './weekly-stat.model';
 export * from './order.model';
 export * from './earnings.model';
 export * from './ecommerce-dashboard.model';
-export * from './kpi-view-model.model';
 export * from './revenue-totals.model';
 export * from './activity-event.model';
+export * from './revenue-range-config.model';

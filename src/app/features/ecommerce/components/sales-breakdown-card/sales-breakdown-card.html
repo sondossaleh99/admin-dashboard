@@ -1,7 +1,4 @@
-<app-ui-card
-  title="Sales breakdown"
-  [subtitle]="(total() | currency: 'USD' : 'symbol' : '1.0-0') + ' total'"
->
+<app-ui-card title="Sales breakdown" [subtitle]="(total() | appCurrency) + ' total'">
   <app-chart-donut [slices]="slices()" centerLabel="Sales" [height]="220" />
   <ul class="list-unstyled mt-4 mb-0 d-flex flex-column gap-4">
     @for (slice of slices(); track slice.label; let i = $index) {

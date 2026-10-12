@@ -3,45 +3,28 @@
   [subtitle]="'Budget against expense, ' + periods().length + ' months'"
 >
   <div card-actions class="range d-flex gap-1" role="group" aria-label="Period">
-    <button
-      type="button"
-      class="range__option py-1 px-3 fs-xs fw-medium"
-      [class.range__option--on]="range() === RevenueRange.SixMonths"
-      (click)="setRange(RevenueRange.SixMonths)"
-      [attr.aria-pressed]="range() === RevenueRange.SixMonths"
-    >
-      6 months
-    </button>
-    <button
-      type="button"
-      class="range__option py-1 px-3 fs-xs fw-medium"
-      [class.range__option--on]="range() === RevenueRange.TwelveMonths"
-      (click)="setRange(RevenueRange.TwelveMonths)"
-      [attr.aria-pressed]="range() === RevenueRange.TwelveMonths"
-    >
-      12 months
-    </button>
+    @for (option of ranges; track option) {
+      <button
+        type="button"
+        class="range__option py-1 px-3 fs-xs fw-medium"
+        [class.range__option--on]="range() === option"
+        (click)="setRange(option)"
+        [attr.aria-pressed]="range() === option"
+      >
+        {{ rangeOptions[option].label }}
+      </button>
+    }
   </div>
 
   <div class="totals d-flex flex-wrap gap-8 pb-5 mb-4">
-    <div>
-      <p class="fs-xs text-muted">Budget</p>
-      <p class="tabular-nums mt-1 fs-xl fw-semibold">
-        {{ totals().budget | currency: 'USD' : 'symbol' : '1.0-0' }}
-      </p>
-    </div>
-    <div>
-      <p class="fs-xs text-muted">Expense</p>
-      <p class="tabular-nums mt-1 fs-xl fw-semibold">
-        {{ totals().expense | currency: 'USD' : 'symbol' : '1.0-0' }}
-      </p>
-    </div>
-    <div>
-      <p class="fs-xs text-muted">Margin</p>
-      <p class="tabular-nums mt-1 fs-xl fw-semibold">
-        {{ totals().margin | currency: 'USD' : 'symbol' : '1.0-0' }}
-      </p>
-    </div>
+    @for (key of totalKeys; track key) {
+      <div>
+        <p class="fs-xs text-muted">{{ totalLabels[key] }}</p>
+        <p class="tabular-nums mt-1 fs-xl fw-semibold">
+          {{ totals()[key] | appCurrency }}
+        </p>
+      </div>
+    }
   </div>
 
   <app-chart-combo [categories]="periods()" [series]="series()" [height]="300" />

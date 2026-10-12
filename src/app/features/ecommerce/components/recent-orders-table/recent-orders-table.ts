@@ -1,51 +1,48 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   computed,
-  inject,
   input,
-  signal
+  signal,
+  viewChild
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Table, TableModule } from 'primeng/table';
+import { Subject, debounceTime } from 'rxjs';
 
-import { Order, OrderStatus, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
+import { Order, OrderStatusLabelPipe, SHARED_IMPORTS } from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
 @Component({
   selector: 'app-recent-orders-table',
-  imports: [...SHARED_IMPORTS, TableModule],
+  imports: [...SHARED_IMPORTS, TableModule, OrderStatusLabelPipe],
   templateUrl: './recent-orders-table.html',
   styleUrl: './recent-orders-table.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RecentOrdersTableComponent {
-  destroyRef = inject(DestroyRef);
-  debounceHandle?: ReturnType<typeof setTimeout>;
-
   orders = input.required<Order[]>();
 
-  tableValue = computed(() => [...this.orders()]);
+  table = viewChild.required<Table>('dt');
 
+  tableValue = computed(() => [...this.orders()]);
+  subtitle = computed(() => `${this.orders().length} orders`);
+
+  searchInput = new Subject<string>();
   searchTerm = signal('');
   rows = 6;
 
-  statusLabelFor(status: string): string {
-    return OrderStatusLookup.getLabels()[status as OrderStatus] ?? status;
-  }
-
-  subtitle = computed(() => `${this.orders().length} orders`);
-
   constructor() {
-    this.destroyRef.onDestroy(() => clearTimeout(this.debounceHandle));
+    this.searchInput
+      .pipe(debounceTime(SEARCH_DEBOUNCE_MS), takeUntilDestroyed())
+      .subscribe((value) => {
+        this.searchTerm.set(value);
+        this.table().filterGlobal(value, 'contains');
+      });
   }
 
-  onSearchInput(value: string, dt: Table): void {
-    clearTimeout(this.debounceHandle);
-    this.debounceHandle = setTimeout(() => {
-      this.searchTerm.set(value);
-      dt.filterGlobal(value, 'contains');
-    }, SEARCH_DEBOUNCE_MS);
+  onSearchInput(value: string): void {
+    this.searchInput.next(value);
   }
 }
