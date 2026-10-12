@@ -17,7 +17,7 @@
     [value]="tableValue()"
     [rows]="rows"
     [paginator]="orders().length > rows"
-    [globalFilterFields]="['customer', 'item', 'id', 'status']"
+    [globalFilterFields]="['customer', 'item', 'id', 'statusLabel']"
     [filterDelay]="0"
     sortField="placedAt"
     [sortOrder]="-1"
@@ -45,7 +45,7 @@
         <td class="col-item">{{ order.item }}</td>
         <td>{{ order.placedAt | date: 'd MMM' }}</td>
         <td>
-          <span class="status status--{{ order.status }}">{{
+          <span class="status" [class]="'status--' + order.statusTone">{{
             order.status | orderStatusLabel
           }}</span>
         </td>

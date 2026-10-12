@@ -6,6 +6,6 @@ import { OrderStatusLookup } from '../lookup/order-status.lookup';
 @Pipe({ name: 'orderStatusLabel' })
 export class OrderStatusLabelPipe implements PipeTransform {
   transform(status: OrderStatus): string {
-    return OrderStatusLookup.getLabels()[status];
+    return OrderStatusLookup.getLabel(status);
   }
 }

@@ -26,6 +26,8 @@ npm run test:ci    # one headless test run
 - `features` and `layout` depend on `shared` and `core`; `shared` never imports `features` or `core`.
 - No access modifiers or `readonly` unless they enforce real encapsulation.
 - One interface per file in `shared/models/`; string unions are enums in `shared/enum/`.
+- Enums for API data are numeric (`Paid = 1`) with a lookup exposing `getAll()` (`{ id, label }[]`)
+  and `getLabel(id)`. Enums whose values are CSS names stay strings.
 - Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is

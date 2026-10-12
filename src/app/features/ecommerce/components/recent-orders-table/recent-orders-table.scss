@@ -14,16 +14,16 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
 
-  &--paid {
+  &--success {
     @include m.status-tint(success);
   }
-  &--pending {
+  &--warning {
     @include m.status-tint(warning, 18%);
   }
-  &--refunded {
+  &--info {
     @include m.status-tint(info);
   }
-  &--cancelled {
+  &--danger {
     @include m.status-tint(danger);
   }
 }

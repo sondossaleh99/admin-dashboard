@@ -10,7 +10,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Table, TableModule } from 'primeng/table';
 import { Subject, debounceTime } from 'rxjs';
 
-import { Order, OrderStatusLabelPipe, SHARED_IMPORTS } from '../../../../shared';
+import {
+  Order,
+  OrderActivityLookup,
+  OrderStatusLabelPipe,
+  OrderStatusLookup,
+  SHARED_IMPORTS
+} from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
@@ -26,7 +32,15 @@ export class RecentOrdersTableComponent {
 
   table = viewChild.required<Table>('dt');
 
-  tableValue = computed(() => [...this.orders()]);
+  tableValue = computed(() => {
+    const activity = OrderActivityLookup.getActivity();
+    return this.orders().map((order) => ({
+      ...order,
+      statusLabel: OrderStatusLookup.getLabel(order.status),
+      statusTone: activity[order.status].tone
+    }));
+  });
+
   subtitle = computed(() => `${this.orders().length} orders`);
 
   searchInput = new Subject<string>();

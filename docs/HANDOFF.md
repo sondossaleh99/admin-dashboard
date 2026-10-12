@@ -172,12 +172,18 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 5. **No `readonly`** — not on class fields (including `input()`, `signal()` and `computed()`
    fields), interface properties, or array types (`Kpi[]`, not `readonly Kpi[]`).
 
-6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are string
+6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are
    `enum`s in `shared/enum/`, one per file. A template reaches an enum through a component field
    (`RevenueRange = RevenueRange;`), since templates can't see imports.
+   - An enum that models API data uses explicit numeric values matching the backend
+     (`OrderStatus.Paid = 1`). Its lookup has `getAll()`, returning `{ id, label }[]`, and
+     `getLabel(id)`. Never put the number in a CSS class or a search field: map it to a tone or a
+     label first.
+   - An enum whose values are CSS names (`ActivityTone`, `IconChipTone`, `IconChipSize`) stays a
+     string enum.
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
-   a class with static getters (`OrderStatusLookup.getLabels()`). Each getter returns a fresh
+   a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
    literal, with no `readonly` return types. The eight today: `OrderActivityLookup`,
    `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
    `IconChipToneLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
