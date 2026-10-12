@@ -1,17 +1,17 @@
 <div class="d-flex flex-column gap-6">
   <app-section-header title="Ecommerce" subtitle="Overview of sales, revenue and recent orders." />
 
-  @if (error()) {
+  @if (service.error()) {
     <app-ui-card>
       <app-empty-state
         icon="pi-exclamation-circle"
         message="Could not load the dashboard"
         hint="The request failed. Nothing else on the page is affected."
         actionLabel="Retry"
-        (action)="retry()"
+        (action)="service.retry()"
       />
     </app-ui-card>
-  } @else if (loading()) {
+  } @else if (service.loading()) {
     <div class="row g-6">
       @for (placeholder of [1, 2, 3, 4]; track placeholder) {
         <div class="col-12 col-sm-6 col-xl-3">
@@ -25,7 +25,7 @@
         </div>
       }
     </div>
-  } @else if (data(); as dashboard) {
+  } @else if (service.data(); as dashboard) {
     <app-earnings-hero [earnings]="dashboard.earnings" />
 
     <app-kpi-row [kpis]="dashboard.kpis" />

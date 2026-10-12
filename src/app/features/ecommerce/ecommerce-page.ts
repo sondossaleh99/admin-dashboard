@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import {
   EmptyStateComponent,
@@ -33,21 +32,10 @@ import {
     RecentOrdersTableComponent,
     ActivityCardComponent
   ],
+  providers: [EcommerceService],
   templateUrl: './ecommerce-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EcommercePageComponent {
   service = inject(EcommerceService);
-
-  dashboard = rxResource({
-    stream: () => this.service.getDashboard()
-  });
-
-  data = computed(() => (this.dashboard.hasValue() ? this.dashboard.value() : undefined));
-  loading = computed(() => this.dashboard.status() === 'loading');
-  error = computed(() => this.dashboard.status() === 'error');
-
-  retry(): void {
-    this.dashboard.reload();
-  }
 }

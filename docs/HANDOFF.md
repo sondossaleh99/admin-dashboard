@@ -116,8 +116,9 @@ src/app/
     imports/       SHARED_IMPORTS
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat)
   features/                        no root barrel: routes import each feature's own index.ts
-    ecommerce/     ecommerce-page (fetch, loading, error) + components/ (7)
-                   + service.ts (EcommerceService: fixtures as an Observable)
+    ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (7)
+                   + service.ts (EcommerceService: loads the fixtures through rxResource and
+                     owns data, loading, error and retry; provided by the page)
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
     not-found/
 ```
@@ -206,8 +207,10 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - A feature's own service and mock data sit directly in the feature folder as `service.ts` and
      `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
      feature has more than one such file.
-   - A page only fetches its data and handles loading and error. Each card takes the raw data it
-     displays and derives the rest itself (totals, range filters, mapping to view models).
+   - A page holds no logic. Its feature service loads the data and owns the loading, error and
+     retry state. The page lists the service in its `providers`, so each visit starts a fresh
+     request and the state is destroyed with the page. Each card takes the raw data it displays
+     and derives the rest itself (totals, range filters, mapping to view models).
    - A component with logic gets a spec. Specs render the component with its template overridden
      to `''` and set inputs through `componentRef.setInput`, so they test the logic without
      mounting charts.
@@ -273,7 +276,7 @@ model is used in at least two files, so none live under `features/`. There is no
 | Bundle budget 500 kB → 700 kB | The app's floor is 478 kB before any feature. The plan's DoD was updated to match. |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
 | Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
-| `data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it keeps every `?? []` fallback in the page's computed values real (caught by a spec). |
+| `EcommerceService.data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it lets `data()` return `undefined` instead of throwing (covered by the service spec). |
 | Prettier `trailingComma: none` | Matches the existing code, so adopting Prettier reflowed 20 files instead of 57. |
 
 ---
