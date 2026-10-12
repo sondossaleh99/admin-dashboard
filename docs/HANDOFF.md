@@ -115,7 +115,6 @@ src/app/
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat),
-                   OrderStatusLabelPipe (labels an OrderStatus),
                    AppCurrencyPipe (formats an amount in the app's default currency)
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (8, incl. the loading skeleton)

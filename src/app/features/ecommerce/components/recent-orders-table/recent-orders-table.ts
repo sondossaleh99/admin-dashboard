@@ -10,19 +10,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Table, TableModule } from 'primeng/table';
 import { Subject, debounceTime } from 'rxjs';
 
-import {
-  Order,
-  OrderActivityLookup,
-  OrderStatusLabelPipe,
-  OrderStatusLookup,
-  SHARED_IMPORTS
-} from '../../../../shared';
+import { Order, OrderActivityLookup, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
 
 const SEARCH_DEBOUNCE_MS = 250;
 
 @Component({
   selector: 'app-recent-orders-table',
-  imports: [...SHARED_IMPORTS, TableModule, OrderStatusLabelPipe],
+  imports: [...SHARED_IMPORTS, TableModule],
   templateUrl: './recent-orders-table.html',
   styleUrl: './recent-orders-table.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

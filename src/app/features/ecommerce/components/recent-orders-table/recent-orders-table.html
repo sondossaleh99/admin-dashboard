@@ -46,7 +46,7 @@
         <td>{{ order.placedAt | date: 'd MMM' }}</td>
         <td>
           <span class="status" [class]="'status--' + order.statusTone">{{
-            order.status | orderStatusLabel
+            order.statusLabel
           }}</span>
         </td>
         <td class="col-total tabular-nums">
