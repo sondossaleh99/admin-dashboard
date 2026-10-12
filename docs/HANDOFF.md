@@ -147,6 +147,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 2. **Component class names end in `Component`.** `WeeklyStatsCardComponent`, `UiCardComponent`,
    `AppComponent`. File names stay kebab-case without the suffix (`weekly-stats-card.ts`).
+   Every template is a separate `.html` file next to the class (`templateUrl`), never an inline
+   `template:` string, including one-liners (`app.html`, `icon-chip.html`) and the empty
+   `skeleton-block.html`.
 
 3. **Import paths and direction.**
    - Code *outside* `shared/` or `core/` imports from the root barrel:

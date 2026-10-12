@@ -6,16 +6,7 @@ import { baseOptions, seriesColors } from './chart-theme';
 @Component({
   selector: 'app-chart-sparkline',
   imports: [NgApexchartsModule],
-  template: `<apx-chart
-    [series]="$any(options().series)"
-    [chart]="$any(options().chart)"
-    [colors]="$any(options().colors)"
-    [stroke]="$any(options().stroke)"
-    [fill]="$any(options().fill)"
-    [tooltip]="$any(options().tooltip)"
-    [markers]="$any(options().markers)"
-    [dataLabels]="$any(options().dataLabels)"
-  />`,
+  templateUrl: './chart-sparkline.html',
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

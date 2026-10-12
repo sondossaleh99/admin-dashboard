@@ -7,17 +7,7 @@ import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-them
 @Component({
   selector: 'app-chart-donut',
   imports: [NgApexchartsModule],
-  template: `<apx-chart
-    [series]="$any(options().series)"
-    [chart]="$any(options().chart)"
-    [labels]="$any(options().labels)"
-    [colors]="$any(options().colors)"
-    [legend]="$any(options().legend)"
-    [stroke]="$any(options().stroke)"
-    [tooltip]="$any(options().tooltip)"
-    [dataLabels]="$any(options().dataLabels)"
-    [plotOptions]="$any(options().plotOptions)"
-  />`,
+  templateUrl: './chart-donut.html',
   styles: [':host { display: block; }'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

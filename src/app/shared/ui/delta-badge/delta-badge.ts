@@ -5,15 +5,7 @@ import { SHARED_IMPORTS } from '../../imports/shared-imports';
 @Component({
   selector: 'app-delta-badge',
   imports: [...SHARED_IMPORTS],
-  template: `
-    <i
-      class="pi"
-      [class.pi-arrow-up]="isUp()"
-      [class.pi-arrow-down]="!isUp()"
-      aria-hidden="true"
-    ></i>
-    <span>{{ isUp() ? '+' : '−' }}{{ magnitude() | number: '1.0-1' }}%</span>
-  `,
+  templateUrl: './delta-badge.html',
   styleUrl: './delta-badge.scss',
   host: {
     class: 'd-inline-flex align-items-center gap-1 fs-xs fw-semibold',

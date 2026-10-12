@@ -21,6 +21,7 @@ npm run test:ci    # one headless test run
 
 - Standalone components, `OnPush`, signal APIs (`input`, `output`, `signal`, `computed`, `rxResource`).
 - Component classes end in `Component`; file names stay kebab-case without the suffix.
+- Every component's template lives in its own `.html` file (`templateUrl`), never inline in the `.ts`.
 - Every folder that exposes code has an `index.ts` barrel. Code outside `shared/` or `core/`
   imports through the root barrels (`'../../shared'`, `'../../core'`).
 - `features` and `layout` depend on `shared` and `core`; `shared` never imports `features` or `core`.

@@ -6,7 +6,7 @@ import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
 
 @Component({
   selector: 'app-icon-chip',
-  template: `<i class="pi {{ icon() }}" aria-hidden="true"></i>`,
+  templateUrl: './icon-chip.html',
   styleUrl: './icon-chip.scss',
   host: {
     '[class]': 'hostClasses()',
