@@ -116,7 +116,7 @@ src/app/
     imports/       SHARED_IMPORTS
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat)
   features/                        no root barrel: routes import each feature's own index.ts
-    ecommerce/     ecommerce-page (orchestrator) + components/ (7)
+    ecommerce/     ecommerce-page (fetch, loading, error) + components/ (7)
                    + service.ts (EcommerceService: fixtures as an Observable)
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
     not-found/
@@ -206,8 +206,11 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - A feature's own service and mock data sit directly in the feature folder as `service.ts` and
      `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
      feature has more than one such file.
-   - Page logic (derived values, mapping) gets a spec. Specs render the page with its
-     template overridden to `''`, so they test the logic without mounting charts.
+   - A page only fetches its data and handles loading and error. Each card takes the raw data it
+     displays and derives the rest itself (totals, range filters, mapping to view models).
+   - A component with logic gets a spec. Specs render the component with its template overridden
+     to `''` and set inputs through `componentRef.setInput`, so they test the logic without
+     mounting charts.
    - Formatting a value for display is a pipe in `shared/pipes/`, not a page method. Each pipe
      gets its own spec.
    - Never guess a visual detail the design tokens don't define.
