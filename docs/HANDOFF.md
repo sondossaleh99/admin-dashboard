@@ -1,8 +1,8 @@
 # Handoff — Ecommerce Dashboard
 
-**Updated:** 2026-09-28
-**Branch:** `init` is the default branch (there is no `main`). The pre-feature cleanup (models,
-`*Component` names, feature-owned service/data, tokens, Prettier, tests) is on `feature-refactor`.
+**Updated:** 2026-10-14
+**Branch:** `init` is the default branch (there is no `main`). **Never push to `init` directly.**
+Current work is on `feature-refactor`. Branch, push and PR rules are in §2.
 **State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
 `ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
@@ -33,8 +33,18 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 
 ## 2. Branches, PRs and history
 
-All seven stage PRs (#1–#7) are merged into `init`. Since then, work has been committed
-**directly to `init` and pushed**, as the user directed. Follow their lead on branching. The
+**How work reaches `init`:**
+
+1. **Never push to `init` directly.** Commit and push each task to its own branch. The current
+   branch is `feature-refactor`; keep working there until the user names another.
+2. **Name a new branch** `feature-<task-name>` for a new task or `fix-<change-name>` for a fix.
+   Never use a `claude/` prefix or any name that mentions Claude.
+3. **Open a pull request only when the user asks for one.** The user reviews it and either
+   approves and merges it, or leaves comments. Address the comments on the same branch and push
+   again.
+
+All seven stage PRs (#1–#7) are merged into `init`. After Stage 6, work was committed directly to
+`init` for a while (the table below). That has stopped: follow the rules above. The
 `claude/stage-*` branches are merged and stale.
 
 | PR | State | Notes |
@@ -342,8 +352,8 @@ what found the invisible-stroke bug in Stage 5, after a wrong guess about contai
 - When a spec is ambiguous, pick the most reasonable reading and state the call. Ask only when
   genuinely blocked.
 - Every task ends the same way: `npm run build` clean → a commit with a descriptive message → push
-  to `init` → a short report (what changed, which files, intentional exceptions and why, build
-  status).
+  to the task's branch, never `init` (§2) → a short report (what changed, which files,
+  intentional exceptions and why, build status). A pull request only when the user asks.
 - Expect judgment calls to be reviewed and sometimes reversed (e.g. `UiCardComponent` joining
   `SHARED_IMPORTS`, the reverted model move). State the reasoning behind each one so it can be
   evaluated.

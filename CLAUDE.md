@@ -47,3 +47,5 @@ npm run test:ci    # one headless test run
 - Run `npm run build` and `npm run format:check` before every commit.
 - Branch names: `feature-<task-name>` for a new task, `fix-<change-name>` for a fix. Never use a
   `claude/` prefix or any name that mentions Claude.
+- Never push to `init` directly. Push to the task's branch, and open a pull request only when the
+  user asks. The user approves it or leaves comments to address on the same branch.
