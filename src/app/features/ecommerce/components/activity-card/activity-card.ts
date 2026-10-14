@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
-import { ActivityEvent, Order, OrderActivityLookup, SHARED_IMPORTS } from '../../../../shared';
+import {
+  ActivityEvent,
+  ActivityToneLookup,
+  Order,
+  OrderActivityLookup,
+  SHARED_IMPORTS
+} from '../../../../shared';
 
 @Component({
   selector: 'app-activity-card',
@@ -23,7 +29,7 @@ export class ActivityCardComponent {
     return {
       id: order.id,
       icon: meta.icon,
-      tone: meta.tone,
+      tone: ActivityToneLookup.getLabel(meta.tone),
       title: `Order #${order.id} ${meta.verb}`,
       detail: `${order.customer} · ${order.item}`,
       timestamp: order.placedAt

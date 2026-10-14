@@ -119,7 +119,7 @@ src/app/
   shared/                          barrel: shared/index.ts
     models/        19 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
-    lookup/        8 *Lookup classes
+    lookup/        9 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
@@ -187,17 +187,19 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are
    `enum`s in `shared/enum/`, one per file. A template reaches an enum through a component field
    (`RevenueRange = RevenueRange;`), since templates can't see imports.
-   - An enum that models API data uses explicit numeric values matching the backend
-     (`OrderStatus.Paid = 1`). Its lookup has `getAll()`, returning `{ id, label }[]`, and
-     `getLabel(id)`. Never put the number in a CSS class or a search field: map it to a tone or a
-     label first.
-   - An enum whose values are CSS names (`ActivityTone`, `IconChipTone`, `IconChipSize`) stays a
-     string enum.
+   - **Every new enum is numeric by default**: explicit values starting at 1
+     (`OrderStatus.Paid = 1`, `ActivityTone.Success = 1`). Use other values only when the user
+     gives them. Its lookup has `getAll()`, returning `{ id, label }[]`, and `getLabel(id)`.
+   - Never put the number in a CSS class or a search field: map it to its label first. When the
+     label is a CSS name, the label *is* the class modifier: `ActivityToneLookup.getLabel(tone)`
+     returns `success` for `status--success` and `activity__dot--success`.
+   - `IconChipTone`, `IconChipSize`, `RevenueRange` and `KpiFormat` predate this rule and are still
+     string enums. Convert one only when the user asks.
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
-   literal, with no `readonly` return types. The eight today: `OrderActivityLookup`,
-   `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
+   literal, with no `readonly` return types. The nine today: `ActivityToneLookup`,
+   `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
    `IconChipToneLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
 

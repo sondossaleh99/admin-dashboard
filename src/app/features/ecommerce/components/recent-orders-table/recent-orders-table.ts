@@ -4,7 +4,13 @@ import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 
-import { Order, OrderActivityLookup, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
+import {
+  ActivityToneLookup,
+  Order,
+  OrderActivityLookup,
+  OrderStatusLookup,
+  SHARED_IMPORTS
+} from '../../../../shared';
 
 @Component({
   selector: 'app-recent-orders-table',
@@ -21,7 +27,7 @@ export class RecentOrdersTableComponent {
     return this.orders().map((order) => ({
       ...order,
       statusLabel: OrderStatusLookup.getLabel(order.status),
-      statusTone: activity[order.status].tone
+      statusTone: ActivityToneLookup.getLabel(activity[order.status].tone)
     }));
   });
 
