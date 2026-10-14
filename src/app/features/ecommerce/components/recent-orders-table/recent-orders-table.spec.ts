@@ -1,9 +1,9 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { Table } from 'primeng/table';
 
 import { Order, OrderStatus } from '../../../../shared';
 import { RecentOrdersTableComponent } from './recent-orders-table';
-
-const SEARCH_DEBOUNCE_MS = 250;
 
 function order(id: string, customer: string, status = OrderStatus.Paid): Order {
   return {
@@ -26,76 +26,98 @@ function render() {
   ]);
   fixture.detectChanges();
 
-  return fixture;
-}
+  const element: HTMLElement = fixture.nativeElement;
+  const delay = fixture.componentInstance.searchDelay;
+  const table = (): Table => fixture.debugElement.query(By.directive(Table)).componentInstance;
+  const rows = () => element.querySelectorAll('tbody tr');
 
-function setup() {
-  const table = render().componentInstance;
-  const filterGlobal = spyOn(table.table(), 'filterGlobal');
+  const type = (value: string) => {
+    const input = element.querySelector('input[type="search"]') as HTMLInputElement;
+    input.value = value;
+    input.dispatchEvent(new Event('input'));
+  };
 
-  return { table, filterGlobal };
+  const settle = (ms: number) => {
+    tick(ms);
+    fixture.detectChanges();
+  };
+
+  return { fixture, element, delay, table, rows, type, settle };
 }
 
 describe('RecentOrdersTableComponent', () => {
   it('counts the orders in its subtitle', () => {
-    const { table } = setup();
+    const { fixture } = render();
 
-    expect(table.subtitle()).toBe('2 orders');
+    expect(fixture.componentInstance.subtitle()).toBe('2 orders');
   });
 
-  it('filters the table only after the search settles', fakeAsync(() => {
-    const { table, filterGlobal } = setup();
+  it('hands the typed value to the table as a global contains filter', () => {
+    const { fixture, table, type } = render();
+    const filterGlobal = spyOn(table(), 'filterGlobal');
 
-    table.onSearchInput('Amelia');
-    tick(SEARCH_DEBOUNCE_MS - 1);
-    expect(filterGlobal).not.toHaveBeenCalled();
-    expect(table.searchTerm()).toBe('');
+    type('Amelia');
 
-    tick(1);
     expect(filterGlobal).toHaveBeenCalledOnceWith('Amelia', 'contains');
-    expect(table.searchTerm()).toBe('Amelia');
+    expect(fixture.componentInstance.searchTerm()).toBe('Amelia');
+  });
+
+  it('delays filtering by the search delay', () => {
+    const { delay, table } = render();
+
+    expect(table().filterDelay).toBe(delay);
+  });
+
+  it('filters the rows only after the search settles', fakeAsync(() => {
+    const { delay, rows, type, settle } = render();
+    expect(rows().length).toBe(2);
+
+    type('Noah');
+    settle(delay - 1);
+    expect(rows().length).toBe(2);
+
+    settle(1);
+    expect(rows().length).toBe(1);
+    expect(rows()[0].textContent).toContain('Noah');
   }));
 
-  it('applies only the last value typed within the debounce window', fakeAsync(() => {
-    const { table, filterGlobal } = setup();
+  it('applies only the last value typed within the delay', fakeAsync(() => {
+    const { delay, rows, type, settle } = render();
 
-    table.onSearchInput('A');
-    tick(100);
-    table.onSearchInput('Am');
-    tick(SEARCH_DEBOUNCE_MS);
+    type('Amelia');
+    settle(100);
+    type('Noah');
+    settle(delay - 1);
+    expect(rows().length).toBe(2);
 
-    expect(filterGlobal).toHaveBeenCalledOnceWith('Am', 'contains');
+    settle(1);
+    expect(rows().length).toBe(1);
+    expect(rows()[0].textContent).toContain('Noah');
   }));
 
-  it('shows only the matching rows once the search settles', fakeAsync(() => {
-    const fixture = render();
-    const rows = () => fixture.nativeElement.querySelectorAll('tbody tr').length;
-    expect(rows()).toBe(2);
+  it('names the search in the empty message when nothing matches', fakeAsync(() => {
+    const { delay, element, type, settle } = render();
 
-    fixture.componentInstance.onSearchInput('Noah');
-    tick(SEARCH_DEBOUNCE_MS);
-    fixture.detectChanges();
+    type('Zara');
+    settle(delay);
 
-    expect(rows()).toBe(1);
-    expect(fixture.nativeElement.querySelector('tbody').textContent).toContain('Noah');
+    expect(element.querySelector('tbody')?.textContent).toContain('No orders match “Zara”.');
   }));
 
   it('finds orders by their status label', fakeAsync(() => {
-    const fixture = render();
+    const { delay, rows, type, settle } = render();
 
-    fixture.componentInstance.onSearchInput('pend');
-    tick(SEARCH_DEBOUNCE_MS);
-    fixture.detectChanges();
+    type('pend');
+    settle(delay);
 
-    const rows = fixture.nativeElement.querySelectorAll('tbody tr');
-    expect(rows.length).toBe(1);
-    expect(rows[0].textContent).toContain('Noah');
+    expect(rows().length).toBe(1);
+    expect(rows()[0].textContent).toContain('Noah');
   }));
 
   it('labels and colours each status by its tone', () => {
-    const fixture = render();
+    const { element } = render();
 
-    const badges: HTMLElement[] = [...fixture.nativeElement.querySelectorAll('.status')];
+    const badges = [...element.querySelectorAll<HTMLElement>('.status')];
     expect(badges.map((badge) => badge.textContent?.trim())).toEqual(['Paid', 'Pending']);
     expect(badges[0].classList).toContain('status--success');
     expect(badges[1].classList).toContain('status--warning');

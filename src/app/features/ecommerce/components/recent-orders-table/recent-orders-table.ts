@@ -1,18 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  signal,
-  viewChild
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Table, TableModule } from 'primeng/table';
-import { Subject, debounceTime } from 'rxjs';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { TableModule } from 'primeng/table';
 
 import { Order, OrderActivityLookup, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
-
-const SEARCH_DEBOUNCE_MS = 250;
 
 @Component({
   selector: 'app-recent-orders-table',
@@ -23,8 +12,6 @@ const SEARCH_DEBOUNCE_MS = 250;
 })
 export class RecentOrdersTableComponent {
   orders = input.required<Order[]>();
-
-  table = viewChild.required<Table>('dt');
 
   tableValue = computed(() => {
     const activity = OrderActivityLookup.getActivity();
@@ -37,20 +24,7 @@ export class RecentOrdersTableComponent {
 
   subtitle = computed(() => `${this.orders().length} orders`);
 
-  searchInput = new Subject<string>();
   searchTerm = signal('');
+  searchDelay = 250;
   rows = 6;
-
-  constructor() {
-    this.searchInput
-      .pipe(debounceTime(SEARCH_DEBOUNCE_MS), takeUntilDestroyed())
-      .subscribe((value) => {
-        this.searchTerm.set(value);
-        this.table().filterGlobal(value, 'contains');
-      });
-  }
-
-  onSearchInput(value: string): void {
-    this.searchInput.next(value);
-  }
 }

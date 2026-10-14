@@ -8,7 +8,7 @@
       placeholder="Search orders"
       autocomplete="off"
       aria-label="Search orders"
-      (input)="onSearchInput(search.value)"
+      (input)="searchTerm.set(search.value); dt.filterGlobal(search.value, 'contains')"
     />
   </div>
 
@@ -18,7 +18,7 @@
     [rows]="rows"
     [paginator]="orders().length > rows"
     [globalFilterFields]="['customer', 'item', 'id', 'statusLabel']"
-    [filterDelay]="0"
+    [filterDelay]="searchDelay"
     sortField="placedAt"
     [sortOrder]="-1"
     dataKey="id"
