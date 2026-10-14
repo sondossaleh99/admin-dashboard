@@ -26,6 +26,4 @@ export class RecentOrdersTableComponent {
   });
 
   subtitle = computed(() => `${this.orders().length} orders`);
-
-  rows = 6;
 }

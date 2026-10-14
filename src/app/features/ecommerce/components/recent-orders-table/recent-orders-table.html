@@ -2,8 +2,8 @@
   <p-table
     #dt
     [value]="tableValue()"
-    [rows]="rows"
-    [paginator]="orders().length > rows"
+    [rows]="6"
+    [paginator]="orders().length > 6"
     [globalFilterFields]="['customer', 'item', 'id', 'statusLabel']"
     [filterDelay]="250"
     sortField="placedAt"
