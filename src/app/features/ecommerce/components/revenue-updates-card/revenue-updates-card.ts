@@ -6,7 +6,6 @@ import {
   RevenuePoint,
   RevenueRange,
   RevenueRangeLookup,
-  RevenueTotalsLookup,
   SHARED_IMPORTS
 } from '../../../../shared';
 
@@ -19,7 +18,6 @@ import {
 })
 export class RevenueUpdatesCardComponent {
   ranges = RevenueRangeLookup.getAll();
-  totalLabels = RevenueTotalsLookup.getLabels();
 
   points = input.required<RevenuePoint[]>();
 
@@ -30,8 +28,8 @@ export class RevenueUpdatesCardComponent {
   periods = computed(() => this.visiblePoints().map((p) => p.period));
 
   series = computed<ComboSeries[]>(() => [
-    { name: this.totalLabels.budget, data: this.visiblePoints().map((p) => p.budget) },
-    { name: this.totalLabels.expense, data: this.visiblePoints().map((p) => p.expense) }
+    { name: 'Budget', data: this.visiblePoints().map((p) => p.budget) },
+    { name: 'Expense', data: this.visiblePoints().map((p) => p.expense) }
   ]);
 
   totals = computed(() => {
@@ -39,9 +37,9 @@ export class RevenueUpdatesCardComponent {
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
     return [
-      { label: this.totalLabels.budget, value: budget },
-      { label: this.totalLabels.expense, value: expense },
-      { label: this.totalLabels.margin, value: budget - expense }
+      { label: 'Budget', value: budget },
+      { label: 'Expense', value: expense },
+      { label: 'Margin', value: budget - expense }
     ];
   });
 }
