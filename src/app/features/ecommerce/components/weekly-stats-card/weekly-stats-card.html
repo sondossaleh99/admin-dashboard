@@ -2,7 +2,7 @@
   <ul class="list-unstyled m-0 d-flex flex-column gap-5">
     @for (stat of stats(); track stat.id) {
       <li class="d-flex align-items-center gap-3">
-        <app-icon-chip [icon]="stat.icon" [size]="IconChipSize.Small" />
+        <app-icon-chip [icon]="stat.icon" [size]="iconChipSize.Small" />
         <span class="flex-1 min-w-0">
           <span class="d-block fs-sm fw-medium">{{ stat.label }}</span>
           <span class="d-block fs-xs text-muted">{{ stat.caption }}</span>

@@ -17,7 +17,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WeeklyStatsCardComponent {
-  IconChipSize = IconChipSize;
+  iconChipSize = IconChipSize;
 
   stats = input.required<WeeklyStat[]>();
 }

@@ -31,6 +31,8 @@ npm run test:ci    # one headless test run
   values only when the user gives them. Each enum has a lookup exposing `getAll()`
   (`{ id, label }[]`) and `getLabel(id)`. Never put the number in a CSS class or a search field:
   map it to its label first. List an enum's values with `getAll()`, never `Object.values`.
+- A template reaches an enum through a camelCase component field: `iconChipSize = IconChipSize;`,
+  used as `iconChipSize.Small`.
 - Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is

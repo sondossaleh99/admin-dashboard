@@ -186,7 +186,8 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are
    `enum`s in `shared/enum/`, one per file. A template reaches an enum through a component field
-   (`IconChipSize = IconChipSize;`), since templates can't see imports.
+   named after it in camelCase (`iconChipSize = IconChipSize;`, used as `iconChipSize.Small`),
+   since templates can't see imports.
    - **Every enum is numeric**, with explicit values starting at 1 (`OrderStatus.Paid = 1`,
      `IconChipSize.Small = 1`). A new enum is numeric by default; use other values only when the
      user gives them. The user gave `RevenueRange` its month counts (`SixMonths = 6`,
