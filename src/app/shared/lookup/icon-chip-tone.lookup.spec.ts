@@ -20,7 +20,13 @@ describe('IconChipToneLookup', () => {
   });
 
   it('gives every tone a colour token', () => {
-    expect(IconChipToneLookup.getColors()[IconChipTone.Primary]).toBe('var(--color-primary)');
-    expect(IconChipToneLookup.getColors()[IconChipTone.Series4]).toBe('var(--chart-series-4)');
+    expect(IconChipToneLookup.getColors()).toEqual({
+      [IconChipTone.Primary]: 'var(--color-primary)',
+      [IconChipTone.Series2]: 'var(--chart-series-2)',
+      [IconChipTone.Series3]: 'var(--chart-series-3)',
+      [IconChipTone.Series4]: 'var(--chart-series-4)',
+      [IconChipTone.Success]: 'var(--color-success)',
+      [IconChipTone.Danger]: 'var(--color-danger)'
+    });
   });
 });
