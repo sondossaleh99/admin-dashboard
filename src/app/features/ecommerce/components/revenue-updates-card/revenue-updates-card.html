@@ -3,15 +3,15 @@
   [subtitle]="'Budget against expense, ' + periods().length + ' months'"
 >
   <div card-actions class="range d-flex gap-1" role="group" aria-label="Period">
-    @for (option of ranges; track option) {
+    @for (option of ranges; track option.id) {
       <button
         type="button"
         class="range__option py-1 px-3 fs-xs fw-medium"
-        [class.range__option--on]="range() === option"
-        (click)="setRange(option)"
-        [attr.aria-pressed]="range() === option"
+        [class.range__option--on]="range() === option.id"
+        (click)="setRange(option.id)"
+        [attr.aria-pressed]="range() === option.id"
       >
-        {{ rangeOptions[option].label }}
+        {{ option.label }}
       </button>
     }
   </div>

@@ -19,8 +19,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RevenueUpdatesCardComponent {
-  ranges = Object.values(RevenueRange);
-  rangeOptions = RevenueRangeLookup.getOptions();
+  ranges = RevenueRangeLookup.getAll();
+  months = RevenueRangeLookup.getMonths();
 
   totalKeys: (keyof RevenueTotals)[] = ['budget', 'expense', 'margin'];
   totalLabels = RevenueTotalsLookup.getLabels();
@@ -29,7 +29,7 @@ export class RevenueUpdatesCardComponent {
 
   range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
-  visiblePoints = computed(() => this.points().slice(-this.rangeOptions[this.range()].months));
+  visiblePoints = computed(() => this.points().slice(-this.months[this.range()]));
 
   periods = computed(() => this.visiblePoints().map((p) => p.period));
 

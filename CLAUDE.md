@@ -27,11 +27,10 @@ npm run test:ci    # one headless test run
 - `features` and `layout` depend on `shared` and `core`; `shared` never imports `features` or `core`.
 - No access modifiers or `readonly` unless they enforce real encapsulation.
 - One interface per file in `shared/models/`; string unions are enums in `shared/enum/`.
-- Every new enum is numeric by default (`Paid = 1`, `Pending = 2`, …); use other values only when
-  the user gives them. A numeric enum has a lookup exposing `getAll()` (`{ id, label }[]`) and
-  `getLabel(id)`. Never put the number in a CSS class or a search field: map it to its label first.
-  `IconChipTone`, `IconChipSize`, `RevenueRange` and `KpiFormat` predate this rule and stay string
-  enums until the user asks.
+- Enums are numeric (`Paid = 1`, `Pending = 2`, …): a new enum is numeric by default, with other
+  values only when the user gives them. Each enum has a lookup exposing `getAll()`
+  (`{ id, label }[]`) and `getLabel(id)`. Never put the number in a CSS class or a search field:
+  map it to its label first. List an enum's values with `getAll()`, never `Object.values`.
 - Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is

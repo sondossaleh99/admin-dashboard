@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 
 import { IconChipSize } from '../../enum/icon-chip-size';
 import { IconChipTone } from '../../enum/icon-chip-tone';
+import { IconChipSizeLookup } from '../../lookup/icon-chip-size.lookup';
 import { IconChipToneLookup } from '../../lookup/icon-chip-tone.lookup';
 
 @Component({
@@ -21,7 +22,7 @@ export class IconChipComponent {
 
   hostClasses = computed(
     () =>
-      `icon-chip icon-chip--${this.size()} d-flex align-items-center justify-content-center flex-shrink-0`
+      `icon-chip icon-chip--${IconChipSizeLookup.getLabel(this.size())} d-flex align-items-center justify-content-center flex-shrink-0`
   );
 
   color = computed(() => IconChipToneLookup.getColors()[this.tone()]);

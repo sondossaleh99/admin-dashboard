@@ -117,9 +117,9 @@ src/app/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        19 shared interfaces (see §6)
+    models/        18 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
-    lookup/        9 *Lookup classes
+    lookup/        11 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
@@ -186,21 +186,24 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are
    `enum`s in `shared/enum/`, one per file. A template reaches an enum through a component field
-   (`RevenueRange = RevenueRange;`), since templates can't see imports.
-   - **Every new enum is numeric by default**: explicit values starting at 1
-     (`OrderStatus.Paid = 1`, `ActivityTone.Success = 1`). Use other values only when the user
-     gives them. Its lookup has `getAll()`, returning `{ id, label }[]`, and `getLabel(id)`.
+   (`IconChipSize = IconChipSize;`), since templates can't see imports.
+   - **Every enum is numeric**, with explicit values starting at 1 (`OrderStatus.Paid = 1`,
+     `IconChipSize.Small = 1`). A new enum is numeric by default; use other values only when the
+     user gives them. Each enum's lookup has `getAll()`, returning `{ id, label }[]`, and
+     `getLabel(id)`. A lookup can carry other mappings beside them
+     (`IconChipToneLookup.getColors()`, `RevenueRangeLookup.getMonths()`).
    - Never put the number in a CSS class or a search field: map it to its label first. When the
      label is a CSS name, the label *is* the class modifier: `ActivityToneLookup.getLabel(tone)`
-     returns `success` for `status--success` and `activity__dot--success`.
-   - `IconChipTone`, `IconChipSize`, `RevenueRange` and `KpiFormat` predate this rule and are still
-     string enums. Convert one only when the user asks.
+     returns `success` for `status--success`, and `IconChipSizeLookup.getLabel(size)` returns `sm`
+     for `icon-chip--sm`.
+   - Never list an enum's values with `Object.values` or `Object.keys`: a numeric enum also holds
+     its names (`['SixMonths', 'TwelveMonths', 1, 2]`). Iterate the lookup's `getAll()` instead.
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
-   literal, with no `readonly` return types. The nine today: `ActivityToneLookup`,
+   literal, with no `readonly` return types. The eleven today: `ActivityToneLookup`,
    `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
-   `IconChipToneLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
+   `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
@@ -272,7 +275,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `RevenueRangeConfig`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+| `shared/models/` (18) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay

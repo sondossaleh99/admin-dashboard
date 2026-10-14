@@ -16,4 +16,3 @@ export * from './earnings.model';
 export * from './ecommerce-dashboard.model';
 export * from './revenue-totals.model';
 export * from './activity-event.model';
-export * from './revenue-range-config.model';
