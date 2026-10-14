@@ -11,11 +11,4 @@ export class RevenueRangeLookup {
   static getLabel(id: RevenueRange): string {
     return RevenueRangeLookup.getAll().find((item) => item.id === id)?.label ?? '';
   }
-
-  static getMonths(): Record<RevenueRange, number> {
-    return {
-      [RevenueRange.SixMonths]: 6,
-      [RevenueRange.TwelveMonths]: 12
-    };
-  }
 }

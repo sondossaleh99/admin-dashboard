@@ -189,15 +189,16 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    (`IconChipSize = IconChipSize;`), since templates can't see imports.
    - **Every enum is numeric**, with explicit values starting at 1 (`OrderStatus.Paid = 1`,
      `IconChipSize.Small = 1`). A new enum is numeric by default; use other values only when the
-     user gives them. Each enum's lookup has `getAll()`, returning `{ id, label }[]`, and
-     `getLabel(id)`. A lookup can carry other mappings beside them
-     (`IconChipToneLookup.getColors()`, `RevenueRangeLookup.getMonths()`).
+     user gives them. The user gave `RevenueRange` its month counts (`SixMonths = 6`,
+     `TwelveMonths = 12`), so the revenue card slices by the value itself. Each enum's lookup has
+     `getAll()`, returning `{ id, label }[]`, and `getLabel(id)`. A lookup can carry other
+     mappings beside them (`IconChipToneLookup.getColors()`).
    - Never put the number in a CSS class or a search field: map it to its label first. When the
      label is a CSS name, the label *is* the class modifier: `ActivityToneLookup.getLabel(tone)`
      returns `success` for `status--success`, and `IconChipSizeLookup.getLabel(size)` returns `sm`
      for `icon-chip--sm`.
    - Never list an enum's values with `Object.values` or `Object.keys`: a numeric enum also holds
-     its names (`['SixMonths', 'TwelveMonths', 1, 2]`). Iterate the lookup's `getAll()` instead.
+     its names (`['SixMonths', 'TwelveMonths', 6, 12]`). Iterate the lookup's `getAll()` instead.
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh

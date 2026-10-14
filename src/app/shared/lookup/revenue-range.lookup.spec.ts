@@ -13,9 +13,4 @@ describe('RevenueRangeLookup', () => {
     expect(RevenueRangeLookup.getLabel(RevenueRange.SixMonths)).toBe('6 months');
     expect(RevenueRangeLookup.getLabel(RevenueRange.TwelveMonths)).toBe('12 months');
   });
-
-  it('gives every range its month count', () => {
-    expect(RevenueRangeLookup.getMonths()[RevenueRange.SixMonths]).toBe(6);
-    expect(RevenueRangeLookup.getMonths()[RevenueRange.TwelveMonths]).toBe(12);
-  });
 });

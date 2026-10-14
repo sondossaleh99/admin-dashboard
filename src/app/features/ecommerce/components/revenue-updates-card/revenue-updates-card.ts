@@ -6,7 +6,6 @@ import {
   RevenuePoint,
   RevenueRange,
   RevenueRangeLookup,
-  RevenueTotals,
   RevenueTotalsLookup,
   SHARED_IMPORTS
 } from '../../../../shared';
@@ -20,16 +19,13 @@ import {
 })
 export class RevenueUpdatesCardComponent {
   ranges = RevenueRangeLookup.getAll();
-  months = RevenueRangeLookup.getMonths();
-
-  totalKeys: (keyof RevenueTotals)[] = ['budget', 'expense', 'margin'];
   totalLabels = RevenueTotalsLookup.getLabels();
 
   points = input.required<RevenuePoint[]>();
 
   range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
-  visiblePoints = computed(() => this.points().slice(-this.months[this.range()]));
+  visiblePoints = computed(() => this.points().slice(-this.range()));
 
   periods = computed(() => this.visiblePoints().map((p) => p.period));
 
@@ -38,14 +34,14 @@ export class RevenueUpdatesCardComponent {
     { name: this.totalLabels.expense, data: this.visiblePoints().map((p) => p.expense) }
   ]);
 
-  totals = computed<RevenueTotals>(() => {
+  totals = computed(() => {
     const points = this.visiblePoints();
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
-    return { budget, expense, margin: budget - expense };
+    return [
+      { label: this.totalLabels.budget, value: budget },
+      { label: this.totalLabels.expense, value: expense },
+      { label: this.totalLabels.margin, value: budget - expense }
+    ];
   });
-
-  setRange(range: RevenueRange): void {
-    this.range.set(range);
-  }
 }

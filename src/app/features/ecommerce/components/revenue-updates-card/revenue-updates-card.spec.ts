@@ -43,7 +43,7 @@ describe('RevenueUpdatesCardComponent', () => {
   it('keeps only the last six months for the six-month range', () => {
     const { card } = setup();
 
-    card.setRange(RevenueRange.SixMonths);
+    card.range.set(RevenueRange.SixMonths);
 
     expect(card.periods()).toEqual(['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
     expect(card.series()).toEqual([
@@ -55,16 +55,24 @@ describe('RevenueUpdatesCardComponent', () => {
   it('recomputes the totals and margin for the selected range', () => {
     const { card } = setup();
 
-    expect(card.totals()).toEqual({ budget: 7800, expense: 780, margin: 7020 });
+    expect(card.totals()).toEqual([
+      { label: 'Budget', value: 7800 },
+      { label: 'Expense', value: 780 },
+      { label: 'Margin', value: 7020 }
+    ]);
 
-    card.setRange(RevenueRange.SixMonths);
-    expect(card.totals()).toEqual({ budget: 5700, expense: 570, margin: 5130 });
+    card.range.set(RevenueRange.SixMonths);
+    expect(card.totals()).toEqual([
+      { label: 'Budget', value: 5700 },
+      { label: 'Expense', value: 570 },
+      { label: 'Margin', value: 5130 }
+    ]);
   });
 
   it('never mutates the source series', () => {
     const { card } = setup();
 
-    card.setRange(RevenueRange.SixMonths);
+    card.range.set(RevenueRange.SixMonths);
 
     expect(card.points().length).toBe(12);
   });
