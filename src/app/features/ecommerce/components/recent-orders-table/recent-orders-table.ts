@@ -1,11 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 
 import { Order, OrderActivityLookup, OrderStatusLookup, SHARED_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-recent-orders-table',
-  imports: [...SHARED_IMPORTS, TableModule],
+  imports: [...SHARED_IMPORTS, TableModule, IconField, InputIcon, InputText],
   templateUrl: './recent-orders-table.html',
   styleUrl: './recent-orders-table.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

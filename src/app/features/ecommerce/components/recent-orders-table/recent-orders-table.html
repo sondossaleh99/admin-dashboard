@@ -1,17 +1,4 @@
 <app-ui-card title="Recent orders" [subtitle]="subtitle()" [flush]="true">
-  <div card-actions class="search-field d-flex align-items-center">
-    <i class="pi pi-search search-field__icon fs-xs" aria-hidden="true"></i>
-    <input
-      #search
-      type="search"
-      class="search__input search-field__input fs-xs"
-      placeholder="Search orders"
-      autocomplete="off"
-      aria-label="Search orders"
-      (input)="searchTerm.set(search.value); dt.filterGlobal(search.value, 'contains')"
-    />
-  </div>
-
   <p-table
     #dt
     [value]="tableValue()"
@@ -26,6 +13,24 @@
     [rowHover]="true"
     responsiveLayout="scroll"
   >
+    <ng-template #caption>
+      <div class="d-flex justify-content-end">
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            #search
+            pInputText
+            pSize="small"
+            type="search"
+            placeholder="Search orders"
+            autocomplete="off"
+            aria-label="Search orders"
+            (input)="searchTerm.set(search.value); dt.filterGlobal(search.value, 'contains')"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+
     <ng-template #header>
       <tr>
         <th pSortableColumn="customer">Customer <p-sortIcon field="customer" /></th>
