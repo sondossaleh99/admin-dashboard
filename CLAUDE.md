@@ -45,3 +45,5 @@ npm run test:ci    # one headless test run
 - Commit messages use conventional prefixes (`feat:`, `fix:`, `refactor:`, `style:`, `docs:`,
   `chore:`) and describe the change in plain terms.
 - Run `npm run build` and `npm run format:check` before every commit.
+- Branch names: `feature-<task-name>` for a new task, `fix-<change-name>` for a fix. Never use a
+  `claude/` prefix or any name that mentions Claude.
