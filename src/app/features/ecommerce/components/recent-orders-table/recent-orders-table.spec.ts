@@ -53,13 +53,12 @@ describe('RecentOrdersTableComponent', () => {
   });
 
   it('hands the typed value to the table as a global contains filter', () => {
-    const { fixture, table, type } = render();
+    const { table, type } = render();
     const filterGlobal = spyOn(table(), 'filterGlobal');
 
     type('Amelia');
 
     expect(filterGlobal).toHaveBeenCalledOnceWith('Amelia', 'contains');
-    expect(fixture.componentInstance.searchTerm()).toBe('Amelia');
   });
 
   it('delays filtering by the search delay', () => {
@@ -95,13 +94,13 @@ describe('RecentOrdersTableComponent', () => {
     expect(rows()[0].textContent).toContain('Noah');
   }));
 
-  it('names the search in the empty message when nothing matches', fakeAsync(() => {
+  it('shows the empty message when nothing matches', fakeAsync(() => {
     const { delay, element, type, settle } = render();
 
     type('Zara');
     settle(delay);
 
-    expect(element.querySelector('tbody')?.textContent).toContain('No orders match “Zara”.');
+    expect(element.querySelector('tbody')?.textContent).toContain('No orders found.');
   }));
 
   it('finds orders by their status label', fakeAsync(() => {

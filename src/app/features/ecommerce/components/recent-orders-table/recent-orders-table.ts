@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
@@ -27,7 +27,6 @@ export class RecentOrdersTableComponent {
 
   subtitle = computed(() => `${this.orders().length} orders`);
 
-  searchTerm = signal('');
   searchDelay = 250;
   rows = 6;
 }
