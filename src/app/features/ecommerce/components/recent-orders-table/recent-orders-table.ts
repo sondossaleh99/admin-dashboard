@@ -27,6 +27,5 @@ export class RecentOrdersTableComponent {
 
   subtitle = computed(() => `${this.orders().length} orders`);
 
-  searchDelay = 250;
   rows = 6;
 }

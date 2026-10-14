@@ -27,7 +27,7 @@ function render() {
   fixture.detectChanges();
 
   const element: HTMLElement = fixture.nativeElement;
-  const delay = fixture.componentInstance.searchDelay;
+  const delay = 250;
   const table = (): Table => fixture.debugElement.query(By.directive(Table)).componentInstance;
   const rows = () => element.querySelectorAll('tbody tr');
 

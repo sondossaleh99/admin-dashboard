@@ -5,7 +5,7 @@
     [rows]="rows"
     [paginator]="orders().length > rows"
     [globalFilterFields]="['customer', 'item', 'id', 'statusLabel']"
-    [filterDelay]="searchDelay"
+    [filterDelay]="250"
     sortField="placedAt"
     [sortOrder]="-1"
     dataKey="id"
