@@ -179,9 +179,10 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 4. **No access modifiers by default** (`private` / `protected` / `public`). Keep one only when it
    enforces real encapsulation. The sole exception today: `LayoutService`'s `collapsed` and
-   `drawer` writable signals are `private`. It's an injected singleton shared by three
-   components, and `toggleSidebar()` pairs every mutation with a `localStorage` write that a
-   direct `.set()` would bypass.
+   `drawer` writable signals and its `isCollapsed` storage getter/setter are `private`. It's an
+   injected singleton shared by three components, and `toggleSidebar()` pairs every mutation with
+   a `localStorage` write that a direct `.set()` would bypass, while a public `isCollapsed` setter
+   would write storage without updating the signal.
 
 5. **No `readonly`** — not on class fields (including `input()`, `signal()` and `computed()`
    fields), interface properties, or array types (`Kpi[]`, not `readonly Kpi[]`).
