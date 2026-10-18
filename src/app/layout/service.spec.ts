@@ -37,7 +37,7 @@ describe('LayoutService', () => {
     expect(TestBed.inject(LayoutService).sidebarCollapsed()).toBeTrue();
   });
 
-  it('opens, closes and toggles the drawer', () => {
+  it('opens and closes the drawer', () => {
     const layout = TestBed.inject(LayoutService);
 
     layout.openDrawer();
@@ -45,9 +45,6 @@ describe('LayoutService', () => {
 
     layout.closeDrawer();
     expect(layout.drawerOpen()).toBeFalse();
-
-    layout.toggleDrawer();
-    expect(layout.drawerOpen()).toBeTrue();
   });
 
   it('still works when storage is unavailable', () => {

@@ -25,10 +25,6 @@ export class LayoutService {
   closeDrawer(): void {
     this.drawer.set(false);
   }
-
-  toggleDrawer(): void {
-    this.drawer.update((open) => !open);
-  }
 }
 
 function readCollapsed(): boolean {
