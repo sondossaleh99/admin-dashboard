@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LayoutService } from './layout.service';
+import { LayoutService } from './service';
 
 const COLLAPSED_KEY = 'admin-dashboard.sidebar-collapsed';
 

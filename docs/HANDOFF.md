@@ -108,11 +108,11 @@ record of what is `[verify]`:
 ```
 src/app/
   app.routes.ts    MainLayout from './layout'; lazy routes import the closest feature barrel
-  core/                            barrel: core/index.ts → config, data, services
+  core/                            barrel: core/index.ts → config, data
     config/        primeng-preset (AppPreset, used by app.config.ts)
     data/          user.data (CURRENT_USER)
-    services/      layout.service (chrome state)
   layout/                          barrel: layout/index.ts
+    service.ts     LayoutService (sidebar collapse and drawer state; not in the barrel)
     main-layout/
     sidebar/       + components/sidebar-nav-item/
     topbar/
@@ -152,7 +152,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `export * from '…'`. A folder wrapping one component exports that file. A parent exports its
    child *folders*, never a file inside them: `export * from './ui-card'`, not
    `'./ui-card/ui-card'`. Flat multi-file folders (`enum`, `models`, `lookup`, `charts`,
-   `imports`, `pipes`, `core/data`, `core/services`) list their files in one `index.ts`. Root barrels:
+   `imports`, `pipes`, `core/data`) list their files in one `index.ts`. Root barrels:
    `shared`, `core`, `layout`, `features`.
 
 2. **Component class names end in `Component`.** `WeeklyStatsCardComponent`, `UiCardComponent`,
@@ -163,10 +163,12 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 3. **Import paths and direction.**
    - Code *outside* `shared/` or `core/` imports from the root barrel:
-     `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
+     `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { CURRENT_USER } from '../../core'`.
    - Code *inside* `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
    - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
+   - `layout/` components import `LayoutService` by direct path (`'../service'`), the same way
+     `ecommerce-page.ts` imports `'./service'`.
    - Models live in `shared/models` and are imported through the `shared` barrel (§6).
    - Lazy `loadComponent` routes import the closest **per-feature** barrel
      (`'./features/ecommerce'`). There is deliberately no root `features/index.ts`: it would merge every
@@ -286,7 +288,8 @@ model is used in at least two files, so none live under `features/`. There is no
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
-- `core/` holds only app-wide code (`LayoutService`, `CURRENT_USER`). A feature's own service and
+- `core/` holds only app-wide code (`AppPreset`, `CURRENT_USER`). `LayoutService` lives in
+  `layout/service.ts` because only the layout components use it. A feature's own service and
   mock data live inside the feature (`features/ecommerce/service.ts`, `features/ecommerce/mock-data.ts`),
   so each new feature adds its own files instead of growing `core`.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned

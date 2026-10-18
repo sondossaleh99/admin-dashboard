@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { LayoutService } from '../../core';
 import { NavigationLookup } from '../../shared';
+import { LayoutService } from '../service';
 import { SidebarNavItemComponent } from './components';
 
 @Component({

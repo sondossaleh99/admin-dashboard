@@ -7,8 +7,9 @@ import {
   viewChild
 } from '@angular/core';
 
-import { CURRENT_USER, LayoutService } from '../../core';
+import { CURRENT_USER } from '../../core';
 import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from '../../shared';
+import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-topbar',
