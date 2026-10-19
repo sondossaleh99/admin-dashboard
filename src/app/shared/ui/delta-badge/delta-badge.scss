@@ -1,4 +1,4 @@
-@use '../../../../styles/mixins' as m;
+@use 'mixins' as m;
 
 :host {
   padding: 2px var(--space-2);
@@ -16,5 +16,5 @@
 }
 
 .pi {
-  font-size: 10px;
+  font-size: var(--font-size-2xs);
 }

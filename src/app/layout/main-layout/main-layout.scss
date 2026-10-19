@@ -1,11 +1,11 @@
-@use '../../../styles/mixins' as m;
-@use '../../../styles/variables' as v;
+@use 'mixins' as m;
+@use 'variables' as v;
 
 .shell {
   min-height: 100vh;
 }
 
-.shell__sidebar {
+.shell-sidebar {
   flex: none;
   width: var(--sidebar-width);
   transition: width var(--transition-base);
@@ -28,23 +28,23 @@
   }
 }
 
-.shell__backdrop {
+.shell-backdrop {
   position: fixed;
   inset: 0;
   z-index: v.$z-backdrop;
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--color-overlay);
 
   @include m.from(lg) {
     display: none;
   }
 }
 
-.shell__content {
+.shell-content {
   padding: var(--content-padding);
 }
 
 @include m.from(lg) {
-  .shell--collapsed .shell__sidebar {
+  .shell--collapsed .shell-sidebar {
     width: var(--sidebar-width-collapsed);
   }
 }

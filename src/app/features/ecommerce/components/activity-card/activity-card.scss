@@ -1,20 +1,8 @@
-@use '../../../../../styles/mixins' as m;
+@use 'mixins' as m;
 
-.activity__dot {
+.activity-dot {
   width: 28px;
   height: 28px;
   border-radius: var(--radius-pill);
-
-  &--success {
-    @include m.status-tint(success);
-  }
-  &--warning {
-    @include m.status-tint(warning, 18%);
-  }
-  &--info {
-    @include m.status-tint(info);
-  }
-  &--danger {
-    @include m.status-tint(danger);
-  }
+  @include m.status-variants;
 }

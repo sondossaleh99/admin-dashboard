@@ -41,6 +41,11 @@ npm run test:ci    # one headless test run
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
   `DEFAULT_CURRENCY_CODE` in `app.config.ts`.
+- `$primary` in `_variables.scss` is the only place the brand colour is set. Its shades become
+  `--color-primary-*` tokens, which the PrimeNG preset and the charts read.
+- Component styles import shared Sass by name (`@use 'mixins' as m;`), never by relative path.
+- Class names join block and element with a hyphen (`activity-dot`, never `activity_dot` or
+  `activity__dot`). Modifiers keep the double hyphen (`activity-dot--success`).
 - No hex colours in component styles: use `--color-*` tokens. Utilities first; a component's
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.

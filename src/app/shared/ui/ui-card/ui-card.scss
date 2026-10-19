@@ -1,24 +1,25 @@
-@use '../../../../styles/mixins' as m;
-
 :host {
   display: block;
   height: 100%;
 }
 
 .ui-card {
-  @include m.card;
   height: 100%;
   overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
-.ui-card__body {
+.ui-card-body {
   padding: var(--space-6);
 }
 
-header + .ui-card__body {
+header + .ui-card-body {
   padding-top: var(--space-4);
 }
 
-:host(.ui-card--flush) .ui-card__body {
+:host(.ui-card--flush) .ui-card-body {
   padding: 0;
 }

@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ButtonDirective, ButtonLabel } from 'primeng/button';
+
+import { UiCardComponent } from '../../shared';
 
 @Component({
   selector: 'app-not-found',
-  imports: [RouterLink],
+  imports: [ButtonDirective, ButtonLabel, RouterLink, UiCardComponent],
   templateUrl: './not-found.html',
   styleUrl: './not-found.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

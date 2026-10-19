@@ -2,19 +2,17 @@
   title="Revenue updates"
   [subtitle]="'Budget against expense, ' + periods().length + ' months'"
 >
-  <div card-actions class="range d-flex gap-1" role="group" aria-label="Period">
-    @for (option of ranges; track option.id) {
-      <button
-        type="button"
-        class="range__option py-1 px-3 fs-xs fw-medium"
-        [class.range__option--on]="range() === option.id"
-        (click)="range.set(option.id)"
-        [attr.aria-pressed]="range() === option.id"
-      >
-        {{ option.label }}
-      </button>
-    }
-  </div>
+  <p-selectbutton
+    card-actions
+    [options]="ranges"
+    optionLabel="label"
+    optionValue="id"
+    [allowEmpty]="false"
+    size="small"
+    ariaLabelledBy="revenue-range-label"
+    [(ngModel)]="range"
+  />
+  <span id="revenue-range-label" class="visually-hidden">Period</span>
 
   <div class="totals d-flex flex-wrap gap-8 pb-5 mb-4">
     @for (total of totals(); track total.label) {

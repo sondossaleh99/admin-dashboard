@@ -1,4 +1,4 @@
-@use '../../../styles/mixins' as m;
+@use 'mixins' as m;
 
 :host {
   display: block;
@@ -12,14 +12,13 @@
   overflow: hidden;
 }
 
-.sidebar__brand {
+.sidebar-brand {
   height: var(--topbar-height);
   padding-inline: var(--space-4);
   border-bottom: 1px solid var(--color-border);
 }
 
-.sidebar__mark {
-  @include m.flex-center;
+.sidebar-mark {
   flex: none;
   width: 32px;
   height: 32px;
@@ -28,7 +27,7 @@
   color: var(--color-text-inverse);
 }
 
-.sidebar__nav {
+.sidebar-nav {
   overflow-y: auto;
   padding: var(--space-4) var(--space-3) var(--space-6);
 }
@@ -60,12 +59,12 @@
 }
 
 :host(.sidebar--collapsed) {
-  .sidebar__brand {
+  .sidebar-brand {
     justify-content: center;
     padding-inline: 0;
   }
 
-  .sidebar__nav {
+  .sidebar-nav {
     padding-inline: var(--space-2);
   }
 

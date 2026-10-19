@@ -1,30 +1,14 @@
-@use '../../../../../styles/mixins' as m;
+@use 'mixins' as m;
 
 .status {
   display: inline-block;
-  font-size: 10px;
+  font-size: var(--font-size-2xs);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 2px var(--space-2);
   border-radius: var(--radius-sm);
-
-  &--success {
-    @include m.status-tint(success);
-  }
-  &--warning {
-    @include m.status-tint(warning, 18%);
-  }
-  &--info {
-    @include m.status-tint(info);
-  }
-  &--danger {
-    @include m.status-tint(danger);
-  }
-}
-
-.col-total {
-  text-align: end;
+  @include m.status-variants;
 }
 
 :host ::ng-deep .orders-table {
@@ -40,7 +24,7 @@
   }
 
   thead th {
-    font-size: 10px;
+    font-size: var(--font-size-2xs);
     font-weight: var(--font-weight-semibold);
     letter-spacing: 0.06em;
     text-transform: uppercase;
