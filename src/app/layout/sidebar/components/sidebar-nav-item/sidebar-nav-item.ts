@@ -8,6 +8,7 @@ import { NavItem } from '../../../../shared';
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar-nav-item.html',
   styleUrl: './sidebar-nav-item.scss',
+  host: { '[class.sidebar-nav-item--collapsed]': 'collapsed()' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarNavItemComponent {

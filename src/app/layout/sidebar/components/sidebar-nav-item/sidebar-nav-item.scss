@@ -13,7 +13,7 @@
     color var(--transition-fast);
 }
 
-a.nav-item:hover {
+.nav-item:not(.nav-item--disabled):hover {
   background: var(--color-surface-sunk);
   color: var(--color-text);
 }
@@ -47,18 +47,13 @@ a.nav-item:hover {
   text-align: center;
 }
 
-.nav-item__badge {
-  min-width: 20px;
-}
-
-:host-context(.sidebar--collapsed) {
+:host(.sidebar-nav-item--collapsed) {
   .nav-item {
     justify-content: center;
     padding-inline: 0;
   }
 
   .nav-item__label,
-  .nav-item__badge,
   .nav-item__soon {
     display: none;
   }

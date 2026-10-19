@@ -32,7 +32,11 @@
       <div class="sidebar__group">
         <h2 class="sidebar__group-label fs-xs fw-semibold text-muted">{{ group.label }}</h2>
         @for (item of group.items; track item.route) {
-          <app-sidebar-nav-item [item]="item" [collapsed]="collapsed()" (navigate)="onNavigate()" />
+          <app-sidebar-nav-item
+            [item]="item"
+            [collapsed]="collapsed()"
+            (navigate)="closeDrawer()"
+          />
         }
       </div>
     }

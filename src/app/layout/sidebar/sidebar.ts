@@ -22,10 +22,6 @@ export class SidebarComponent {
     this.layout.toggleSidebar();
   }
 
-  onNavigate(): void {
-    this.layout.closeDrawer();
-  }
-
   closeDrawer(): void {
     this.layout.closeDrawer();
   }
