@@ -1,11 +1,12 @@
-import { UserMenuItem } from '../models/user-menu-item.model';
+import { MenuItem } from 'primeng/api';
 
 export class UserMenuLookup {
-  static getItems(): UserMenuItem[] {
+  static getItems(): MenuItem[] {
     return [
-      { label: 'Profile', icon: 'pi-user' },
-      { label: 'Account settings', icon: 'pi-cog' },
-      { label: 'Sign out', icon: 'pi-sign-out' }
+      { separator: true },
+      { label: 'Profile', icon: 'pi pi-user' },
+      { label: 'Account settings', icon: 'pi pi-cog' },
+      { label: 'Sign out', icon: 'pi pi-sign-out' }
     ];
   }
 }

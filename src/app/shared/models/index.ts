@@ -5,7 +5,6 @@ export * from './donut-slice.model';
 export * from './combo-series.model';
 export * from './chart-ink.model';
 export * from './topbar-action.model';
-export * from './user-menu-item.model';
 export * from './activity-config.model';
 export * from './kpi.model';
 export * from './revenue-point.model';

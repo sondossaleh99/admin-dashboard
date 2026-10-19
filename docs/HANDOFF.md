@@ -23,7 +23,7 @@ In a container, point Karma at the bundled Chromium first:
 `export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
 
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 598 kB against a 700 kB warning /
+ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 701 kB against an 800 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -117,7 +117,7 @@ src/app/
     sidebar/       + components/sidebar-nav-item/
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        17 shared interfaces (see §6)
+    models/        16 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
     lookup/        10 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
@@ -137,7 +137,7 @@ src/app/
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile drawer, avatar
-dropdown with Escape/outside-click, loading skeletons, inline error retry, revenue range filter
+menu (PrimeNG `Menu` popup with arrow keys, Escape and outside-click), loading skeletons, inline error retry, revenue range filter
 with derived totals, six live charts, a sortable/paginated/searchable orders table, and an
 activity feed.
 
@@ -289,7 +289,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (17) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+| `shared/models/` (16) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
@@ -315,8 +315,8 @@ model is used in at least two files, so none live under `features/`. There is no
 | Decision | Why |
 |---|---|
 | Bootstrap via `bootstrap-grid`, not the full stylesheet | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB. |
-| Avatar dropdown hand-rolled, not PrimeNG `MenuModule` | Measured 131 kB for one dropdown. PrimeNG still owns the orders table. |
-| Bundle budget 500 kB → 700 kB | The app's floor is 478 kB before any feature. The plan's DoD was updated to match. |
+| Avatar menu is PrimeNG `Menu` (`popup`, `appendTo="body"`), not hand-rolled | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG so PrimeNG owns every interactive component. It costs ≈ 100 kB raw / 22 kB gzip in the initial bundle, since the topbar is eager. `UserMenuLookup` returns PrimeNG `MenuItem[]`, so there is no `UserMenuItem` model. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020). |
+| Bundle budget 500 kB → 700 kB → 800 kB | The app's floor is 478 kB before any feature. Raised to 800 kB when the avatar menu moved to PrimeNG (701 kB). |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
 | Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
 | `EcommerceService.data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it lets `data()` return `undefined` instead of throwing (covered by the service spec). |

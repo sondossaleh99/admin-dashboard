@@ -23,46 +23,42 @@
       </button>
     }
 
-    <div class="topbar__user-wrap">
-      <button
-        type="button"
-        class="topbar__user d-flex align-items-center gap-2 px-2 py-0"
-        #userButton
-        (click)="toggleUserMenu()"
-        [attr.aria-expanded]="userMenuOpen()"
-        aria-haspopup="menu"
-        aria-controls="user-menu"
+    <button
+      type="button"
+      class="topbar__user d-flex align-items-center gap-2 px-2 py-0"
+      (click)="menu.toggle($event)"
+      [attr.aria-expanded]="userMenuOpen()"
+      aria-haspopup="menu"
+      aria-controls="user-menu"
+    >
+      <span
+        class="topbar__avatar d-flex align-items-center justify-content-center flex-shrink-0 fs-xs fw-semibold"
+        aria-hidden="true"
+        >{{ user.initials }}</span
       >
-        <span
-          class="topbar__avatar d-flex align-items-center justify-content-center flex-shrink-0 fs-xs fw-semibold"
-          aria-hidden="true"
-          >{{ user.initials }}</span
-        >
-        <span class="topbar__identity d-none d-md-block">
-          <span class="d-block fs-xs text-muted">Hi,</span>
-          <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
-        </span>
-        <i class="pi pi-angle-down d-none d-md-block fs-xs text-muted" aria-hidden="true"></i>
-      </button>
+      <span class="topbar__identity d-none d-md-block">
+        <span class="d-block fs-xs text-muted">Hi,</span>
+        <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
+      </span>
+      <i class="pi pi-angle-down d-none d-md-block fs-xs text-muted" aria-hidden="true"></i>
+    </button>
 
-      @if (userMenuOpen()) {
-        <div class="topbar__dropdown p-2" id="user-menu" role="menu">
-          <div class="topbar__dropdown-head pt-2 px-3 pb-3 mb-2">
-            <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
-            <span class="d-block fs-xs text-muted">{{ user.role }}</span>
-          </div>
-          @for (entry of userMenu; track entry.label) {
-            <button
-              type="button"
-              class="topbar__dropdown-item d-flex align-items-center gap-3 py-2 px-3"
-              role="menuitem"
-            >
-              <i class="pi {{ entry.icon }} fs-sm text-muted" aria-hidden="true"></i>
-              {{ entry.label }}
-            </button>
-          }
+    <p-menu
+      #menu
+      [id]="'user-menu'"
+      [model]="userMenu"
+      [popup]="true"
+      appendTo="body"
+      ariaLabel="User menu"
+      (onShow)="userMenuOpen.set(true)"
+      (onHide)="userMenuOpen.set(false)"
+    >
+      <ng-template #start>
+        <div class="pt-2 px-3 pb-1">
+          <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
+          <span class="d-block fs-xs text-muted">{{ user.role }}</span>
         </div>
-      }
-    </div>
+      </ng-template>
+    </p-menu>
   </div>
 </header>
