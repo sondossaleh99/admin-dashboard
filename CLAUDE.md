@@ -33,7 +33,8 @@ npm run test:ci    # one headless test run
   map it to its label first. List an enum's values with `getAll()`, never `Object.values`.
 - A template reaches an enum through a camelCase component field: `iconChipSize = IconChipSize;`,
   used as `iconChipSize.Small`.
-- Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
+- Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes. The sidebar menu
+  is the exception: it is the `NAVIGATION_GROUPS` constant in `core/config/navigation.config.ts`.
 - Every route is lazy-loaded. A feature exposes only `routes.ts` (`<FEATURE>_ROUTES`) through
   its barrel; `app.routes.ts` loads it with `loadChildren`, and each page inside uses
   `loadComponent`, never `component:`.

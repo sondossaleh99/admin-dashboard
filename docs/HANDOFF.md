@@ -95,7 +95,7 @@ record of what is `[verify]`:
 | Location | What needs confirming |
 |---|---|
 | `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
-| `shared/lookup/navigation.lookup.ts` | Nav group labels and ordering (moved here from the deleted `core/data/nav.data.ts`) |
+| `core/config/navigation.config.ts` | `NAVIGATION_GROUPS`: sidebar group labels, items and ordering (was `NavigationLookup` in `shared/lookup`) |
 | `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
 | `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
@@ -109,7 +109,8 @@ record of what is `[verify]`:
 src/app/
   app.routes.ts    MainLayout from './layout'; each feature is lazy-loaded through its barrel
   core/                            barrel: core/index.ts → config, data
-    config/        primeng-preset (AppPreset, used by app.config.ts)
+    config/        primeng-preset (AppPreset, used by app.config.ts),
+                   navigation.config (NAVIGATION_GROUPS, the sidebar menu)
     data/          user.data (CURRENT_USER)
   layout/                          barrel: layout/index.ts
     service.ts     LayoutService (sidebar collapse and drawer state; not in the barrel)
@@ -119,7 +120,7 @@ src/app/
   shared/                          barrel: shared/index.ts
     models/        16 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
-    lookup/        10 *Lookup classes
+    lookup/        9 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
@@ -215,10 +216,10 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
-   literal, with no `readonly` return types. The ten today: `ActivityToneLookup`,
-   `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
+   literal, with no `readonly` return types. The nine today: `ActivityToneLookup`,
+   `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`,
    `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
-   `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
+   `CURRENT_USER`, the sidebar menu (`NAVIGATION_GROUPS` in `core/config/navigation.config.ts`), and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
    spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartCombo]`. It's
