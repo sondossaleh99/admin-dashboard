@@ -1,9 +1,25 @@
-$primary: #03c9d7;
-$primary-dark: #02aab6;
-$primary-light: #e0fafc;
+@use 'sass:color';
 
 $white: #ffffff;
 $black: #000000;
+
+$primary: #03c9d7;
+$primary-dark: color.mix($black, $primary, 15%);
+$primary-light: color.mix($white, $primary, 88%);
+
+$primary-scale: (
+  50: color.mix($white, $primary, 90%),
+  100: color.mix($white, $primary, 80%),
+  200: color.mix($white, $primary, 60%),
+  300: color.mix($white, $primary, 40%),
+  400: color.mix($white, $primary, 20%),
+  500: $primary,
+  600: color.mix($black, $primary, 10%),
+  700: color.mix($black, $primary, 22%),
+  800: color.mix($black, $primary, 35%),
+  900: color.mix($black, $primary, 47%),
+  950: color.mix($black, $primary, 65%)
+);
 
 $text-primary: #1f2937;
 $text-secondary: #6b7280;
@@ -54,7 +70,7 @@ $transition-fast: 120ms ease;
 $transition-base: 200ms ease;
 
 $chart-series: (
-  1: #03c9d7,
+  1: $primary,
   2: #eb6834,
   3: #2a78d6,
   4: #c2255c,

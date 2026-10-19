@@ -32,7 +32,10 @@
             "styles": [
               "node_modules/primeicons/primeicons.css",
               "src/styles/styles.scss"
-            ]
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            }
           },
           "configurations": {
             "production": {
@@ -92,6 +95,9 @@
               "node_modules/primeicons/primeicons.css",
               "src/styles/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "karmaConfig": "karma.conf.js"
           }
         }

@@ -7,6 +7,9 @@
   --color-primary: #{v.$primary};
   --color-primary-dark: #{v.$primary-dark};
   --color-primary-light: #{v.$primary-light};
+  @each $shade, $value in v.$primary-scale {
+    --color-primary-#{$shade}: #{$value};
+  }
 
   --color-text: #{v.$text-primary};
   --color-text-secondary: #{v.$text-secondary};
