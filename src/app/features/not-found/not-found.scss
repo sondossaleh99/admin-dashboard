@@ -1,7 +1,4 @@
-@use 'mixins' as m;
-
-.not-found {
-  @include m.card;
-  padding: var(--space-10) var(--space-8);
+:host {
+  display: block;
   max-width: 62ch;
 }

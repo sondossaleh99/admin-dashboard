@@ -70,10 +70,7 @@ export function baseOptions(): ApexOptions {
   };
 }
 
-export function prefersReducedMotion(): boolean {
-  if (typeof window === 'undefined' || !window.matchMedia) {
-    return false;
-  }
+function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 

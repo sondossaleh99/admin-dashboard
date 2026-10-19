@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Avatar } from 'primeng/avatar';
-import { ButtonDirective } from 'primeng/button';
+import { ButtonDirective, ButtonIcon } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { OverlayBadge } from 'primeng/overlaybadge';
 
@@ -11,7 +11,7 @@ import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-topbar',
-  imports: [Avatar, ButtonDirective, Menu, OverlayBadge],
+  imports: [Avatar, ButtonDirective, ButtonIcon, Menu, OverlayBadge],
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,14 +1,15 @@
-@use 'mixins' as m;
-
 :host {
   display: block;
   height: 100%;
 }
 
 .ui-card {
-  @include m.card;
   height: 100%;
   overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .ui-card-body {
