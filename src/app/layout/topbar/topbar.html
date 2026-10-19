@@ -1,25 +1,29 @@
 <header class="topbar d-flex align-items-center gap-3">
   <div class="d-lg-none">
-    <p-button
+    <button
+      pButton
+      type="button"
       icon="pi pi-bars"
       [text]="true"
       [rounded]="true"
       severity="secondary"
-      ariaLabel="Open navigation"
-      (onClick)="openDrawer()"
-    />
+      aria-label="Open navigation"
+      (click)="openDrawer()"
+    ></button>
   </div>
 
   <div class="d-flex align-items-center gap-1 ms-auto">
     @for (action of actions; track action.icon) {
       <p-overlaybadge [value]="action.badge" severity="danger" [badgeDisabled]="!action.badge">
-        <p-button
+        <button
+          pButton
+          type="button"
           [icon]="action.icon"
           [text]="true"
           [rounded]="true"
           severity="secondary"
-          [ariaLabel]="action.label + (action.badge ? ', ' + action.badge + ' unread' : '')"
-        />
+          [attr.aria-label]="action.label + (action.badge ? ', ' + action.badge + ' unread' : '')"
+        ></button>
       </p-overlaybadge>
     }
 
