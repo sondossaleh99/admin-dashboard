@@ -2,13 +2,13 @@
   <div class="d-flex flex-wrap align-items-end justify-content-between gap-6">
     <div>
       <p class="fs-sm text-secondary">{{ earnings().label }}</p>
-      <p class="hero_value tabular-nums mt-1 mb-3 fs-3xl fw-bold">
+      <p class="hero-value tabular-nums mt-1 mb-3 fs-3xl fw-bold">
         {{ earnings().total | appCurrency: 2 }}
       </p>
       <app-delta-badge [value]="earnings().delta" />
     </div>
 
-    <div class="hero_spark">
+    <div class="hero-spark">
       <app-chart-sparkline [data]="earnings().trend" [height]="64" />
     </div>
 

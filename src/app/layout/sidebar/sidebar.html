@@ -1,7 +1,7 @@
 <nav class="sidebar d-flex flex-column" aria-label="Main">
-  <div class="sidebar_brand d-flex align-items-center gap-3 flex-shrink-0">
+  <div class="sidebar-brand d-flex align-items-center gap-3 flex-shrink-0">
     @if (!collapsed()) {
-      <span class="sidebar_mark fs-md" aria-hidden="true">
+      <span class="sidebar-mark fs-md" aria-hidden="true">
         <i class="pi pi-bolt"></i>
       </span>
       <span class="flex-1 fs-lg fw-bold text-truncate">Shoppy</span>
@@ -29,7 +29,7 @@
     </button>
   </div>
 
-  <div class="sidebar_nav flex-1" id="sidebar-nav">
+  <div class="sidebar-nav flex-1" id="sidebar-nav">
     <p-menu [model]="navigationGroups" ariaLabel="Main navigation" />
   </div>
 </nav>

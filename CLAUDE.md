@@ -44,7 +44,8 @@ npm run test:ci    # one headless test run
 - `$primary` in `_variables.scss` is the only place the brand colour is set. Its shades become
   `--color-primary-*` tokens, which the PrimeNG preset and the charts read.
 - Component styles import shared Sass by name (`@use 'mixins' as m;`), never by relative path.
-- Class names join block and element with one underscore (`hero_spark`, never `hero__spark`).
+- Class names join block and element with a hyphen (`activity-dot`, never `activity_dot` or
+  `activity__dot`). Modifiers keep the double hyphen (`activity-dot--success`).
 - No hex colours in component styles: use `--color-*` tokens. Utilities first; a component's
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.
