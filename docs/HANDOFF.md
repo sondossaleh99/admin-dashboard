@@ -274,7 +274,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     | Grid gutters | `row g-6` (24px), same scale | Bootstrap |
     | Type | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums` | `_utilities.scss`, `_base.scss` |
     | Lists | `list-unstyled` (add `m-0` to drop the default margin) | `_utilities.scss` |
-    | Repeated widgets | `btn-icon` (+`--lg`), `btn-outline`, `search-field` (+`__icon`, `__input`), `count-badge` (+`--danger`), `soon-tag` | `_patterns.scss` |
+    | Repeated widgets | `btn-icon` (+`--lg`), `btn-outline`, `count-badge` (+`--danger`), `soon-tag` | `_patterns.scss` |
 
     Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
     computed-style diff of every element, compared before and after, across the UI states

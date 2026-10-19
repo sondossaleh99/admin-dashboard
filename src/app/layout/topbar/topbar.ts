@@ -27,7 +27,6 @@ export class TopbarComponent {
   userButton = viewChild<ElementRef<HTMLButtonElement>>('userButton');
 
   user = CURRENT_USER;
-  search = signal('');
   userMenuOpen = signal(false);
 
   actions: TopbarAction[] = TopbarActionsLookup.getActions();
