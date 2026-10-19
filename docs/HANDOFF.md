@@ -107,7 +107,7 @@ record of what is `[verify]`:
 
 ```
 src/app/
-  app.routes.ts    MainLayout from './layout'; lazy routes import the closest feature barrel
+  app.routes.ts    MainLayout from './layout'; each feature is lazy-loaded through its barrel
   core/                            barrel: core/index.ts → config, data
     config/        primeng-preset (AppPreset, used by app.config.ts)
     data/          user.data (CURRENT_USER)
@@ -131,6 +131,7 @@ src/app/
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
                      owns data, loading, error and retry; provided by the page)
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
+                   + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren)
     not-found/
 ```
 
@@ -170,10 +171,15 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - `layout/` components import `LayoutService` by direct path (`'../service'`), the same way
      `ecommerce-page.ts` imports `'./service'`.
    - Models live in `shared/models` and are imported through the `shared` barrel (§6).
-   - Lazy `loadComponent` routes import the closest **per-feature** barrel
-     (`'./features/ecommerce'`). There is deliberately no root `features/index.ts`: it would merge every
-     route's lazy chunk into one. A cosmetic side effect: lazy chunks are named `index` in the
-     build output.
+   - Each feature owns its routes in a `routes.ts` beside its page, exported from its barrel as
+     `<FEATURE>_ROUTES` (`ECOMMERCE_ROUTES`). `app.routes.ts` keeps one entry per feature:
+     `loadChildren: () => import('./features/ecommerce').then((m) => m.ECOMMERCE_ROUTES)`. The
+     feature's own routes set each page's `title` and use `component:`, since the whole feature
+     already arrives as one lazy chunk. A one-page route with no feature folder of its own
+     (`not-found`) stays a plain `loadComponent`.
+   - Lazy routes import the closest **per-feature** barrel (`'./features/ecommerce'`). There is
+     deliberately no root `features/index.ts`: it would merge every route's lazy chunk into one. A
+     cosmetic side effect: lazy chunks are named `index` in the build output.
    - Direction: `features` and `layout` → `shared` and `core`. `shared` never imports `features`
      or `core`.
 
