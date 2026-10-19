@@ -34,6 +34,9 @@ npm run test:ci    # one headless test run
 - A template reaches an enum through a camelCase component field: `iconChipSize = IconChipSize;`,
   used as `iconChipSize.Small`.
 - Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
+- Every route is lazy-loaded. A feature exposes only `routes.ts` (`<FEATURE>_ROUTES`) through
+  its barrel; `app.routes.ts` loads it with `loadChildren`, and each page inside uses
+  `loadComponent`, never `component:`.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
   `DEFAULT_CURRENCY_CODE` in `app.config.ts`.

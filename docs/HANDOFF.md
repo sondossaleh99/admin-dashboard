@@ -131,7 +131,8 @@ src/app/
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
                      owns data, loading, error and retry; provided by the page)
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
-                   + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren)
+                   + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
+                     the only export of the feature barrel)
     not-found/
 ```
 
@@ -171,12 +172,14 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - `layout/` components import `LayoutService` by direct path (`'../service'`), the same way
      `ecommerce-page.ts` imports `'./service'`.
    - Models live in `shared/models` and are imported through the `shared` barrel (§6).
-   - Each feature owns its routes in a `routes.ts` beside its page, exported from its barrel as
-     `<FEATURE>_ROUTES` (`ECOMMERCE_ROUTES`). `app.routes.ts` keeps one entry per feature:
-     `loadChildren: () => import('./features/ecommerce').then((m) => m.ECOMMERCE_ROUTES)`. The
-     feature's own routes set each page's `title` and use `component:`, since the whole feature
-     already arrives as one lazy chunk. A one-page route with no feature folder of its own
-     (`not-found`) stays a plain `loadComponent`.
+   - Every route is lazy-loaded. Each feature owns its routes in a `routes.ts` beside its page,
+     exported as `<FEATURE>_ROUTES` (`ECOMMERCE_ROUTES`). `app.routes.ts` keeps one entry per
+     feature: `loadChildren: () => import('./features/ecommerce').then((m) => m.ECOMMERCE_ROUTES)`.
+     Inside `routes.ts` every page sets its `title` and uses `loadComponent` with a direct path
+     (`import('./ecommerce-page')`), never `component:`. The feature barrel exports only
+     `./routes`: if it also exported the page, the page would ship in the routes chunk and its
+     `loadComponent` would split nothing. A route with no feature routes of its own
+     (`not-found`) uses `loadComponent` in `app.routes.ts`.
    - Lazy routes import the closest **per-feature** barrel (`'./features/ecommerce'`). There is
      deliberately no root `features/index.ts`: it would merge every route's lazy chunk into one. A
      cosmetic side effect: lazy chunks are named `index` in the build output.
