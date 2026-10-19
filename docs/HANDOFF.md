@@ -23,7 +23,7 @@ In a container, point Karma at the bundled Chromium first:
 `export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
 
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 701 kB against an 800 kB warning /
+ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 750 kB against an 800 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -275,7 +275,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     | Grid gutters | `row g-6` (24px), same scale | Bootstrap |
     | Type | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums` | `_utilities.scss`, `_base.scss` |
     | Lists | `list-unstyled` (add `m-0` to drop the default margin) | `_utilities.scss` |
-    | Repeated widgets | `btn-icon` (+`--lg`), `btn-outline`, `count-badge` (+`--danger`), `soon-tag` | `_patterns.scss` |
+    | Repeated widgets | `btn-icon`, `btn-outline`, `count-badge`, `soon-tag` | `_patterns.scss` |
 
     Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
     computed-style diff of every element, compared before and after, across the UI states
@@ -316,8 +316,8 @@ model is used in at least two files, so none live under `features/`. There is no
 | Decision | Why |
 |---|---|
 | Bootstrap via `bootstrap-grid`, not the full stylesheet | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB. |
-| Avatar menu is PrimeNG `Menu` (`popup`, `appendTo="body"`), not hand-rolled | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG so PrimeNG owns every interactive component. It costs ≈ 100 kB raw / 22 kB gzip in the initial bundle, since the topbar is eager. `UserMenuLookup` returns PrimeNG `MenuItem[]`, so there is no `UserMenuItem` model. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020). |
-| Bundle budget 500 kB → 700 kB → 800 kB | The app's floor is 478 kB before any feature. Raised to 800 kB when the avatar menu moved to PrimeNG (701 kB). |
+| Topbar is all PrimeNG: `Button` (icon actions, drawer toggle), `ButtonDirective` (user trigger), `OverlayBadge`, `Avatar` and `Menu` (`popup`, `appendTo="body"`) | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG to cut custom code and styles, accepting PrimeNG's look (grey avatar, corner badges). The topbar is eager, so this costs ≈ 148 kB raw / 29 kB gzip in the initial bundle. `UserMenuLookup` returns PrimeNG `MenuItem[]` and `TopbarActionsLookup` icons carry the full `pi pi-*` class. `<p-menu>` sits outside the icon row so its empty host adds no flex gap. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020). |
+| Bundle budget 500 kB → 700 kB → 800 kB | The app's floor is 478 kB before any feature. Raised to 800 kB when the topbar moved to PrimeNG (≈ 750 kB). The plan's DoD was updated to match. |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
 | Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
 | `EcommerceService.data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it lets `data()` return `undefined` instead of throwing (covered by the service spec). |

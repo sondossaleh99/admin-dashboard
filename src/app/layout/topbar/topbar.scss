@@ -10,42 +10,6 @@
   border-bottom: 1px solid var(--color-border);
 }
 
-.topbar__action {
-  position: relative;
-}
-
-.topbar__badge {
-  position: absolute;
-  top: 4px;
-  inset-inline-end: 4px;
-  min-width: 16px;
-  height: 16px;
-  padding-inline: 4px;
-  font-size: 10px;
-  line-height: 16px;
-}
-
-.topbar__user {
-  height: 40px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: transparent;
-  cursor: pointer;
-  color: var(--color-text);
-
-  &:hover {
-    background: var(--color-surface-sunk);
-  }
-}
-
-.topbar__avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-pill);
-  background: var(--color-primary-light);
-  color: var(--color-primary-dark);
-}
-
 .topbar__identity {
   text-align: start;
   line-height: 1.2;

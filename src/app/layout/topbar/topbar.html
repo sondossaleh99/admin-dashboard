@@ -1,64 +1,64 @@
 <header class="topbar d-flex align-items-center gap-3">
-  <button
-    type="button"
-    class="topbar__action btn-icon btn-icon--lg d-lg-none"
-    (click)="openDrawer()"
-  >
-    <i class="pi pi-bars" aria-hidden="true"></i>
-    <span class="visually-hidden">Open navigation</span>
-  </button>
+  <div class="d-lg-none">
+    <p-button
+      icon="pi pi-bars"
+      [text]="true"
+      [rounded]="true"
+      severity="secondary"
+      ariaLabel="Open navigation"
+      (onClick)="openDrawer()"
+    />
+  </div>
 
   <div class="d-flex align-items-center gap-1 ms-auto">
     @for (action of actions; track action.icon) {
-      <button type="button" class="topbar__action btn-icon btn-icon--lg">
-        <i class="pi {{ action.icon }}" aria-hidden="true"></i>
-        @if (action.badge) {
-          <span class="topbar__badge count-badge count-badge--danger" aria-hidden="true">
-            {{ action.badge }}
-          </span>
-        }
-        <span class="visually-hidden">
-          {{ action.label }}{{ action.badge ? ', ' + action.badge + ' unread' : '' }}
-        </span>
-      </button>
+      <p-overlaybadge [value]="action.badge" severity="danger" [badgeDisabled]="!action.badge">
+        <p-button
+          [icon]="action.icon"
+          [text]="true"
+          [rounded]="true"
+          severity="secondary"
+          [ariaLabel]="action.label + (action.badge ? ', ' + action.badge + ' unread' : '')"
+        />
+      </p-overlaybadge>
     }
 
     <button
+      pButton
       type="button"
-      class="topbar__user d-flex align-items-center gap-2 px-2 py-0"
+      [text]="true"
+      severity="secondary"
       (click)="menu.toggle($event)"
       [attr.aria-expanded]="userMenuOpen()"
       aria-haspopup="menu"
       aria-controls="user-menu"
     >
-      <span
-        class="topbar__avatar d-flex align-items-center justify-content-center flex-shrink-0 fs-xs fw-semibold"
-        aria-hidden="true"
-        >{{ user.initials }}</span
-      >
-      <span class="topbar__identity d-none d-md-block">
-        <span class="d-block fs-xs text-muted">Hi,</span>
-        <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
-      </span>
-      <i class="pi pi-angle-down d-none d-md-block fs-xs text-muted" aria-hidden="true"></i>
-    </button>
-
-    <p-menu
-      #menu
-      [id]="'user-menu'"
-      [model]="userMenu"
-      [popup]="true"
-      appendTo="body"
-      ariaLabel="User menu"
-      (onShow)="userMenuOpen.set(true)"
-      (onHide)="userMenuOpen.set(false)"
-    >
-      <ng-template #start>
-        <div class="pt-2 px-3 pb-1">
+      <span class="d-flex align-items-center gap-2">
+        <p-avatar [label]="user.initials" shape="circle" aria-hidden="true" />
+        <span class="topbar__identity d-none d-md-block">
+          <span class="d-block fs-xs text-muted">Hi,</span>
           <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
-          <span class="d-block fs-xs text-muted">{{ user.role }}</span>
-        </div>
-      </ng-template>
-    </p-menu>
+        </span>
+        <i class="pi pi-angle-down d-none d-md-block fs-xs text-muted" aria-hidden="true"></i>
+      </span>
+    </button>
   </div>
 </header>
+
+<p-menu
+  #menu
+  [id]="'user-menu'"
+  [model]="userMenu"
+  [popup]="true"
+  appendTo="body"
+  ariaLabel="User menu"
+  (onShow)="userMenuOpen.set(true)"
+  (onHide)="userMenuOpen.set(false)"
+>
+  <ng-template #start>
+    <div class="pt-2 px-3 pb-1">
+      <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
+      <span class="d-block fs-xs text-muted">{{ user.role }}</span>
+    </div>
+  </ng-template>
+</p-menu>
