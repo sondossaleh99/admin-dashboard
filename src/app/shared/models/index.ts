@@ -1,6 +1,4 @@
 export * from './user.model';
-export * from './nav-item.model';
-export * from './nav-group.model';
 export * from './donut-slice.model';
 export * from './combo-series.model';
 export * from './chart-ink.model';

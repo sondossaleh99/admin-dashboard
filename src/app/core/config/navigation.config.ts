@@ -1,13 +1,13 @@
-import { NavGroup } from '../../shared';
+import { MenuItem } from 'primeng/api';
 
-export const NAVIGATION_GROUPS: NavGroup[] = [
+export const NAVIGATION_GROUPS: MenuItem[] = [
   {
     label: 'Dashboard',
     items: [
       {
         label: 'Ecommerce',
-        icon: 'pi-shopping-cart',
-        route: '/ecommerce'
+        icon: 'pi pi-shopping-cart',
+        routerLink: '/ecommerce'
       }
     ]
   },
@@ -16,20 +16,20 @@ export const NAVIGATION_GROUPS: NavGroup[] = [
     items: [
       {
         label: 'Orders',
-        icon: 'pi-file',
-        route: '/orders',
+        icon: 'pi pi-file',
+        routerLink: '/orders',
         disabled: true
       },
       {
         label: 'Employees',
-        icon: 'pi-id-card',
-        route: '/employees',
+        icon: 'pi pi-id-card',
+        routerLink: '/employees',
         disabled: true
       },
       {
         label: 'Customers',
-        icon: 'pi-users',
-        route: '/customers',
+        icon: 'pi pi-users',
+        routerLink: '/customers',
         disabled: true
       }
     ]
@@ -39,20 +39,20 @@ export const NAVIGATION_GROUPS: NavGroup[] = [
     items: [
       {
         label: 'Calendar',
-        icon: 'pi-calendar',
-        route: '/calendar',
+        icon: 'pi pi-calendar',
+        routerLink: '/calendar',
         disabled: true
       },
       {
         label: 'Kanban',
-        icon: 'pi-th-large',
-        route: '/kanban',
+        icon: 'pi pi-th-large',
+        routerLink: '/kanban',
         disabled: true
       },
       {
         label: 'Editor',
-        icon: 'pi-pencil',
-        route: '/editor',
+        icon: 'pi pi-pencil',
+        routerLink: '/editor',
         disabled: true
       }
     ]
@@ -62,20 +62,20 @@ export const NAVIGATION_GROUPS: NavGroup[] = [
     items: [
       {
         label: 'Line',
-        icon: 'pi-chart-line',
-        route: '/line',
+        icon: 'pi pi-chart-line',
+        routerLink: '/line',
         disabled: true
       },
       {
         label: 'Area',
-        icon: 'pi-chart-bar',
-        route: '/area',
+        icon: 'pi pi-chart-bar',
+        routerLink: '/area',
         disabled: true
       },
       {
         label: 'Pie',
-        icon: 'pi-chart-pie',
-        route: '/pie',
+        icon: 'pi pi-chart-pie',
+        routerLink: '/pie',
         disabled: true
       }
     ]

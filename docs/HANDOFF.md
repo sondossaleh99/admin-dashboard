@@ -95,7 +95,7 @@ record of what is `[verify]`:
 | Location | What needs confirming |
 |---|---|
 | `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
-| `core/config/navigation.config.ts` | `NAVIGATION_GROUPS`: sidebar group labels, items and ordering (was `NavigationLookup` in `shared/lookup`) |
+| `core/config/navigation.config.ts` | `NAVIGATION_GROUPS`: the sidebar menu as PrimeNG `MenuItem[]` (groups, labels, icons, `routerLink`, `disabled`) |
 | `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
 | `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
@@ -115,10 +115,10 @@ src/app/
   layout/                          barrel: layout/index.ts
     service.ts     LayoutService (sidebar collapse and drawer state; not in the barrel)
     main-layout/
-    sidebar/       + components/sidebar-nav-item/
+    sidebar/       PrimeNG Menu built from NAVIGATION_GROUPS
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        16 shared interfaces (see §6)
+    models/        14 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
     lookup/        9 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
@@ -231,7 +231,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - `DeltaBadgeComponent` and `IconChipComponent`: listing them explicitly tells a reader what that card shows.
 
 9. **Component folders.** A complex component with sub-parts gets a nested `components/` folder
-   with barrels at each level (e.g. `sidebar/components/sidebar-nav-item/`). A simple one stays
+   with barrels at each level (e.g. `features/ecommerce/components/activity-card/`). A simple one stays
    flat with its own `index.ts`.
 
 10. **Carried over from Stages 1–6, still binding:**
@@ -275,7 +275,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     | Grid gutters | `row g-6` (24px), same scale | Bootstrap |
     | Type | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums` | `_utilities.scss`, `_base.scss` |
     | Lists | `list-unstyled` (add `m-0` to drop the default margin) | `_utilities.scss` |
-    | Repeated widgets | `btn-icon`, `btn-outline`, `soon-tag` | `_patterns.scss` |
+    | Repeated widgets | `btn-icon`, `btn-outline` | `_patterns.scss` |
 
     Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
     computed-style diff of every element, compared before and after, across the UI states
@@ -290,7 +290,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (16) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+| `shared/models/` (14) | `User`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
@@ -316,6 +316,7 @@ model is used in at least two files, so none live under `features/`. There is no
 | Decision | Why |
 |---|---|
 | Bootstrap via `bootstrap-grid`, not the full stylesheet | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB. |
+| Sidebar links are a PrimeNG `Menu` (not popup), not a hand-rolled `SidebarNavItem` | The user moved it to PrimeNG to drop the custom nav-item component, accepting PrimeNG's look (tighter rows, `Soon` as a grey badge, no active bar). `NAVIGATION_GROUPS` is `MenuItem[]`, so the `NavGroup` and `NavItem` models are gone. `SidebarComponent` maps it once to add `title` (tooltip when collapsed), the `Soon` badge for disabled items and a `command` that closes the drawer. PrimeNG does not style the active route or a collapsed rail, so `sidebar.scss` does both with `::ng-deep` on `.p-menu-item-link-active`, `.p-menu-item-label` and `.p-menu-submenu-label`. |
 | Topbar is all PrimeNG: native `<button pButton>` (`ButtonDirective`) for every button, never `<p-button>`, plus `OverlayBadge`, `Avatar` and `Menu` (`popup`, `appendTo="body"`) | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG to cut custom code and styles, accepting PrimeNG's look (grey avatar, corner badges). The topbar is eager, so this costs ≈ 148 kB raw / 29 kB gzip in the initial bundle. `UserMenuLookup` returns PrimeNG `MenuItem[]` and `TopbarActionsLookup` icons carry the full `pi pi-*` class. `<p-menu>` sits outside the icon row so its empty host adds no flex gap. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020). |
 | Bundle budget 500 kB → 700 kB → 800 kB | The app's floor is 478 kB before any feature. Raised to 800 kB when the topbar moved to PrimeNG (≈ 750 kB). The plan's DoD was updated to match. |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
