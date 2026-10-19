@@ -1,9 +1,13 @@
 @use '../../../styles/variables' as v;
 
-.topbar {
+:host {
+  display: block;
   position: sticky;
   top: 0;
   z-index: v.$z-topbar;
+}
+
+.topbar {
   height: var(--topbar-height);
   padding-inline: var(--content-padding);
   background: var(--color-surface);
