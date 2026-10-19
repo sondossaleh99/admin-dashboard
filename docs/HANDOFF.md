@@ -273,9 +273,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     | Show/hide by width | `d-none d-md-block`, `d-lg-none`, … (breakpoints match `$bp-*`)                                                                                 | Bootstrap                                                  |
     | Spacing            | `m-*`, `p-*`, `mt-*`, `px-*`, … and `gap-*`: steps 0–6 and 8, equal to `--space-N` (`p-3` = 12px)                                               | Bootstrap (scale set in `styles.scss`) + `_utilities.scss` |
     | Grid gutters       | `row g-6` (24px), same scale                                                                                                                    | Bootstrap                                                  |
-    | Type               | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums`       | `_utilities.scss`, `_base.scss`                            |
+    | Type               | `fs-{xs…3xl}`, `fw-{medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-end`, `text-truncate`, `tabular-nums`   | `_utilities.scss`, `_base.scss`                            |
     | Lists              | `list-unstyled` (add `m-0` to drop the default margin)                                                                                          | `_utilities.scss`                                          |
-    | Repeated widgets   | `btn-icon`, `btn-outline`                                                                                                                       | `_patterns.scss`                                           |
+    | Buttons            | `pButton` (`[text]`, `[outlined]`, `[rounded]`, with `pButtonIcon` / `pButtonLabel`) and `p-selectbutton`; no custom button classes            | PrimeNG                                                    |
 
     Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
     computed-style diff of every element, compared before and after, across the UI states

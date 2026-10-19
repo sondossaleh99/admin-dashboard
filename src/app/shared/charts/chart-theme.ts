@@ -2,11 +2,8 @@ import { ApexOptions } from 'ng-apexcharts';
 
 import { ChartInk } from '../models/chart-ink.model';
 
-function cssVar(name: string, fallback = ''): string {
-  if (typeof document === 'undefined') {
-    return fallback;
-  }
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+function cssVar(name: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
 export function seriesColors(count: number): string[] {
@@ -15,13 +12,11 @@ export function seriesColors(count: number): string[] {
 
 export function chartInk(): ChartInk {
   return {
-    text: cssVar('--color-text', '#1f2937'),
-    muted: cssVar('--chart-axis-text', '#9ca3af'),
-    grid: cssVar('--chart-grid', '#eef2f6'),
-    surface: cssVar('--color-surface', '#ffffff'),
-    tooltipBg: cssVar('--chart-tooltip-bg', '#1f2937'),
-    tooltipText: cssVar('--chart-tooltip-text', '#ffffff'),
-    fontFamily: cssVar('--font-family-base', 'Inter, sans-serif')
+    text: cssVar('--color-text'),
+    muted: cssVar('--chart-axis-text'),
+    grid: cssVar('--chart-grid'),
+    surface: cssVar('--color-surface'),
+    fontFamily: cssVar('--font-family-base')
   };
 }
 

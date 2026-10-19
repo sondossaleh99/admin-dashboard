@@ -29,24 +29,23 @@
   --color-warning-text: #{v.$warning-text};
   --color-danger-text: #{v.$danger-text};
   --color-info-text: #{v.$info-text};
+  --color-overlay: #{v.$overlay};
+  --color-sheen: #{v.$sheen};
 
   --radius-sm: #{v.$radius-sm};
   --radius-md: #{v.$radius-md};
   --radius-lg: #{v.$radius-lg};
-  --radius-xl: #{v.$radius-xl};
   --radius-pill: #{v.$radius-pill};
 
   --shadow-sm: #{v.$shadow-sm};
-  --shadow-md: #{v.$shadow-md};
-  --shadow-lg: #{v.$shadow-lg};
 
   --sidebar-width: #{v.$sidebar-width};
   --sidebar-width-collapsed: #{v.$sidebar-width-collapsed};
   --topbar-height: #{v.$topbar-height};
   --content-padding: #{v.$content-padding-mobile};
-  --grid-gutter: #{v.$grid-gutter};
 
   --font-family-base: #{t.$font-family-base};
+  --font-size-2xs: #{t.$font-size-2xs};
   --font-size-xs: #{t.$font-size-xs};
   --font-size-sm: #{t.$font-size-sm};
   --font-size-md: #{t.$font-size-md};
@@ -54,7 +53,6 @@
   --font-size-xl: #{t.$font-size-xl};
   --font-size-2xl: #{t.$font-size-2xl};
   --font-size-3xl: #{t.$font-size-3xl};
-  --font-weight-regular: #{t.$font-weight-regular};
   --font-weight-medium: #{t.$font-weight-medium};
   --font-weight-semibold: #{t.$font-weight-semibold};
   --font-weight-bold: #{t.$font-weight-bold};
@@ -67,10 +65,7 @@
   --space-6: #{s.$spacing-6};
   --space-8: #{s.$spacing-8};
   --space-10: #{s.$spacing-10};
-  --space-12: #{s.$spacing-12};
-  --space-16: #{s.$spacing-16};
 
-  --transition-fast: #{v.$transition-fast};
   --transition-base: #{v.$transition-base};
 
   @each $slot, $hex in v.$chart-series {
@@ -78,8 +73,6 @@
   }
   --chart-grid: #{v.$chart-grid};
   --chart-axis-text: #{v.$chart-axis-text};
-  --chart-tooltip-bg: #{v.$chart-tooltip-bg};
-  --chart-tooltip-text: #{v.$chart-tooltip-text};
 
   @media (min-width: #{v.$bp-md}) {
     --content-padding: #{v.$content-padding};

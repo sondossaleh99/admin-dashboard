@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ButtonDirective, ButtonIcon } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 
 import { NAVIGATION_GROUPS } from '../../core';
@@ -6,7 +7,7 @@ import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [Menu],
+  imports: [ButtonDirective, ButtonIcon, Menu],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
   host: { '[class.sidebar--collapsed]': 'collapsed()' },
