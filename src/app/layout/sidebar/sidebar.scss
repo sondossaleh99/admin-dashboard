@@ -36,8 +36,10 @@
 :host ::ng-deep {
   .p-menu {
     min-width: 0;
-    border: none;
-    background: transparent;
+  }
+
+  .p-menu-item-link {
+    min-height: 2.75rem;
   }
 
   .p-menu-item-link-active {
@@ -68,6 +70,7 @@
   ::ng-deep {
     .p-menu-item-link {
       justify-content: center;
+      padding-inline: 0;
     }
 
     .p-menu-item-label {
