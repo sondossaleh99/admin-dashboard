@@ -47,30 +47,30 @@ All seven stage PRs (#1–#7) are merged into `init`. After Stage 6, work was co
 `init` for a while (the table below). That has stopped: follow the rules above. The
 `claude/stage-*` branches are merged and stale.
 
-| PR | State | Notes |
-|---|---|---|
-| #1–#7 | merged | Plan, then Stages 1–6 (merge commits `2c59a5d` … `42a6845`) |
-| #8 | merged by the user | Review-only PR (`init` → anchor branch `claude/pre-shared-refactor`). Merging it only moved the anchor branch forward. `init` was unaffected. |
-| #9 | **open** (the user's) | `claude/pre-shared-refactor` → `init`: one merge commit, **0 file changes**. Merging it would change no files. |
+| PR    | State                 | Notes                                                                                                                                         |
+| ----- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| #1–#7 | merged                | Plan, then Stages 1–6 (merge commits `2c59a5d` … `42a6845`)                                                                                   |
+| #8    | merged by the user    | Review-only PR (`init` → anchor branch `claude/pre-shared-refactor`). Merging it only moved the anchor branch forward. `init` was unaffected. |
+| #9    | **open** (the user's) | `claude/pre-shared-refactor` → `init`: one merge commit, **0 file changes**. Merging it would change no files.                                |
 
 **Never merge, close or open a PR without an explicit instruction from the user.**
 
 Post–Stage 6 commits on `init`, oldest first:
 
-| Commit | What it did |
-|---|---|
-| `3c0575e` | Dropped `protected` from component members |
-| `55f3563` | Barrels for `shared/charts` and `shared/ui` |
-| `5215db4` | `shared/interface` (one interface per file) + `shared/enum` (unions → enums); deleted `core/models` |
-| `2f2245c` | External consumers import through the root `shared` barrel |
-| `9bb2909` | Folder-level `index.ts` in every component folder |
-| `d440cb1` | `shared/lookup`: static config data → `*Lookup` classes |
-| `1d96982` | Dropped `readonly` everywhere and `private` everywhere but one place (§5.3) |
-| `4169e0f`, `0dd4046` | `core` barrels, and consumers routed through them |
-| `9e96789` | Root barrels for `layout` and `features` |
-| `268acfc`, `14d7371` | `SHARED_IMPORTS` (pipes, then `UiCardComponent` added after re-analysis) |
-| `54dda9d` | `shared/interface` → `shared/models` + `features/ecommerce/models` |
-| `fe774d7` | Relocated models by ownership — **reverted by `195b23a`** at the user's request (§6) |
+| Commit               | What it did                                                                                         |
+| -------------------- | --------------------------------------------------------------------------------------------------- |
+| `3c0575e`            | Dropped `protected` from component members                                                          |
+| `55f3563`            | Barrels for `shared/charts` and `shared/ui`                                                         |
+| `5215db4`            | `shared/interface` (one interface per file) + `shared/enum` (unions → enums); deleted `core/models` |
+| `2f2245c`            | External consumers import through the root `shared` barrel                                          |
+| `9bb2909`            | Folder-level `index.ts` in every component folder                                                   |
+| `d440cb1`            | `shared/lookup`: static config data → `*Lookup` classes                                             |
+| `1d96982`            | Dropped `readonly` everywhere and `private` everywhere but one place (§5.3)                         |
+| `4169e0f`, `0dd4046` | `core` barrels, and consumers routed through them                                                   |
+| `9e96789`            | Root barrels for `layout` and `features`                                                            |
+| `268acfc`, `14d7371` | `SHARED_IMPORTS` (pipes, then `UiCardComponent` added after re-analysis)                            |
+| `54dda9d`            | `shared/interface` → `shared/models` + `features/ecommerce/models`                                  |
+| `fe774d7`            | Relocated models by ownership — **reverted by `195b23a`** at the user's request (§6)                |
 
 ---
 
@@ -92,14 +92,14 @@ guessed.
 Everything below depends on this. The code no longer carries comments, so this table is the only
 record of what is `[verify]`:
 
-| Location | What needs confirming |
-|---|---|
-| `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
-| `core/config/navigation.config.ts` | `NAVIGATION_GROUPS`: the sidebar menu as PrimeNG `MenuItem[]` (groups, labels, icons, `routerLink`, `disabled`) |
-| `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
-| Plan §3.2 | Page region inventory and order |
-| `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
-| `ActivityCardComponent` | Built as a real-data activity feed, not a media/blog card. The plan's media card needs images and copy the data model doesn't have, so it renders the recent orders as events instead of inventing content |
+| Location                           | What needs confirming                                                                                                                                                                                      |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/styles/_variables.scss`       | `$sidebar-width`, `$topbar-height`                                                                                                                                                                         |
+| `core/config/navigation.config.ts` | `NAVIGATION_GROUPS`: the sidebar menu as PrimeNG `MenuItem[]` (groups, labels, icons, `routerLink`, `disabled`)                                                                                            |
+| `features/ecommerce/mock-data.ts`  | Every figure — shaped like the reference, not copied from it                                                                                                                                               |
+| Plan §3.2                          | Page region inventory and order                                                                                                                                                                            |
+| `EarningsHeroComponent`            | No decorative background was added — there is nothing to base one on                                                                                                                                       |
+| `ActivityCardComponent`            | Built as a real-data activity feed, not a media/blog card. The plan's media card needs images and copy the data model doesn't have, so it renders the recent orders as events instead of inventing content |
 
 ---
 
@@ -153,7 +153,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 1. **Barrels everywhere.** Every folder that exposes something has an `index.ts` using
    `export * from '…'`. A folder wrapping one component exports that file. A parent exports its
-   child *folders*, never a file inside them: `export * from './ui-card'`, not
+   child _folders_, never a file inside them: `export * from './ui-card'`, not
    `'./ui-card/ui-card'`. Flat multi-file folders (`enum`, `models`, `lookup`, `charts`,
    `imports`, `pipes`, `core/data`) list their files in one `index.ts`. Root barrels:
    `shared`, `core`, `layout`, `features`.
@@ -165,9 +165,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `skeleton-block.html`.
 
 3. **Import paths and direction.**
-   - Code *outside* `shared/` or `core/` imports from the root barrel:
+   - Code _outside_ `shared/` or `core/` imports from the root barrel:
      `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { CURRENT_USER } from '../../core'`.
-   - Code *inside* `shared/` or `core/` imports siblings by direct file path
+   - Code _inside_ `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
    - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
    - `layout/` components import `LayoutService` by direct path (`'../service'`), the same way
@@ -208,7 +208,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      `getAll()`, returning `{ id, label }[]`, and `getLabel(id)`. A lookup can carry other
      mappings beside them (`IconChipToneLookup.getColors()`).
    - Never put the number in a CSS class or a search field: map it to its label first. When the
-     label is a CSS name, the label *is* the class modifier: `ActivityToneLookup.getLabel(tone)`
+     label is a CSS name, the label _is_ the class modifier: `ActivityToneLookup.getLabel(tone)`
      returns `success` for `status--success`, and `IconChipSizeLookup.getLabel(size)` returns `sm`
      for `icon-chip--sm`.
    - Never list an enum's values with `Object.values` or `Object.keys`: a numeric enum also holds
@@ -218,7 +218,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
    literal, with no `readonly` return types. The nine today: `ActivityToneLookup`,
    `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`,
-   `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
+   `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`. Deliberately _not_ lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, the sidebar menu (`NAVIGATION_GROUPS` in `core/config/navigation.config.ts`), and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
@@ -235,29 +235,31 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    flat with its own `index.ts`.
 
 10. **Carried over from Stages 1–6, still binding:**
-   - Standalone components, `OnPush`, and signal APIs (`input`, `input.required`, `output`,
-     `signal`, `computed`, `rxResource`).
-   - PrimeNG owns interactive components; Bootstrap owns layout only. Never both.
-   - Feature components arrange and bind. Colours, radii and shadows come from `UiCardComponent` and the
-     tokens. No component stylesheet contains a hex colour: use a `--color-*` token, and
-     `@include m.status-tint($tone)` (`_mixins.scss`) for a status label or icon on its own tint.
-     Text on a solid colour fill is `--color-text-inverse`.
-   - Charts receive data only. The theme lives in `chart-theme.ts`.
-   - No `any`. Formatting is Prettier's (`npm run format`); don't hand-format around it.
-   - A feature's own service and mock data sit directly in the feature folder as `service.ts` and
-     `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
-     feature has more than one such file.
-   - A page holds no logic. Its feature service loads the data and owns the loading, error and
-     retry state. The page lists the service in its `providers`, so each visit starts a fresh
-     request and the state is destroyed with the page. Each card takes the raw data it displays
-     and derives the rest itself (totals, range filters, mapping to view models).
-   - Components have no specs. Tests cover services, lookups, pipes and the chart theme.
-   - Amounts are formatted with `| appCurrency` (whole units) or `| appCurrency: 2` (with cents). The
-     currency is set once, by `DEFAULT_CURRENCY_CODE` in `app.config.ts`, next to `LOCALE_ID`.
-     Don't use Angular's `currency` pipe with a hard-coded code.
-   - Formatting a value for display is a pipe in `shared/pipes/`, not a page method. Each pipe
-     gets its own spec.
-   - Never guess a visual detail the design tokens don't define.
+
+- Standalone components, `OnPush`, and signal APIs (`input`, `input.required`, `output`,
+  `signal`, `computed`, `rxResource`).
+- PrimeNG owns interactive components; Bootstrap owns layout only. Never both.
+- Feature components arrange and bind. Colours, radii and shadows come from `UiCardComponent` and the
+  tokens. No component stylesheet contains a hex colour: use a `--color-*` token, and
+  `@include m.status-tint($tone)` (`_mixins.scss`) for a status label or icon on its own tint.
+  Text on a solid colour fill is `--color-text-inverse`.
+- Charts receive data only. The theme lives in `chart-theme.ts`.
+- No `any`. Formatting is Prettier's (`npm run format`); don't hand-format around it.
+- A feature's own service and mock data sit directly in the feature folder as `service.ts` and
+  `mock-data.ts`, never in `core/`. Create a `services/` or `data/` subfolder only once the
+  feature has more than one such file.
+- A page holds no logic. Its feature service loads the data and owns the loading, error and
+  retry state. The page lists the service in its `providers`, so each visit starts a fresh
+  request and the state is destroyed with the page. Each card takes the raw data it displays
+  and derives the rest itself (totals, range filters, mapping to view models).
+- A component with logic gets a spec. Specs render the component with its template overridden
+  to `''` and set inputs through `componentRef.setInput`, so they test the logic without
+  mounting charts. Only components have specs.
+- Amounts are formatted with `| appCurrency` (whole units) or `| appCurrency: 2` (with cents). The
+  currency is set once, by `DEFAULT_CURRENCY_CODE` in `app.config.ts`, next to `LOCALE_ID`.
+  Don't use Angular's `currency` pipe with a hard-coded code.
+- Formatting a value for display is a pipe in `shared/pipes/`, not a page method.
+- Never guess a visual detail the design tokens don't define.
 
 11. **Styling: utilities first.** Layout, spacing and type go in the template as classes. A
     component's `.scss` holds only what is unique to it: states (`--active`, `--collapsed`, hover),
@@ -265,15 +267,15 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     with a state stays in SCSS, because an `!important` utility would override the state. When a
     host element owns the layout, put the classes in the component's `host: { class: '…' }`.
 
-    | Need | Classes | Source |
-    |---|---|---|
-    | Flex layout | `d-flex`, `d-inline-flex`, `flex-column`, `flex-wrap`, `align-items-*`, `justify-content-*`, `flex-shrink-0`, `flex-1` (= `flex: 1`), `min-w-0` | Bootstrap grid build + `_utilities.scss` |
-    | Show/hide by width | `d-none d-md-block`, `d-lg-none`, … (breakpoints match `$bp-*`) | Bootstrap |
-    | Spacing | `m-*`, `p-*`, `mt-*`, `px-*`, … and `gap-*`: steps 0–6 and 8, equal to `--space-N` (`p-3` = 12px) | Bootstrap (scale set in `styles.scss`) + `_utilities.scss` |
-    | Grid gutters | `row g-6` (24px), same scale | Bootstrap |
-    | Type | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums` | `_utilities.scss`, `_base.scss` |
-    | Lists | `list-unstyled` (add `m-0` to drop the default margin) | `_utilities.scss` |
-    | Repeated widgets | `btn-icon`, `btn-outline` | `_patterns.scss` |
+    | Need               | Classes                                                                                                                                         | Source                                                     |
+    | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+    | Flex layout        | `d-flex`, `d-inline-flex`, `flex-column`, `flex-wrap`, `align-items-*`, `justify-content-*`, `flex-shrink-0`, `flex-1` (= `flex: 1`), `min-w-0` | Bootstrap grid build + `_utilities.scss`                   |
+    | Show/hide by width | `d-none d-md-block`, `d-lg-none`, … (breakpoints match `$bp-*`)                                                                                 | Bootstrap                                                  |
+    | Spacing            | `m-*`, `p-*`, `mt-*`, `px-*`, … and `gap-*`: steps 0–6 and 8, equal to `--space-N` (`p-3` = 12px)                                               | Bootstrap (scale set in `styles.scss`) + `_utilities.scss` |
+    | Grid gutters       | `row g-6` (24px), same scale                                                                                                                    | Bootstrap                                                  |
+    | Type               | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums`       | `_utilities.scss`, `_base.scss`                            |
+    | Lists              | `list-unstyled` (add `m-0` to drop the default margin)                                                                                          | `_utilities.scss`                                          |
+    | Repeated widgets   | `btn-icon`, `btn-outline`                                                                                                                       | `_patterns.scss`                                           |
 
     Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
     computed-style diff of every element, compared before and after, across the UI states
@@ -286,8 +288,8 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 Current placement (as of the `feature-refactor` branch):
 
-| Location | Models |
-|---|---|
+| Location              | Models                                                                                                                                                                                                                                   |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `shared/models/` (14) | `User`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
@@ -311,16 +313,16 @@ model is used in at least two files, so none live under `features/`. There is no
 
 ## 7. Decisions made, with reasons
 
-| Decision | Why |
-|---|---|
-| Bootstrap via `bootstrap-grid`, not the full stylesheet | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB. |
-| Sidebar links are a PrimeNG `Menu` (not popup), not a hand-rolled `SidebarNavItem` | The user moved it to PrimeNG to drop the custom nav-item component, accepting PrimeNG's look (tighter rows, `Soon` as a grey badge, no active bar). `NAVIGATION_GROUPS` is `MenuItem[]`, so the `NavGroup` and `NavItem` models are gone. `SidebarComponent` passes it to `<p-menu>` as `navigationGroups` with no mapping: disabled items carry `badge: 'Soon'` in the config, and `LayoutService` closes the drawer on every `NavigationEnd`. In the collapsed rail the labels use the `visually-hidden` mixin, so each link keeps its accessible name; there is no hover tooltip. PrimeNG does not style the active route or a collapsed rail, so `sidebar.scss` does both with `::ng-deep` on `.p-menu-item-link-active`, `.p-menu-item-label` and `.p-menu-submenu-label`. |
-| Topbar is all PrimeNG: native `<button pButton>` (`ButtonDirective`) for every button, never `<p-button>`, plus `OverlayBadge`, `Avatar` and `Menu` (`popup`, `appendTo="body"`) | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG to cut custom code and styles, accepting PrimeNG's look (grey avatar, corner badges). The topbar is eager, so this costs ≈ 148 kB raw / 29 kB gzip in the initial bundle. `UserMenuLookup` returns PrimeNG `MenuItem[]` and `TopbarActionsLookup` icons carry the full `pi pi-*` class. `<p-menu>` sits outside the icon row so its empty host adds no flex gap. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020). |
-| Bundle budget 500 kB → 700 kB → 800 kB | The app's floor is 478 kB before any feature. Raised to 800 kB when the topbar moved to PrimeNG (≈ 750 kB). The plan's DoD was updated to match. |
-| ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
-| Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
-| `EcommerceService.data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it lets `data()` return `undefined` instead of throwing (covered by the service spec). |
-| Prettier `trailingComma: none` | Matches the existing code, so adopting Prettier reflowed 20 files instead of 57. |
+| Decision                                                                                                                                                                         | Why                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Bootstrap via `bootstrap-grid`, not the full stylesheet                                                                                                                          | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Sidebar links are a PrimeNG `Menu` (not popup), not a hand-rolled `SidebarNavItem`                                                                                               | The user moved it to PrimeNG to drop the custom nav-item component, accepting PrimeNG's look (tighter rows, `Soon` as a grey badge, no active bar). `NAVIGATION_GROUPS` is `MenuItem[]`, so the `NavGroup` and `NavItem` models are gone. `SidebarComponent` passes it to `<p-menu>` as `navigationGroups` with no mapping: disabled items carry `badge: 'Soon'` in the config, and `LayoutService` closes the drawer on every `NavigationEnd`. In the collapsed rail the labels use the `visually-hidden` mixin, so each link keeps its accessible name; there is no hover tooltip. PrimeNG does not style the active route or a collapsed rail, so `sidebar.scss` does both with `::ng-deep` on `.p-menu-item-link-active`, `.p-menu-item-label` and `.p-menu-submenu-label`. |
+| Topbar is all PrimeNG: native `<button pButton>` (`ButtonDirective`) for every button, never `<p-button>`, plus `OverlayBadge`, `Avatar` and `Menu` (`popup`, `appendTo="body"`) | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG to cut custom code and styles, accepting PrimeNG's look (grey avatar, corner badges). The topbar is eager, so this costs ≈ 148 kB raw / 29 kB gzip in the initial bundle. `UserMenuLookup` returns PrimeNG `MenuItem[]` and `TopbarActionsLookup` icons carry the full `pi pi-*` class. `<p-menu>` sits outside the icon row so its empty host adds no flex gap. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020).                                                                                                                                                                                                                                            |
+| Bundle budget 500 kB → 700 kB → 800 kB                                                                                                                                           | The app's floor is 478 kB before any feature. Raised to 800 kB when the topbar moved to PrimeNG (≈ 750 kB). The plan's DoD was updated to match.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ApexCharts                                                                                                                                                                       | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| Chart palette validated, not chosen by eye                                                                                                                                       | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `EcommerceService.data` reads the resource only when `hasValue()`                                                                                                                | `rxResource.value()` throws in the error state; guarding it lets `data()` return `undefined` instead of throwing.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| Prettier `trailingComma: none`                                                                                                                                                   | Matches the existing code, so adopting Prettier reflowed 20 files instead of 57.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
 ---
 
@@ -346,7 +348,7 @@ user's request. If a future page needs it (e.g. the sidebar's Charts › Area en
 
 ## 9. Verifying UI changes
 
-Headless Chromium's `--screenshot` renders at a wide canvas and crops, which looks *identical* to
+Headless Chromium's `--screenshot` renders at a wide canvas and crops, which looks _identical_ to
 horizontal overflow. It produced two false bug reports in an earlier session. Use a real browser
 viewport instead:
 
