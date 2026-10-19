@@ -6,8 +6,8 @@
     @for (option of ranges; track option.id) {
       <button
         type="button"
-        class="range__option py-1 px-3 fs-xs fw-medium"
-        [class.range__option--on]="range() === option.id"
+        class="range_option py-1 px-3 fs-xs fw-medium"
+        [class.range_option--on]="range() === option.id"
         (click)="range.set(option.id)"
         [attr.aria-pressed]="range() === option.id"
       >

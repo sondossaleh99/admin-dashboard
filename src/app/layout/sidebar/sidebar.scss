@@ -12,13 +12,13 @@
   overflow: hidden;
 }
 
-.sidebar__brand {
+.sidebar_brand {
   height: var(--topbar-height);
   padding-inline: var(--space-4);
   border-bottom: 1px solid var(--color-border);
 }
 
-.sidebar__mark {
+.sidebar_mark {
   @include m.flex-center;
   flex: none;
   width: 32px;
@@ -28,7 +28,7 @@
   color: var(--color-text-inverse);
 }
 
-.sidebar__nav {
+.sidebar_nav {
   overflow-y: auto;
   padding: var(--space-4) var(--space-3) var(--space-6);
 }
@@ -60,12 +60,12 @@
 }
 
 :host(.sidebar--collapsed) {
-  .sidebar__brand {
+  .sidebar_brand {
     justify-content: center;
     padding-inline: 0;
   }
 
-  .sidebar__nav {
+  .sidebar_nav {
     padding-inline: var(--space-2);
   }
 

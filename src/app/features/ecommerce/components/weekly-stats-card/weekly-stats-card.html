@@ -7,7 +7,7 @@
           <span class="d-block fs-sm fw-medium">{{ stat.label }}</span>
           <span class="d-block fs-xs text-muted">{{ stat.caption }}</span>
         </span>
-        <span class="stats__spark flex-shrink-0">
+        <span class="stats_spark flex-shrink-0">
           <app-chart-sparkline [data]="stat.trend" [slot]="2" [height]="36" [filled]="false" />
         </span>
         <app-delta-badge [value]="stat.delta" />

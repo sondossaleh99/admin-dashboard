@@ -1,13 +1,13 @@
 <div class="shell d-flex" [class.shell--collapsed]="collapsed()">
-  <app-sidebar class="shell__sidebar" [class.shell__sidebar--open]="drawerOpen()" />
+  <app-sidebar class="shell_sidebar" [class.shell_sidebar--open]="drawerOpen()" />
 
   @if (drawerOpen()) {
-    <div class="shell__backdrop" (click)="closeDrawer()" aria-hidden="true"></div>
+    <div class="shell_backdrop" (click)="closeDrawer()" aria-hidden="true"></div>
   }
 
   <div class="d-flex flex-column flex-1 min-w-0">
     <app-topbar />
-    <main class="shell__content flex-1" id="main-content">
+    <main class="shell_content flex-1" id="main-content">
       <router-outlet />
     </main>
   </div>

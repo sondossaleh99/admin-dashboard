@@ -11,14 +11,14 @@
   overflow: hidden;
 }
 
-.ui-card__body {
+.ui-card_body {
   padding: var(--space-6);
 }
 
-header + .ui-card__body {
+header + .ui-card_body {
   padding-top: var(--space-4);
 }
 
-:host(.ui-card--flush) .ui-card__body {
+:host(.ui-card--flush) .ui-card_body {
   padding: 0;
 }

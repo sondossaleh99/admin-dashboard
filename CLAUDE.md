@@ -41,6 +41,7 @@ npm run test:ci    # one headless test run
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
   `DEFAULT_CURRENCY_CODE` in `app.config.ts`.
+- Class names join block and element with one underscore (`hero_spark`, never `hero__spark`).
 - No hex colours in component styles: use `--color-*` tokens. Utilities first; a component's
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.

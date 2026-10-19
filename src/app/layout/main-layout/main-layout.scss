@@ -5,7 +5,7 @@
   min-height: 100vh;
 }
 
-.shell__sidebar {
+.shell_sidebar {
   flex: none;
   width: var(--sidebar-width);
   transition: width var(--transition-base);
@@ -28,7 +28,7 @@
   }
 }
 
-.shell__backdrop {
+.shell_backdrop {
   position: fixed;
   inset: 0;
   z-index: v.$z-backdrop;
@@ -39,12 +39,12 @@
   }
 }
 
-.shell__content {
+.shell_content {
   padding: var(--content-padding);
 }
 
 @include m.from(lg) {
-  .shell--collapsed .shell__sidebar {
+  .shell--collapsed .shell_sidebar {
     width: var(--sidebar-width-collapsed);
   }
 }
