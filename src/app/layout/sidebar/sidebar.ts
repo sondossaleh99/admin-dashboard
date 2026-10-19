@@ -16,12 +16,6 @@ export class SidebarComponent {
   layout = inject(LayoutService);
 
   navigationGroups = NAVIGATION_GROUPS;
-  menuTokens = {
-    root: { background: 'transparent', borderColor: 'transparent' },
-    list: { gap: '0.25rem' },
-    item: { padding: '0.75rem 1rem', gap: '0.75rem' },
-    submenuLabel: { padding: '1rem 1rem 0.5rem' }
-  };
   collapsed = this.layout.sidebarCollapsed;
 
   toggle(): void {
