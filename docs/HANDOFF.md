@@ -1,8 +1,8 @@
 # Handoff — Ecommerce Dashboard
 
-**Updated:** 2026-09-28
-**Branch:** `init` is the default branch (there is no `main`). The pre-feature cleanup (models,
-`*Component` names, feature-owned service/data, tokens, Prettier, tests) is on `feature-refactor`.
+**Updated:** 2026-10-14
+**Branch:** `init` is the default branch (there is no `main`). **Never push to `init` directly.**
+Current work is on `feature-refactor`. Branch, push and PR rules are in §2.
 **State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
 `ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
@@ -23,7 +23,7 @@ In a container, point Karma at the bundled Chromium first:
 `export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
 
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 598 kB against a 700 kB warning /
+ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 750 kB against an 800 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -33,8 +33,18 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 
 ## 2. Branches, PRs and history
 
-All seven stage PRs (#1–#7) are merged into `init`. Since then, work has been committed
-**directly to `init` and pushed**, as the user directed. Follow their lead on branching. The
+**How work reaches `init`:**
+
+1. **Never push to `init` directly.** Commit and push each task to its own branch. The current
+   branch is `feature-refactor`; keep working there until the user names another.
+2. **Name a new branch** `feature-<task-name>` for a new task or `fix-<change-name>` for a fix.
+   Never use a `claude/` prefix or any name that mentions Claude.
+3. **Open a pull request only when the user asks for one.** The user reviews it and either
+   approves and merges it, or leaves comments. Address the comments on the same branch and push
+   again.
+
+All seven stage PRs (#1–#7) are merged into `init`. After Stage 6, work was committed directly to
+`init` for a while (the table below). That has stopped: follow the rules above. The
 `claude/stage-*` branches are merged and stale.
 
 | PR | State | Notes |
@@ -85,7 +95,7 @@ record of what is `[verify]`:
 | Location | What needs confirming |
 |---|---|
 | `src/styles/_variables.scss` | `$sidebar-width`, `$topbar-height` |
-| `shared/lookup/navigation.lookup.ts` | Nav group labels and ordering (moved here from the deleted `core/data/nav.data.ts`) |
+| `core/config/navigation.config.ts` | `NAVIGATION_GROUPS`: the sidebar menu as PrimeNG `MenuItem[]` (groups, labels, icons, `routerLink`, `disabled`) |
 | `features/ecommerce/mock-data.ts` | Every figure — shaped like the reference, not copied from it |
 | Plan §3.2 | Page region inventory and order |
 | `EarningsHeroComponent` | No decorative background was added — there is nothing to base one on |
@@ -97,36 +107,38 @@ record of what is `[verify]`:
 
 ```
 src/app/
-  app.routes.ts    MainLayout from './layout'; lazy routes import the closest feature barrel
-  core/                            barrel: core/index.ts → config, data, services
-    config/        primeng-preset (AppPreset, used by app.config.ts)
+  app.routes.ts    MainLayout from './layout'; each feature is lazy-loaded through its barrel
+  core/                            barrel: core/index.ts → config, data
+    config/        primeng-preset (AppPreset, used by app.config.ts),
+                   navigation.config (NAVIGATION_GROUPS, the sidebar menu)
     data/          user.data (CURRENT_USER)
-    services/      layout.service (chrome state)
   layout/                          barrel: layout/index.ts
+    service.ts     LayoutService (sidebar collapse and drawer state; not in the barrel)
     main-layout/
-    sidebar/       + components/sidebar-nav-item/
+    sidebar/       PrimeNG Menu built from NAVIGATION_GROUPS
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        19 shared interfaces (see §6)
+    models/        14 shared interfaces (see §6)
     enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
-    lookup/        8 *Lookup classes
+    lookup/        9 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
                    skeleton-block, empty-state        (one folder + index.ts each)
     imports/       SHARED_IMPORTS
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat),
-                   OrderStatusLabelPipe (labels an OrderStatus),
                    AppCurrencyPipe (formats an amount in the app's default currency)
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (8, incl. the loading skeleton)
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
                      owns data, loading, error and retry; provided by the page)
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
+                   + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
+                     the only export of the feature barrel)
     not-found/
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile drawer, avatar
-dropdown with Escape/outside-click, loading skeletons, inline error retry, revenue range filter
+menu (PrimeNG `Menu` popup with arrow keys, Escape and outside-click), loading skeletons, inline error retry, revenue range filter
 with derived totals, six live charts, a sortable/paginated/searchable orders table, and an
 activity feed.
 
@@ -143,45 +155,71 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `export * from '…'`. A folder wrapping one component exports that file. A parent exports its
    child *folders*, never a file inside them: `export * from './ui-card'`, not
    `'./ui-card/ui-card'`. Flat multi-file folders (`enum`, `models`, `lookup`, `charts`,
-   `imports`, `pipes`, `core/data`, `core/services`) list their files in one `index.ts`. Root barrels:
+   `imports`, `pipes`, `core/data`) list their files in one `index.ts`. Root barrels:
    `shared`, `core`, `layout`, `features`.
 
 2. **Component class names end in `Component`.** `WeeklyStatsCardComponent`, `UiCardComponent`,
    `AppComponent`. File names stay kebab-case without the suffix (`weekly-stats-card.ts`).
+   Every template is a separate `.html` file next to the class (`templateUrl`), never an inline
+   `template:` string, including one-liners (`app.html`, `icon-chip.html`) and the empty
+   `skeleton-block.html`.
 
 3. **Import paths and direction.**
    - Code *outside* `shared/` or `core/` imports from the root barrel:
-     `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { LayoutService } from '../../core'`.
+     `import { UiCardComponent, OrderStatus } from '../../shared'`, `import { CURRENT_USER } from '../../core'`.
    - Code *inside* `shared/` or `core/` imports siblings by direct file path
      (`'../enum/order-status'`), never through its own aggregating barrel — that creates cycles.
    - Inside a feature, use the closest barrel (`ecommerce-page.ts` → `'./components'`).
+   - `layout/` components import `LayoutService` by direct path (`'../service'`), the same way
+     `ecommerce-page.ts` imports `'./service'`.
    - Models live in `shared/models` and are imported through the `shared` barrel (§6).
-   - Lazy `loadComponent` routes import the closest **per-feature** barrel
-     (`'./features/ecommerce'`). There is deliberately no root `features/index.ts`: it would merge every
-     route's lazy chunk into one. A cosmetic side effect: lazy chunks are named `index` in the
-     build output.
+   - Every route is lazy-loaded. Each feature owns its routes in a `routes.ts` beside its page,
+     exported as `<FEATURE>_ROUTES` (`ECOMMERCE_ROUTES`). `app.routes.ts` keeps one entry per
+     feature: `loadChildren: () => import('./features/ecommerce').then((m) => m.ECOMMERCE_ROUTES)`.
+     Inside `routes.ts` every page sets its `title` and uses `loadComponent` with a direct path
+     (`import('./ecommerce-page')`), never `component:`. The feature barrel exports only
+     `./routes`: if it also exported the page, the page would ship in the routes chunk and its
+     `loadComponent` would split nothing. A route with no feature routes of its own
+     (`not-found`) uses `loadComponent` in `app.routes.ts`.
+   - Lazy routes import the closest **per-feature** barrel (`'./features/ecommerce'`). There is
+     deliberately no root `features/index.ts`: it would merge every route's lazy chunk into one. A
+     cosmetic side effect: lazy chunks are named `index` in the build output.
    - Direction: `features` and `layout` → `shared` and `core`. `shared` never imports `features`
      or `core`.
 
 4. **No access modifiers by default** (`private` / `protected` / `public`). Keep one only when it
    enforces real encapsulation. The sole exception today: `LayoutService`'s `collapsed` and
-   `drawer` writable signals are `private`. It's an injected singleton shared by three
-   components, and `toggleSidebar()` pairs every mutation with a `localStorage` write that a
-   direct `.set()` would bypass.
+   `drawer` writable signals and its `isCollapsed` storage getter/setter are `private`. It's an
+   injected singleton shared by three components, and `toggleSidebar()` pairs every mutation with
+   a `localStorage` write that a direct `.set()` would bypass, while a public `isCollapsed` setter
+   would write storage without updating the signal.
 
 5. **No `readonly`** — not on class fields (including `input()`, `signal()` and `computed()`
    fields), interface properties, or array types (`Kpi[]`, not `readonly Kpi[]`).
 
-6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are string
+6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are
    `enum`s in `shared/enum/`, one per file. A template reaches an enum through a component field
-   (`RevenueRange = RevenueRange;`), since templates can't see imports.
+   named after it in camelCase (`iconChipSize = IconChipSize;`, used as `iconChipSize.Small`),
+   since templates can't see imports.
+   - **Every enum is numeric**, with explicit values starting at 1 (`OrderStatus.Paid = 1`,
+     `IconChipSize.Small = 1`). A new enum is numeric by default; use other values only when the
+     user gives them. The user gave `RevenueRange` its month counts (`SixMonths = 6`,
+     `TwelveMonths = 12`), so the revenue card slices by the value itself. Each enum's lookup has
+     `getAll()`, returning `{ id, label }[]`, and `getLabel(id)`. A lookup can carry other
+     mappings beside them (`IconChipToneLookup.getColors()`).
+   - Never put the number in a CSS class or a search field: map it to its label first. When the
+     label is a CSS name, the label *is* the class modifier: `ActivityToneLookup.getLabel(tone)`
+     returns `success` for `status--success`, and `IconChipSizeLookup.getLabel(size)` returns `sm`
+     for `icon-chip--sm`.
+   - Never list an enum's values with `Object.values` or `Object.keys`: a numeric enum also holds
+     its names (`['SixMonths', 'TwelveMonths', 6, 12]`). Iterate the lookup's `getAll()` instead.
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
-   a class with static getters (`OrderStatusLookup.getLabels()`). Each getter returns a fresh
-   literal, with no `readonly` return types. The eight today: `OrderActivityLookup`,
-   `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`, `NavigationLookup`,
-   `IconChipToneLookup`, `RevenueRangeLookup`, `RevenueTotalsLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
-   `CURRENT_USER`, and chart options (built at runtime from inputs and CSS variables).
+   a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
+   literal, with no `readonly` return types. The nine today: `ActivityToneLookup`,
+   `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`,
+   `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`. Deliberately *not* lookups: mock API fixtures (`mock-data.ts`),
+   `CURRENT_USER`, the sidebar menu (`NAVIGATION_GROUPS` in `core/config/navigation.config.ts`), and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
    spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartCombo]`. It's
@@ -193,7 +231,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    - `DeltaBadgeComponent` and `IconChipComponent`: listing them explicitly tells a reader what that card shows.
 
 9. **Component folders.** A complex component with sub-parts gets a nested `components/` folder
-   with barrels at each level (e.g. `sidebar/components/sidebar-nav-item/`). A simple one stays
+   with barrels at each level (e.g. `features/ecommerce/components/activity-card/`). A simple one stays
    flat with its own `index.ts`.
 
 10. **Carried over from Stages 1–6, still binding:**
@@ -237,7 +275,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     | Grid gutters | `row g-6` (24px), same scale | Bootstrap |
     | Type | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-truncate`, `tabular-nums` | `_utilities.scss`, `_base.scss` |
     | Lists | `list-unstyled` (add `m-0` to drop the default margin) | `_utilities.scss` |
-    | Repeated widgets | `btn-icon` (+`--lg`), `btn-outline`, `search-field` (+`__icon`, `__input`), `count-badge` (+`--danger`), `soon-tag` | `_patterns.scss` |
+    | Repeated widgets | `btn-icon`, `btn-outline` | `_patterns.scss` |
 
     Verify styling changes the way `refactor/scss-utilities` was verified: screenshots plus a
     computed-style diff of every element, compared before and after, across the UI states
@@ -252,7 +290,7 @@ Current placement (as of the `feature-refactor` branch):
 
 | Location | Models |
 |---|---|
-| `shared/models/` (19) | `User`, `NavItem`, `NavGroup`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `UserMenuItem`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `RevenueTotals`, `RevenueRangeConfig`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
+| `shared/models/` (14) | `User`, `DonutSlice`, `ComboSeries`, `ChartInk`, `TopbarAction`, `ActivityConfig`, `EcommerceDashboard`, `Earnings`, `Kpi`, `Order`, `RevenuePoint`, `SalesSlice`, `WeeklyStat`, `ActivityEvent`. Every file is named `<name>.model.ts`. |
 
 **Rule:** a model used in more than one file lives in `shared/models`, is exported from its
 `index.ts`, and is imported through the `shared` barrel. A model used by exactly one file would stay
@@ -261,7 +299,8 @@ model is used in at least two files, so none live under `features/`. There is no
 
 - `ActivityConfig` is order vocabulary, but it stays in `shared/models`: its only consumer is
   `OrderActivityLookup`, and `shared` must not import `features`.
-- `core/` holds only app-wide code (`LayoutService`, `CURRENT_USER`). A feature's own service and
+- `core/` holds only app-wide code (`AppPreset`, `CURRENT_USER`). `LayoutService` lives in
+  `layout/service.ts` because only the layout components use it. A feature's own service and
   mock data live inside the feature (`features/ecommerce/service.ts`, `features/ecommerce/mock-data.ts`),
   so each new feature adds its own files instead of growing `core`.
 - **Reverted attempt:** `fe774d7` relocated models by ownership. It put component-owned
@@ -277,8 +316,9 @@ model is used in at least two files, so none live under `features/`. There is no
 | Decision | Why |
 |---|---|
 | Bootstrap via `bootstrap-grid`, not the full stylesheet | PrimeNG owns components; Bootstrap owns layout. Saved 179 kB. |
-| Avatar dropdown hand-rolled, not PrimeNG `MenuModule` | Measured 131 kB for one dropdown. PrimeNG still owns the orders table. |
-| Bundle budget 500 kB → 700 kB | The app's floor is 478 kB before any feature. The plan's DoD was updated to match. |
+| Sidebar links are a PrimeNG `Menu` (not popup), not a hand-rolled `SidebarNavItem` | The user moved it to PrimeNG to drop the custom nav-item component, accepting PrimeNG's look (tighter rows, `Soon` as a grey badge, no active bar). `NAVIGATION_GROUPS` is `MenuItem[]`, so the `NavGroup` and `NavItem` models are gone. `SidebarComponent` passes it to `<p-menu>` as `navigationGroups` with no mapping: disabled items carry `badge: 'Soon'` in the config, and `LayoutService` closes the drawer on every `NavigationEnd`. In the collapsed rail the labels use the `visually-hidden` mixin, so each link keeps its accessible name; there is no hover tooltip. PrimeNG does not style the active route or a collapsed rail, so `sidebar.scss` does both with `::ng-deep` on `.p-menu-item-link-active`, `.p-menu-item-label` and `.p-menu-submenu-label`. |
+| Topbar is all PrimeNG: native `<button pButton>` (`ButtonDirective`) for every button, never `<p-button>`, plus `OverlayBadge`, `Avatar` and `Menu` (`popup`, `appendTo="body"`) | It was hand-rolled to save the initial bundle; the user moved it to PrimeNG to cut custom code and styles, accepting PrimeNG's look (grey avatar, corner badges). The topbar is eager, so this costs ≈ 148 kB raw / 29 kB gzip in the initial bundle. `UserMenuLookup` returns PrimeNG `MenuItem[]` and `TopbarActionsLookup` icons carry the full `pi pi-*` class. `<p-menu>` sits outside the icon row so its empty host adds no flex gap. `providePrimeNG` sets `zIndex.menu` to 1100 so popup menus sit above the topbar (1020). |
+| Bundle budget 500 kB → 700 kB → 800 kB | The app's floor is 478 kB before any feature. Raised to 800 kB when the topbar moved to PrimeNG (≈ 750 kB). The plan's DoD was updated to match. |
 | ApexCharts | Per the plan's recommendation. It lands in the lazy chunk: +2.8 kB initial. |
 | Chart palette validated, not chosen by eye | Adjacent CVD ΔE 14.9; the first four colours clear all pairs for the donut. |
 | `EcommerceService.data` reads the resource only when `hasValue()` | `rxResource.value()` throws in the error state; guarding it lets `data()` return `undefined` instead of throwing (covered by the service spec). |
@@ -334,8 +374,8 @@ what found the invisible-stroke bug in Stage 5, after a wrong guess about contai
 - When a spec is ambiguous, pick the most reasonable reading and state the call. Ask only when
   genuinely blocked.
 - Every task ends the same way: `npm run build` clean → a commit with a descriptive message → push
-  to `init` → a short report (what changed, which files, intentional exceptions and why, build
-  status).
+  to the task's branch, never `init` (§2) → a short report (what changed, which files,
+  intentional exceptions and why, build status). A pull request only when the user asks.
 - Expect judgment calls to be reviewed and sometimes reversed (e.g. `UiCardComponent` joining
   `SHARED_IMPORTS`, the reverted model move). State the reasoning behind each one so it can be
   evaluated.

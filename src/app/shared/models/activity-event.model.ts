@@ -1,9 +1,7 @@
-import { ActivityTone } from '../enum/activity-tone';
-
 export interface ActivityEvent {
   id: string;
   icon: string;
-  tone: ActivityTone;
+  tone: string;
   title: string;
   detail: string;
   timestamp: string;

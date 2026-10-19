@@ -9,8 +9,7 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'ecommerce' },
       {
         path: 'ecommerce',
-        title: 'Ecommerce · Admin Dashboard',
-        loadComponent: () => import('./features/ecommerce').then((m) => m.EcommercePageComponent)
+        loadChildren: () => import('./features/ecommerce').then((m) => m.ECOMMERCE_ROUTES)
       },
       {
         path: '**',

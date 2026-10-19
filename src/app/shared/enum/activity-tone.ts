@@ -1,6 +1,6 @@
 export enum ActivityTone {
-  Success = 'success',
-  Warning = 'warning',
-  Info = 'info',
-  Danger = 'danger'
+  Success = 1,
+  Warning = 2,
+  Info = 3,
+  Danger = 4
 }

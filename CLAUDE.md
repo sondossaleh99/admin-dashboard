@@ -21,12 +21,23 @@ npm run test:ci    # one headless test run
 
 - Standalone components, `OnPush`, signal APIs (`input`, `output`, `signal`, `computed`, `rxResource`).
 - Component classes end in `Component`; file names stay kebab-case without the suffix.
+- Every component's template lives in its own `.html` file (`templateUrl`), never inline in the `.ts`.
 - Every folder that exposes code has an `index.ts` barrel. Code outside `shared/` or `core/`
   imports through the root barrels (`'../../shared'`, `'../../core'`).
 - `features` and `layout` depend on `shared` and `core`; `shared` never imports `features` or `core`.
 - No access modifiers or `readonly` unless they enforce real encapsulation.
 - One interface per file in `shared/models/`; string unions are enums in `shared/enum/`.
-- Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes.
+- Enums are numeric (`Paid = 1`, `Pending = 2`, …): a new enum is numeric by default, with other
+  values only when the user gives them. Each enum has a lookup exposing `getAll()`
+  (`{ id, label }[]`) and `getLabel(id)`. Never put the number in a CSS class or a search field:
+  map it to its label first. List an enum's values with `getAll()`, never `Object.values`.
+- A template reaches an enum through a camelCase component field: `iconChipSize = IconChipSize;`,
+  used as `iconChipSize.Small`.
+- Static config and mapping data lives in `shared/lookup/` as `*Lookup` classes. The sidebar menu
+  is the exception: it is the `NAVIGATION_GROUPS` constant in `core/config/navigation.config.ts`.
+- Every route is lazy-loaded. A feature exposes only `routes.ts` (`<FEATURE>_ROUTES`) through
+  its barrel; `app.routes.ts` loads it with `loadChildren`, and each page inside uses
+  `loadComponent`, never `component:`.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
   `DEFAULT_CURRENCY_CODE` in `app.config.ts`.
@@ -42,3 +53,7 @@ npm run test:ci    # one headless test run
 - Commit messages use conventional prefixes (`feat:`, `fix:`, `refactor:`, `style:`, `docs:`,
   `chore:`) and describe the change in plain terms.
 - Run `npm run build` and `npm run format:check` before every commit.
+- Branch names: `feature-<task-name>` for a new task, `fix-<change-name>` for a fix. Never use a
+  `claude/` prefix or any name that mentions Claude.
+- Never push to `init` directly. Push to the task's branch, and open a pull request only when the
+  user asks. The user approves it or leaves comments to address on the same branch.

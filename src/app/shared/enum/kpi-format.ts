@@ -1,5 +1,5 @@
 export enum KpiFormat {
-  Currency = 'currency',
-  Number = 'number',
-  Percent = 'percent'
+  Currency = 1,
+  Number = 2,
+  Percent = 3
 }

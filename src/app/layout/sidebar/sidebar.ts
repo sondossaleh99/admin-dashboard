@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Menu } from 'primeng/menu';
 
-import { LayoutService } from '../../core';
-import { NavigationLookup } from '../../shared';
-import { SidebarNavItemComponent } from './components';
+import { NAVIGATION_GROUPS } from '../../core';
+import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [SidebarNavItemComponent],
+  imports: [Menu],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
   host: { '[class.sidebar--collapsed]': 'collapsed()' },
@@ -15,15 +15,11 @@ import { SidebarNavItemComponent } from './components';
 export class SidebarComponent {
   layout = inject(LayoutService);
 
-  groups = NavigationLookup.getGroups();
+  navigationGroups = NAVIGATION_GROUPS;
   collapsed = this.layout.sidebarCollapsed;
 
   toggle(): void {
     this.layout.toggleSidebar();
-  }
-
-  onNavigate(): void {
-    this.layout.closeDrawer();
   }
 
   closeDrawer(): void {

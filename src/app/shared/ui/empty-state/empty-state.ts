@@ -2,18 +2,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 
 @Component({
   selector: 'app-empty-state',
-  template: `
-    <i class="pi {{ icon() }} mb-1 fs-2xl text-muted" aria-hidden="true"></i>
-    <p class="fs-sm fw-medium text-body">{{ message() }}</p>
-    @if (hint()) {
-      <p class="empty-state__hint fs-xs text-muted">{{ hint() }}</p>
-    }
-    @if (actionLabel()) {
-      <button type="button" class="btn-outline mt-2" (click)="action.emit()">
-        {{ actionLabel() }}
-      </button>
-    }
-  `,
+  templateUrl: './empty-state.html',
   styleUrl: './empty-state.scss',
   host: {
     class:

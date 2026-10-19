@@ -1,5 +1,5 @@
 export enum IconChipSize {
-  Small = 'sm',
-  Medium = 'md',
-  Large = 'lg'
+  Small = 1,
+  Medium = 2,
+  Large = 3
 }

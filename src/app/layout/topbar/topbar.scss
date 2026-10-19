@@ -1,99 +1,20 @@
 @use '../../../styles/variables' as v;
 
-.topbar {
+:host {
+  display: block;
   position: sticky;
   top: 0;
   z-index: v.$z-topbar;
+}
+
+.topbar {
   height: var(--topbar-height);
   padding-inline: var(--content-padding);
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
 
-.topbar__search {
-  max-width: 320px;
-
-  input {
-    height: 40px;
-  }
-
-  .search-field__icon {
-    inset-block: 0;
-  }
-}
-
-.topbar__action {
-  position: relative;
-}
-
-.topbar__badge {
-  position: absolute;
-  top: 4px;
-  inset-inline-end: 4px;
-  min-width: 16px;
-  height: 16px;
-  padding-inline: 4px;
-  font-size: 10px;
-  line-height: 16px;
-}
-
-.topbar__user-wrap {
-  position: relative;
-}
-
-.topbar__user {
-  height: 40px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: transparent;
-  cursor: pointer;
-  color: var(--color-text);
-
-  &:hover {
-    background: var(--color-surface-sunk);
-  }
-}
-
-.topbar__avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-pill);
-  background: var(--color-primary-light);
-  color: var(--color-primary-dark);
-}
-
 .topbar__identity {
   text-align: start;
   line-height: 1.2;
-}
-
-.topbar__dropdown {
-  position: absolute;
-  top: calc(100% + var(--space-2));
-  inset-inline-end: 0;
-  min-width: 220px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-}
-
-.topbar__dropdown-head {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.topbar__dropdown-item {
-  width: 100%;
-  min-height: 40px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--color-text);
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--color-surface-sunk);
-  }
 }

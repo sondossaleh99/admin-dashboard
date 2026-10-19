@@ -7,22 +7,8 @@ import { baseOptions, compactNumber, seriesColors } from './chart-theme';
 @Component({
   selector: 'app-chart-combo',
   imports: [NgApexchartsModule],
-  template: `<apx-chart
-    [series]="$any(options().series)"
-    [chart]="$any(options().chart)"
-    [xaxis]="$any(options().xaxis)"
-    [yaxis]="$any(options().yaxis)"
-    [grid]="$any(options().grid)"
-    [colors]="$any(options().colors)"
-    [legend]="$any(options().legend)"
-    [stroke]="$any(options().stroke)"
-    [tooltip]="$any(options().tooltip)"
-    [plotOptions]="$any(options().plotOptions)"
-    [dataLabels]="$any(options().dataLabels)"
-    [markers]="$any(options().markers)"
-    [states]="$any(options().states)"
-  />`,
-  styles: [':host { display: block; }'],
+  templateUrl: './chart-combo.html',
+  host: { class: 'd-block' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComboComponent {

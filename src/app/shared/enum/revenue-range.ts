@@ -1,4 +1,4 @@
 export enum RevenueRange {
-  SixMonths = '6m',
-  TwelveMonths = '12m'
+  SixMonths = 6,
+  TwelveMonths = 12
 }

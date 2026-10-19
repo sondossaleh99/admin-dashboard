@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { LayoutService } from '../../core';
+import { LayoutService } from '../service';
 import { SidebarComponent } from '../sidebar';
 import { TopbarComponent } from '../topbar';
 

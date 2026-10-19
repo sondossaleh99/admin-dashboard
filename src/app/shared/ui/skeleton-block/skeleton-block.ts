@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-block',
-  template: '',
+  templateUrl: './skeleton-block.html',
   styleUrl: './skeleton-block.scss',
   host: {
     '[style.width]': 'width()',

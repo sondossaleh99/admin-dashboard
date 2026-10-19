@@ -55,6 +55,18 @@ describe('ActivityCardComponent', () => {
     expect(card.events()[0].timestamp).toBe('2026-09-14');
   });
 
+  it('tones each event by its status', () => {
+    const { card } = setup();
+
+    expect(card.events().map((event) => event.tone)).toEqual([
+      'success',
+      'warning',
+      'info',
+      'danger',
+      'success'
+    ]);
+  });
+
   it('shows no events when there are no orders', () => {
     const { card } = setup([]);
 

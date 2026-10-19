@@ -1,59 +1,32 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-  signal,
-  viewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { Avatar } from 'primeng/avatar';
+import { ButtonDirective } from 'primeng/button';
+import { Menu } from 'primeng/menu';
+import { OverlayBadge } from 'primeng/overlaybadge';
 
-import { CURRENT_USER, LayoutService } from '../../core';
-import { TopbarAction, TopbarActionsLookup, UserMenuItem, UserMenuLookup } from '../../shared';
+import { CURRENT_USER } from '../../core';
+import { TopbarAction, TopbarActionsLookup, UserMenuLookup } from '../../shared';
+import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-topbar',
+  imports: [Avatar, ButtonDirective, Menu, OverlayBadge],
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
-  host: {
-    '(document:click)': 'onDocumentClick($event)',
-    '(document:keydown.escape)': 'onEscape()'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopbarComponent {
   layout = inject(LayoutService);
-  host = inject(ElementRef<HTMLElement>);
-  userButton = viewChild<ElementRef<HTMLButtonElement>>('userButton');
 
   user = CURRENT_USER;
-  search = signal('');
   userMenuOpen = signal(false);
 
   actions: TopbarAction[] = TopbarActionsLookup.getActions();
 
-  userMenu: UserMenuItem[] = UserMenuLookup.getItems();
+  userMenu: MenuItem[] = UserMenuLookup.getItems();
 
   openDrawer(): void {
     this.layout.openDrawer();
-  }
-
-  toggleUserMenu(): void {
-    this.userMenuOpen.update((open) => !open);
-  }
-
-  onDocumentClick(event: MouseEvent): void {
-    if (!this.userMenuOpen()) {
-      return;
-    }
-    if (!this.host.nativeElement.contains(event.target as Node)) {
-      this.userMenuOpen.set(false);
-    }
-  }
-
-  onEscape(): void {
-    if (this.userMenuOpen()) {
-      this.userMenuOpen.set(false);
-      this.userButton()?.nativeElement.focus();
-    }
   }
 }

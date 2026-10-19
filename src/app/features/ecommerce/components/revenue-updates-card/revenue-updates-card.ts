@@ -6,8 +6,6 @@ import {
   RevenuePoint,
   RevenueRange,
   RevenueRangeLookup,
-  RevenueTotals,
-  RevenueTotalsLookup,
   SHARED_IMPORTS
 } from '../../../../shared';
 
@@ -19,33 +17,29 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RevenueUpdatesCardComponent {
-  ranges = Object.values(RevenueRange);
-  rangeOptions = RevenueRangeLookup.getOptions();
-
-  totalKeys: (keyof RevenueTotals)[] = ['budget', 'expense', 'margin'];
-  totalLabels = RevenueTotalsLookup.getLabels();
+  ranges = RevenueRangeLookup.getAll();
 
   points = input.required<RevenuePoint[]>();
 
   range = signal<RevenueRange>(RevenueRange.TwelveMonths);
 
-  visiblePoints = computed(() => this.points().slice(-this.rangeOptions[this.range()].months));
+  visiblePoints = computed(() => this.points().slice(-this.range()));
 
   periods = computed(() => this.visiblePoints().map((p) => p.period));
 
   series = computed<ComboSeries[]>(() => [
-    { name: this.totalLabels.budget, data: this.visiblePoints().map((p) => p.budget) },
-    { name: this.totalLabels.expense, data: this.visiblePoints().map((p) => p.expense) }
+    { name: 'Budget', data: this.visiblePoints().map((p) => p.budget) },
+    { name: 'Expense', data: this.visiblePoints().map((p) => p.expense) }
   ]);
 
-  totals = computed<RevenueTotals>(() => {
+  totals = computed(() => {
     const points = this.visiblePoints();
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
-    return { budget, expense, margin: budget - expense };
+    return [
+      { label: 'Budget', value: budget },
+      { label: 'Expense', value: expense },
+      { label: 'Margin', value: budget - expense }
+    ];
   });
-
-  setRange(range: RevenueRange): void {
-    this.range.set(range);
-  }
 }

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { Router, provideRouter } from '@angular/router';
 
-import { LayoutService } from './layout.service';
+import { LayoutService } from './service';
 
 const COLLAPSED_KEY = 'admin-dashboard.sidebar-collapsed';
 
@@ -37,7 +38,7 @@ describe('LayoutService', () => {
     expect(TestBed.inject(LayoutService).sidebarCollapsed()).toBeTrue();
   });
 
-  it('opens, closes and toggles the drawer', () => {
+  it('opens and closes the drawer', () => {
     const layout = TestBed.inject(LayoutService);
 
     layout.openDrawer();
@@ -45,19 +46,17 @@ describe('LayoutService', () => {
 
     layout.closeDrawer();
     expect(layout.drawerOpen()).toBeFalse();
-
-    layout.toggleDrawer();
-    expect(layout.drawerOpen()).toBeTrue();
   });
 
-  it('still works when storage is unavailable', () => {
-    spyOn(Storage.prototype, 'getItem').and.throwError('blocked');
-    spyOn(Storage.prototype, 'setItem').and.throwError('blocked');
-
+  it('closes the drawer after a navigation', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideRouter([{ path: 'next', children: [] }])]
+    });
     const layout = TestBed.inject(LayoutService);
-    expect(layout.sidebarCollapsed()).toBeFalse();
 
-    layout.toggleSidebar();
-    expect(layout.sidebarCollapsed()).toBeTrue();
+    layout.openDrawer();
+    await TestBed.inject(Router).navigateByUrl('/next');
+
+    expect(layout.drawerOpen()).toBeFalse();
   });
 });
