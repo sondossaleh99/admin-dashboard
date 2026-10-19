@@ -1,4 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 const COLLAPSED_KEY = 'admin-dashboard.sidebar-collapsed';
 
@@ -17,6 +20,15 @@ export class LayoutService {
 
   sidebarCollapsed = this.collapsed.asReadonly();
   drawerOpen = this.drawer.asReadonly();
+
+  constructor() {
+    inject(Router)
+      .events.pipe(
+        filter((event) => event instanceof NavigationEnd),
+        takeUntilDestroyed()
+      )
+      .subscribe(() => this.closeDrawer());
+  }
 
   toggleSidebar(): void {
     this.collapsed.update((value) => {

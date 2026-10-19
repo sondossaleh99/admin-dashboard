@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Router, provideRouter } from '@angular/router';
 
 import { LayoutService } from './service';
 
@@ -44,6 +45,18 @@ describe('LayoutService', () => {
     expect(layout.drawerOpen()).toBeTrue();
 
     layout.closeDrawer();
+    expect(layout.drawerOpen()).toBeFalse();
+  });
+
+  it('closes the drawer after a navigation', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideRouter([{ path: 'next', children: [] }])]
+    });
+    const layout = TestBed.inject(LayoutService);
+
+    layout.openDrawer();
+    await TestBed.inject(Router).navigateByUrl('/next');
+
     expect(layout.drawerOpen()).toBeFalse();
   });
 });

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MenuItem } from 'primeng/api';
 import { Menu } from 'primeng/menu';
 
 import { NAVIGATION_GROUPS } from '../../core';
@@ -16,16 +15,7 @@ import { LayoutService } from '../service';
 export class SidebarComponent {
   layout = inject(LayoutService);
 
-  navigationItems: MenuItem[] = NAVIGATION_GROUPS.map((group) => ({
-    ...group,
-    items: group.items?.map((item) => ({
-      ...item,
-      title: item.label,
-      badge: item.disabled ? 'Soon' : undefined,
-      badgeStyleClass: 'p-badge-secondary',
-      command: () => this.closeDrawer()
-    }))
-  }));
+  navigationGroups = NAVIGATION_GROUPS;
   collapsed = this.layout.sidebarCollapsed;
 
   toggle(): void {

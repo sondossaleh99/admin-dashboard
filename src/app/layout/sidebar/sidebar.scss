@@ -52,6 +52,11 @@
       color: var(--color-primary-dark);
     }
   }
+
+  .p-menu-item-link .p-badge {
+    background: var(--color-surface-sunk);
+    color: var(--color-text-muted);
+  }
 }
 
 :host(.sidebar--collapsed) {
@@ -74,7 +79,10 @@
       justify-content: center;
     }
 
-    .p-menu-item-label,
+    .p-menu-item-label {
+      @include m.visually-hidden;
+    }
+
     .p-menu-item-link .p-badge {
       display: none;
     }
