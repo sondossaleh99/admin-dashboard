@@ -251,9 +251,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      retry state. The page lists the service in its `providers`, so each visit starts a fresh
      request and the state is destroyed with the page. Each card takes the raw data it displays
      and derives the rest itself (totals, range filters, mapping to view models).
-   - A component with logic gets a spec. Specs render the component with its template overridden
-     to `''` and set inputs through `componentRef.setInput`, so they test the logic without
-     mounting charts.
+   - Components have no specs. Tests cover services, lookups, pipes and the chart theme.
    - Amounts are formatted with `| appCurrency` (whole units) or `| appCurrency: 2` (with cents). The
      currency is set once, by `DEFAULT_CURRENCY_CODE` in `app.config.ts`, next to `LOCALE_ID`.
      Don't use Angular's `currency` pipe with a hard-coded code.
