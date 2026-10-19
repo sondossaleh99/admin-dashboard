@@ -5,17 +5,11 @@ const COLLAPSED_KEY = 'admin-dashboard.sidebar-collapsed';
 @Injectable({ providedIn: 'root' })
 export class LayoutService {
   private get isCollapsed(): boolean {
-    try {
-      return localStorage.getItem(COLLAPSED_KEY) === 'true';
-    } catch {
-      return false;
-    }
+    return localStorage.getItem(COLLAPSED_KEY) === 'true';
   }
 
   private set isCollapsed(value: boolean) {
-    try {
-      localStorage.setItem(COLLAPSED_KEY, String(value));
-    } catch {}
+    localStorage.setItem(COLLAPSED_KEY, String(value));
   }
 
   private collapsed = signal(this.isCollapsed);

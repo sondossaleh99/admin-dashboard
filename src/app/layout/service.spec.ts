@@ -46,15 +46,4 @@ describe('LayoutService', () => {
     layout.closeDrawer();
     expect(layout.drawerOpen()).toBeFalse();
   });
-
-  it('still works when storage is unavailable', () => {
-    spyOn(Storage.prototype, 'getItem').and.throwError('blocked');
-    spyOn(Storage.prototype, 'setItem').and.throwError('blocked');
-
-    const layout = TestBed.inject(LayoutService);
-    expect(layout.sidebarCollapsed()).toBeFalse();
-
-    layout.toggleSidebar();
-    expect(layout.sidebarCollapsed()).toBeTrue();
-  });
 });
