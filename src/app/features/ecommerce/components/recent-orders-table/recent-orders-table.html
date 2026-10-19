@@ -37,7 +37,7 @@
         <th class="col-item">Item</th>
         <th pSortableColumn="placedAt">Date <p-sortIcon field="placedAt" /></th>
         <th>Status</th>
-        <th pSortableColumn="total" class="text-end">Total <p-sortIcon field="total" /></th>
+        <th pSortableColumn="total" class="col-total">Total <p-sortIcon field="total" /></th>
       </tr>
     </ng-template>
 
@@ -54,7 +54,7 @@
             order.statusLabel
           }}</span>
         </td>
-        <td class="text-end tabular-nums">
+        <td class="col-total tabular-nums">
           {{ order.total | appCurrency: 2 }}
         </td>
       </tr>

@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { ButtonDirective, ButtonLabel } from 'primeng/button';
 
 @Component({
   selector: 'app-empty-state',
-  imports: [ButtonDirective, ButtonLabel],
   templateUrl: './empty-state.html',
   styleUrl: './empty-state.scss',
   host: {

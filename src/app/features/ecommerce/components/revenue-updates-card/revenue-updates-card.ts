@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { SelectButton } from 'primeng/selectbutton';
 
 import {
   ChartComboComponent,
@@ -13,7 +11,7 @@ import {
 
 @Component({
   selector: 'app-revenue-updates-card',
-  imports: [...SHARED_IMPORTS, ChartComboComponent, FormsModule, SelectButton],
+  imports: [...SHARED_IMPORTS, ChartComboComponent],
   templateUrl: './revenue-updates-card.html',
   styleUrl: './revenue-updates-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

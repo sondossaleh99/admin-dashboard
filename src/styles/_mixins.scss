@@ -1,5 +1,18 @@
 @use 'variables' as v;
 
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
 @mixin status-tint($tone, $strength: 14%) {
   background: color-mix(in srgb, var(--color-#{$tone}) #{$strength}, transparent);
   color: var(--color-#{$tone}-text);

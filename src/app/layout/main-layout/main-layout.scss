@@ -32,7 +32,7 @@
   position: fixed;
   inset: 0;
   z-index: v.$z-backdrop;
-  background: var(--color-overlay);
+  background: rgba(15, 23, 42, 0.45);
 
   @include m.from(lg) {
     display: none;
