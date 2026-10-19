@@ -1,9 +1,11 @@
 <nav class="sidebar d-flex flex-column" aria-label="Main">
   <div class="sidebar__brand d-flex align-items-center gap-3 flex-shrink-0">
-    <span class="sidebar__mark fs-md" aria-hidden="true">
-      <i class="pi pi-bolt"></i>
-    </span>
-    <span class="sidebar__name flex-1 fs-lg fw-bold text-truncate">Shoppy</span>
+    @if (!collapsed()) {
+      <span class="sidebar__mark fs-md" aria-hidden="true">
+        <i class="pi pi-bolt"></i>
+      </span>
+      <span class="flex-1 fs-lg fw-bold text-truncate">Shoppy</span>
+    }
 
     <button
       type="button"
