@@ -1,0 +1,61 @@
+<app-ui-card>
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-5">
+    <div class="d-flex align-items-center gap-1">
+      <button
+        pButton
+        type="button"
+        [text]="true"
+        [rounded]="true"
+        severity="secondary"
+        aria-label="Previous period"
+        (click)="previous()"
+      >
+        <i pButtonIcon class="pi pi-chevron-left"></i>
+      </button>
+      <button
+        pButton
+        type="button"
+        [text]="true"
+        [rounded]="true"
+        severity="secondary"
+        aria-label="Next period"
+        (click)="next()"
+      >
+        <i pButtonIcon class="pi pi-chevron-right"></i>
+      </button>
+      <h2 class="ms-2 fs-lg fw-semibold text-body" aria-live="polite">{{ title() }}</h2>
+    </div>
+
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <button
+        pButton
+        type="button"
+        [outlined]="true"
+        severity="secondary"
+        size="small"
+        (click)="today()"
+      >
+        <span pButtonLabel>Today</span>
+      </button>
+      <p-selectbutton
+        [options]="views"
+        optionLabel="label"
+        optionValue="id"
+        [allowEmpty]="false"
+        size="small"
+        ariaLabelledBy="calendar-view-label"
+        [ngModel]="view()"
+        (ngModelChange)="changeView($event)"
+      />
+      <span id="calendar-view-label" class="visually-hidden">Calendar view</span>
+    </div>
+  </div>
+
+  <full-calendar [options]="options()">
+    <ng-template #eventContent let-arg>
+      <span class="d-block fw-semibold text-truncate">{{ arg.event.title }}</span>
+      <span class="d-block">{{ arg.timeText }}</span>
+      <span class="d-block text-truncate">{{ arg.event.extendedProps.location }}</span>
+    </ng-template>
+  </full-calendar>
+</app-ui-card>

@@ -17,23 +17,17 @@ export const NAVIGATION_GROUPS: MenuItem[] = [
       {
         label: 'Orders',
         icon: 'pi pi-file',
-        routerLink: '/orders',
-        disabled: true,
-        badge: 'Soon'
+        routerLink: '/orders'
       },
       {
         label: 'Employees',
         icon: 'pi pi-id-card',
-        routerLink: '/employees',
-        disabled: true,
-        badge: 'Soon'
+        routerLink: '/employees'
       },
       {
         label: 'Customers',
         icon: 'pi pi-users',
-        routerLink: '/customers',
-        disabled: true,
-        badge: 'Soon'
+        routerLink: '/customers'
       }
     ]
   },
@@ -43,9 +37,7 @@ export const NAVIGATION_GROUPS: MenuItem[] = [
       {
         label: 'Calendar',
         icon: 'pi pi-calendar',
-        routerLink: '/calendar',
-        disabled: true,
-        badge: 'Soon'
+        routerLink: '/calendar'
       },
       {
         label: 'Kanban',

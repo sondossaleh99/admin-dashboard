@@ -108,7 +108,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Wireless headphones',
     placedAt: '2026-09-14',
     total: 249.0,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'USA'
   },
   {
     id: 'ORD-4820',
@@ -116,7 +117,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Mechanical keyboard',
     placedAt: '2026-09-14',
     total: 139.5,
-    status: OrderStatus.Pending
+    status: OrderStatus.Pending,
+    location: 'India'
   },
   {
     id: 'ORD-4819',
@@ -124,7 +126,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Standing desk',
     placedAt: '2026-09-13',
     total: 612.0,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'Germany'
   },
   {
     id: 'ORD-4818',
@@ -132,7 +135,8 @@ const RECENT_ORDERS: Order[] = [
     item: '4K monitor',
     placedAt: '2026-09-13',
     total: 429.99,
-    status: OrderStatus.Refunded
+    status: OrderStatus.Refunded,
+    location: 'Canada'
   },
   {
     id: 'ORD-4817',
@@ -140,7 +144,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Ergonomic chair',
     placedAt: '2026-09-12',
     total: 358.0,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'United Kingdom'
   },
   {
     id: 'ORD-4816',
@@ -148,7 +153,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'USB-C dock',
     placedAt: '2026-09-12',
     total: 96.75,
-    status: OrderStatus.Cancelled
+    status: OrderStatus.Cancelled,
+    location: 'UAE'
   },
   {
     id: 'ORD-4815',
@@ -156,7 +162,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Laptop stand',
     placedAt: '2026-09-11',
     total: 64.0,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'Saudi Arabia'
   },
   {
     id: 'ORD-4814',
@@ -164,7 +171,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Webcam 1080p',
     placedAt: '2026-09-11',
     total: 82.4,
-    status: OrderStatus.Pending
+    status: OrderStatus.Pending,
+    location: 'France'
   },
   {
     id: 'ORD-4813',
@@ -172,7 +180,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Noise-cancelling earbuds',
     placedAt: '2026-09-10',
     total: 179.0,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'Australia'
   },
   {
     id: 'ORD-4812',
@@ -180,7 +189,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Portable SSD 1TB',
     placedAt: '2026-09-10',
     total: 143.2,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'Japan'
   },
   {
     id: 'ORD-4811',
@@ -188,7 +198,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Desk lamp',
     placedAt: '2026-09-09',
     total: 48.9,
-    status: OrderStatus.Refunded
+    status: OrderStatus.Refunded,
+    location: 'Brazil'
   },
   {
     id: 'ORD-4810',
@@ -196,7 +207,8 @@ const RECENT_ORDERS: Order[] = [
     item: 'Cable organiser',
     placedAt: '2026-09-09',
     total: 22.0,
-    status: OrderStatus.Paid
+    status: OrderStatus.Paid,
+    location: 'Spain'
   }
 ];
 

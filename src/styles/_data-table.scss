@@ -1,0 +1,31 @@
+.p-datatable.data-table {
+  font-size: var(--font-size-sm);
+
+  th,
+  td {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  thead th {
+    font-size: var(--font-size-2xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border-color: var(--color-border);
+  }
+
+  tbody td {
+    border-color: var(--color-border);
+  }
+
+  .p-datatable-header {
+    padding-inline: var(--space-4);
+    border-color: var(--color-border);
+  }
+
+  .p-datatable-paginator-bottom {
+    border-color: var(--color-border);
+  }
+}

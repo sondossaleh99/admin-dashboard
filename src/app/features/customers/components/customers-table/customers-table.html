@@ -1,0 +1,90 @@
+<app-ui-card title="Clients" [subtitle]="subtitle()" [flush]="true">
+  <p-table
+    #dt
+    [value]="tableValue()"
+    [rows]="pageSize"
+    [paginator]="customers().length > pageSize"
+    [globalFilterFields]="['name', 'email', 'project', 'location', 'statusLabel']"
+    [filterDelay]="250"
+    [selection]="selected()"
+    (selectionChange)="selected.set($event)"
+    sortField="id"
+    [sortOrder]="1"
+    dataKey="id"
+    styleClass="data-table"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+  >
+    <ng-template #caption>
+      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+        <button
+          pButton
+          type="button"
+          severity="danger"
+          [text]="true"
+          size="small"
+          [disabled]="!selected().length"
+          (click)="deleteSelected()"
+        >
+          <i pButtonIcon class="pi pi-trash"></i>
+          <span pButtonLabel>{{ deleteLabel() }}</span>
+        </button>
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            #search
+            pInputText
+            pSize="small"
+            type="search"
+            placeholder="Search customers"
+            autocomplete="off"
+            aria-label="Search customers"
+            (input)="dt.filterGlobal(search.value, 'contains')"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th><p-tableHeaderCheckbox ariaLabel="Select all customers" /></th>
+        <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
+        <th pSortableColumn="project">Project <p-sortIcon field="project" /></th>
+        <th>Status</th>
+        <th pSortableColumn="weeks" class="text-end">Weeks <p-sortIcon field="weeks" /></th>
+        <th pSortableColumn="budget" class="text-end">Budget <p-sortIcon field="budget" /></th>
+        <th pSortableColumn="location">Location <p-sortIcon field="location" /></th>
+        <th pSortableColumn="id" class="text-end">ID <p-sortIcon field="id" /></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-customer>
+      <tr>
+        <td><p-tableCheckbox [value]="customer" [ariaLabel]="'Select ' + customer.name" /></td>
+        <td>
+          <span class="d-flex align-items-center gap-3">
+            <p-avatar [label]="customer.name | initials" shape="circle" aria-hidden="true" />
+            <span class="d-flex flex-column min-w-0">
+              <span class="fw-medium text-truncate">{{ customer.name }}</span>
+              <span class="fs-xs text-muted text-truncate">{{ customer.email }}</span>
+            </span>
+          </span>
+        </td>
+        <td>{{ customer.project }}</td>
+        <td>
+          <app-status-badge [label]="customer.statusLabel" [tone]="customer.statusTone" />
+        </td>
+        <td class="text-end tabular-nums">{{ customer.weeks }}</td>
+        <td class="text-end tabular-nums">{{ customer.budget | appCurrency }}</td>
+        <td>{{ customer.location }}</td>
+        <td class="text-end text-muted tabular-nums">{{ customer.id }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="8" class="text-center p-8 text-muted fs-sm">No customers found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</app-ui-card>

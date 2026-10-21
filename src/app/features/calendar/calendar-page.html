@@ -1,0 +1,21 @@
+<div class="d-flex flex-column gap-6">
+  <app-section-header title="Calendar" subtitle="Upcoming sessions, by day, week or month." />
+
+  @if (service.error()) {
+    <app-ui-card>
+      <app-empty-state
+        icon="pi-exclamation-circle"
+        message="Could not load the calendar"
+        hint="The request failed. Nothing else on the page is affected."
+        actionLabel="Retry"
+        (action)="service.retry()"
+      />
+    </app-ui-card>
+  } @else if (service.loading()) {
+    <app-ui-card>
+      <app-skeleton-block height="560px" radius="var(--radius-md)" />
+    </app-ui-card>
+  } @else if (service.data(); as events) {
+    <app-event-calendar [events]="events" />
+  }
+</div>

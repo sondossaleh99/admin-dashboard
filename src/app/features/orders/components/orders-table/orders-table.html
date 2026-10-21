@@ -1,0 +1,66 @@
+<app-ui-card title="All orders" [subtitle]="subtitle()" [flush]="true">
+  <p-table
+    #dt
+    [value]="tableValue()"
+    [rows]="pageSize"
+    [paginator]="orders().length > pageSize"
+    [globalFilterFields]="['id', 'item', 'customer', 'location', 'statusLabel']"
+    [filterDelay]="250"
+    sortField="placedAt"
+    [sortOrder]="-1"
+    dataKey="id"
+    styleClass="data-table"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+  >
+    <ng-template #caption>
+      <div class="d-flex justify-content-end">
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            #search
+            pInputText
+            pSize="small"
+            type="search"
+            placeholder="Search orders"
+            autocomplete="off"
+            aria-label="Search orders"
+            (input)="dt.filterGlobal(search.value, 'contains')"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th><span class="visually-hidden">Image</span></th>
+        <th pSortableColumn="item">Item <p-sortIcon field="item" /></th>
+        <th pSortableColumn="customer">Customer <p-sortIcon field="customer" /></th>
+        <th pSortableColumn="total" class="text-end">Total <p-sortIcon field="total" /></th>
+        <th>Status</th>
+        <th pSortableColumn="id">Order ID <p-sortIcon field="id" /></th>
+        <th pSortableColumn="location">Location <p-sortIcon field="location" /></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-order>
+      <tr>
+        <td>
+          <p-avatar [label]="order.item | initials" size="large" aria-hidden="true" />
+        </td>
+        <td class="fw-medium">{{ order.item }}</td>
+        <td>{{ order.customer }}</td>
+        <td class="text-end tabular-nums">{{ order.total | appCurrency: 2 }}</td>
+        <td><app-status-badge [label]="order.statusLabel" [tone]="order.statusTone" /></td>
+        <td class="text-muted tabular-nums">#{{ order.id }}</td>
+        <td>{{ order.location }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="7" class="text-center p-8 text-muted fs-sm">No orders found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</app-ui-card>

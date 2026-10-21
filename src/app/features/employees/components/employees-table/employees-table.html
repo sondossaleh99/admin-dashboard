@@ -1,0 +1,72 @@
+<app-ui-card title="Team" [subtitle]="subtitle()" [flush]="true">
+  <p-table
+    #dt
+    [value]="employees()"
+    [rows]="pageSize"
+    [paginator]="employees().length > pageSize"
+    [globalFilterFields]="['name', 'designation', 'country', 'reportsTo']"
+    [filterDelay]="250"
+    sortField="id"
+    [sortOrder]="1"
+    dataKey="id"
+    styleClass="data-table"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+  >
+    <ng-template #caption>
+      <div class="d-flex justify-content-end">
+        <p-iconfield>
+          <p-inputicon class="pi pi-search" />
+          <input
+            #search
+            pInputText
+            pSize="small"
+            type="search"
+            placeholder="Search employees"
+            autocomplete="off"
+            aria-label="Search employees"
+            (input)="dt.filterGlobal(search.value, 'contains')"
+          />
+        </p-iconfield>
+      </div>
+    </ng-template>
+
+    <ng-template #header>
+      <tr>
+        <th pSortableColumn="name">Employee <p-sortIcon field="name" /></th>
+        <th pSortableColumn="designation">Designation <p-sortIcon field="designation" /></th>
+        <th pSortableColumn="country">Country <p-sortIcon field="country" /></th>
+        <th pSortableColumn="hiredAt">Hire date <p-sortIcon field="hiredAt" /></th>
+        <th pSortableColumn="reportsTo">Reports to <p-sortIcon field="reportsTo" /></th>
+        <th pSortableColumn="id" class="text-end">ID <p-sortIcon field="id" /></th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-employee>
+      <tr>
+        <td>
+          <span class="d-flex align-items-center gap-3">
+            <p-avatar [label]="employee.name | initials" shape="circle" aria-hidden="true" />
+            <span class="fw-medium">{{ employee.name }}</span>
+          </span>
+        </td>
+        <td>{{ employee.designation }}</td>
+        <td>
+          <span class="d-inline-flex align-items-center gap-2">
+            <i class="pi pi-map-marker text-muted" aria-hidden="true"></i>
+            {{ employee.country }}
+          </span>
+        </td>
+        <td class="tabular-nums">{{ employee.hiredAt | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ employee.reportsTo }}</td>
+        <td class="text-end text-muted tabular-nums">{{ employee.id }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="6" class="text-center p-8 text-muted fs-sm">No employees found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</app-ui-card>

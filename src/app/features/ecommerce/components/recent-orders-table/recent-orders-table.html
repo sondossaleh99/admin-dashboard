@@ -9,7 +9,7 @@
     sortField="placedAt"
     [sortOrder]="-1"
     dataKey="id"
-    styleClass="orders-table"
+    styleClass="data-table"
     [rowHover]="true"
     responsiveLayout="scroll"
   >
@@ -50,9 +50,7 @@
         <td class="col-item">{{ order.item }}</td>
         <td>{{ order.placedAt | date: 'd MMM' }}</td>
         <td>
-          <span class="status" [class]="'status--' + order.statusTone">{{
-            order.statusLabel
-          }}</span>
+          <app-status-badge [label]="order.statusLabel" [tone]="order.statusTone" />
         </td>
         <td class="text-end tabular-nums">
           {{ order.total | appCurrency: 2 }}

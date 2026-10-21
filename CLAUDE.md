@@ -6,7 +6,7 @@ current state live in `docs/HANDOFF.md`; read it before structural changes.
 ## Stack
 
 Angular 20 (standalone components, signals) · PrimeNG 20 · Bootstrap 5 (grid and utilities only) ·
-ApexCharts via `ng-apexcharts` · SCSS design tokens · Karma/Jasmine.
+ApexCharts via `ng-apexcharts` · FullCalendar 6 · SCSS design tokens · Karma/Jasmine.
 
 ## Commands
 

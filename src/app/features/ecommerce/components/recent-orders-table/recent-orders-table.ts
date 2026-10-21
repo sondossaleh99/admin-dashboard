@@ -5,16 +5,16 @@ import { InputText } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 
 import {
-  ActivityToneLookup,
   Order,
   OrderActivityLookup,
   OrderStatusLookup,
-  SHARED_IMPORTS
+  SHARED_IMPORTS,
+  StatusBadgeComponent
 } from '../../../../shared';
 
 @Component({
   selector: 'app-recent-orders-table',
-  imports: [...SHARED_IMPORTS, TableModule, IconField, InputIcon, InputText],
+  imports: [...SHARED_IMPORTS, TableModule, IconField, InputIcon, InputText, StatusBadgeComponent],
   templateUrl: './recent-orders-table.html',
   styleUrl: './recent-orders-table.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -27,7 +27,7 @@ export class RecentOrdersTableComponent {
     return this.orders().map((order) => ({
       ...order,
       statusLabel: OrderStatusLookup.getLabel(order.status),
-      statusTone: ActivityToneLookup.getLabel(activity[order.status].tone)
+      statusTone: activity[order.status].tone
     }));
   });
 

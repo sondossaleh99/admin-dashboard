@@ -4,3 +4,5 @@ export * from './revenue-range';
 export * from './icon-chip-tone';
 export * from './kpi-format';
 export * from './icon-chip-size';
+export * from './customer-status';
+export * from './calendar-view';

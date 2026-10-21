@@ -2,7 +2,7 @@
 
 **Updated:** 2026-10-21
 **Branch:** `init` is the default branch (there is no `main`). **Never push to `init` directly.**
-`feature-refactor` (#15) and `feature-refactor-2` (#16) are merged. Current work is on `fix-delta-badge-spec`. Branch, push and PR rules are in §2.
+`feature-refactor` (#15), `feature-refactor-2` (#16) and `fix-delta-badge-spec` (#17) are merged. Current work is on `feature-pages`. Branch, push and PR rules are in §2.
 **State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
 `ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
@@ -23,7 +23,8 @@ In a container, point Karma at the bundled Chromium first:
 `export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
 
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid and utilities only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 750 kB against an 800 kB warning /
+ApexCharts via `ng-apexcharts` · FullCalendar 6 (`@fullcalendar/angular`, only in the lazy
+`calendar` chunk). The initial bundle is ≈ 750 kB against an 800 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -36,7 +37,7 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 **How work reaches `init`:**
 
 1. **Never push to `init` directly.** Commit and push each task to its own branch. The current
-   branch is `fix-delta-badge-spec`; keep working there until the user names another.
+   branch is `feature-pages`; keep working there until the user names another.
 2. **Name a new branch** `feature-<task-name>` for a new task or `fix-<change-name>` for a fix.
    Never use a `claude/` prefix or any name that mentions Claude.
 3. **Open a pull request only when the user asks for one.** The user reviews it and either
@@ -125,15 +126,18 @@ src/app/
     sidebar/       PrimeNG Menu built from NAVIGATION_GROUPS
     topbar/
   shared/                          barrel: shared/index.ts
-    models/        14 shared interfaces (see §6)
-    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize
-    lookup/        9 *Lookup classes
+    models/        17 shared interfaces (see §6)
+    enum/          OrderStatus, ActivityTone, RevenueRange, IconChipTone, KpiFormat, IconChipSize,
+                   CustomerStatus, CalendarView
+    lookup/        11 *Lookup classes
     charts/        chart-theme + chart-combo / -donut / -sparkline
     ui/            ui-card, stat-card, icon-chip, delta-badge, section-header,
-                   skeleton-block, empty-state        (one folder + index.ts each)
+                   skeleton-block, empty-state, status-badge (a status pill by ActivityTone),
+                   table-skeleton (loading state of a table page)   (one folder + index.ts each)
     imports/       SHARED_IMPORTS
     pipes/         KpiValuePipe (formats a KPI value by its KpiFormat),
-                   AppCurrencyPipe (formats an amount in the app's default currency)
+                   AppCurrencyPipe (formats an amount in the app's default currency),
+                   InitialsPipe (a name's initials, for avatars)
   features/                        no root barrel: routes import each feature's own index.ts
     ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (8, incl. the loading skeleton)
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
@@ -141,14 +145,28 @@ src/app/
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
                    + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
                      the only export of the feature barrel)
+    orders/        orders-page + components/orders-table, service.ts, mock-data.ts, routes.ts
+    employees/     employees-page + components/employees-table, service.ts, mock-data.ts, routes.ts
+    customers/     customers-page + components/customers-table (row selection + delete;
+                     CustomersService.remove() updates the resource), service.ts, mock-data.ts,
+                     routes.ts
+    calendar/      calendar-page + components/event-calendar (FullCalendar with its own toolbar
+                     hidden; prev/next/today are pButtons and the view switch is p-selectbutton),
+                     service.ts, mock-data.ts (events relative to the current week), routes.ts
+                   Every new feature follows ecommerce: the page provides its service, shows
+                   loading / error / data, and the barrel exports only routes.ts.
     not-found/     not-found.ts (NotFoundComponent, inside UiCardComponent)
                    + routes.ts (NOT_FOUND_ROUTES, the only export of the feature barrel)
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile drawer, avatar
 menu (PrimeNG `Menu` popup with arrow keys, Escape and outside-click), loading skeletons, inline error retry, revenue range filter
-with derived totals, six live charts, a sortable/paginated/searchable orders table, and an
-activity feed.
+with derived totals, six live charts, a sortable/paginated/searchable orders table, an
+activity feed, and the Orders, Employees, Customers and Calendar pages (search, sort, paging,
+customer delete, day/week/work-week/month/agenda views; the calendar opens on the day view below
+768px). Their content follows the reference screenshots the user sent; images and avatars are
+initials, since there are no image assets. PrimeNG tables share the global `.data-table` class
+(`styleClass="data-table"`, `src/styles/_data-table.scss`).
 
 **Still provisional:** section proportions, exact spacing and any decorative treatment — the
 things Stage 9's visual-parity pass exists to catch once the reference is reachable.

@@ -1,0 +1,19 @@
+<div class="d-flex flex-column gap-6">
+  <app-section-header title="Orders" subtitle="Every order, with its status and destination." />
+
+  @if (service.error()) {
+    <app-ui-card>
+      <app-empty-state
+        icon="pi-exclamation-circle"
+        message="Could not load the orders"
+        hint="The request failed. Nothing else on the page is affected."
+        actionLabel="Retry"
+        (action)="service.retry()"
+      />
+    </app-ui-card>
+  } @else if (service.loading()) {
+    <app-table-skeleton />
+  } @else if (service.data(); as orders) {
+    <app-orders-table [orders]="orders" />
+  }
+</div>

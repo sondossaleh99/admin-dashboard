@@ -4,4 +4,6 @@ export * from './icon-chip';
 export * from './section-header';
 export * from './skeleton-block';
 export * from './stat-card';
+export * from './status-badge';
+export * from './table-skeleton';
 export * from './ui-card';

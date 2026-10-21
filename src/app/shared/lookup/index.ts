@@ -7,3 +7,5 @@ export * from './icon-chip-tone.lookup';
 export * from './icon-chip-size.lookup';
 export * from './kpi-format.lookup';
 export * from './revenue-range.lookup';
+export * from './customer-status.lookup';
+export * from './calendar-view.lookup';
