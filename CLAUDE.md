@@ -42,7 +42,8 @@ npm run test:ci    # one headless test run
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
   `DEFAULT_CURRENCY_CODE` in `app.config.ts`.
 - `$primary` in `_variables.scss` is the only place the brand colour is set. Its shades become
-  `--color-primary-*` tokens, which the PrimeNG preset and the charts read.
+  `--color-primary-*` tokens, which the PrimeNG preset reads; the charts read `--chart-series-1`,
+  also set from `$primary`.
 - Component styles import shared Sass by name (`@use 'mixins' as m;`), never by relative path.
 - Class names join block and element with a hyphen (`activity-dot`, never `activity_dot` or
   `activity__dot`). Modifiers keep the double hyphen (`activity-dot--success`).
