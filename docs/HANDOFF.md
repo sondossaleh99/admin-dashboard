@@ -141,7 +141,8 @@ src/app/
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
                    + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
                      the only export of the feature barrel)
-    not-found/
+    not-found/     not-found.ts (NotFoundComponent, inside UiCardComponent)
+                   + routes.ts (NOT_FOUND_ROUTES, the only export of the feature barrel)
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile drawer, avatar
@@ -186,8 +187,8 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      Inside `routes.ts` every page sets its `title` and uses `loadComponent` with a direct path
      (`import('./ecommerce-page')`), never `component:`. The feature barrel exports only
      `./routes`: if it also exported the page, the page would ship in the routes chunk and its
-     `loadComponent` would split nothing. A route with no feature routes of its own
-     (`not-found`) still breaks this rule: it uses `loadComponent` in `app.routes.ts` and its barrel exports the page. Next step: give it a `routes.ts` (`NOT_FOUND_ROUTES`) loaded with `loadChildren`, like `ecommerce`.
+     `loadComponent` would split nothing. `not-found` follows the same pattern: `NOT_FOUND_ROUTES`
+     sets the title and lazy-loads the page, and `app.routes.ts` loads it under `**`.
    - Lazy routes import the closest **per-feature** barrel (`'./features/ecommerce'`). There is
      deliberately no root `features/index.ts`: it would merge every route's lazy chunk into one. A
      cosmetic side effect: lazy chunks are named `index` in the build output.
@@ -340,8 +341,9 @@ model is used in at least two files, so none live under `features/`. There is no
 2. **Stage 7 — responsive** (plan §10). It was already verified clean at 320/390/768/1440 during
    Stage 6, including the orders table's own internal horizontal scroll, which was confirmed not
    to leak into page-level overflow. Expect confirmation rather than repair.
-3. **Stage 8 — accessibility.** `aria-current` on the active sidebar link was lost when the sidebar moved to PrimeNG `Menu` (`83af804`) and must be restored. Landmarks, the focus ring and reduced-motion are
-   already in. The contrast audit and a keyboard sweep remain.
+3. **Stage 8 — accessibility.** Landmarks, `aria-current`, the focus ring and reduced-motion are
+   in. `SidebarComponent` adds `aria-current="page"` to the active `p-menu` link through its `pt`
+   (`itemLink`), because PrimeNG's `Menu` does not set it. The contrast audit and a keyboard sweep remain.
 4. **Stage 9 — visual parity** against the reference, once it's reachable. Revisit
    `EarningsHeroComponent`'s missing decorative background and `ActivityCardComponent`'s activity-feed substitution
    first: those are the two items most likely to change shape, not just figures.

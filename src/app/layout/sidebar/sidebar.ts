@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router } from '@angular/router';
+import { MenuItem, PassThroughContext } from 'primeng/api';
 import { ButtonDirective, ButtonIcon } from 'primeng/button';
-import { Menu } from 'primeng/menu';
+import { Menu, MenuPassThrough } from 'primeng/menu';
+import { filter, map } from 'rxjs';
 
 import { NAVIGATION_GROUPS } from '../../core';
 import { LayoutService } from '../service';
+
+type MenuItemLinkContext = PassThroughContext & { context: { item: MenuItem } };
 
 @Component({
   selector: 'app-sidebar',
@@ -15,9 +21,39 @@ import { LayoutService } from '../service';
 })
 export class SidebarComponent {
   layout = inject(LayoutService);
+  router = inject(Router);
 
   navigationGroups = NAVIGATION_GROUPS;
   collapsed = this.layout.sidebarCollapsed;
+
+  url = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => this.router.url)
+    ),
+    { initialValue: this.router.url }
+  );
+
+  menuPt = computed<MenuPassThrough>(() => {
+    this.url();
+    return {
+      itemLink: (options) => ({
+        'aria-current': this.isActive((options as MenuItemLinkContext).context.item) ? 'page' : null
+      })
+    };
+  });
+
+  isActive(item: MenuItem): boolean {
+    return (
+      typeof item.routerLink === 'string' &&
+      this.router.isActive(item.routerLink, {
+        paths: 'subset',
+        queryParams: 'subset',
+        fragment: 'ignored',
+        matrixParams: 'ignored'
+      })
+    );
+  }
 
   toggle(): void {
     this.layout.toggleSidebar();
