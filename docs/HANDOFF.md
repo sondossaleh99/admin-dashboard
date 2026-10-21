@@ -1,8 +1,8 @@
 # Handoff — Ecommerce Dashboard
 
-**Updated:** 2026-10-14
+**Updated:** 2026-10-21
 **Branch:** `init` is the default branch (there is no `main`). **Never push to `init` directly.**
-Current work is on `feature-refactor`. Branch, push and PR rules are in §2.
+`feature-refactor` (#15) and `feature-refactor-2` (#16) are merged. Current work is on `fix-delta-badge-spec`. Branch, push and PR rules are in §2.
 **State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
 `ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
@@ -22,7 +22,7 @@ npm run test:ci  # one headless run (ChromeHeadlessCI = --no-sandbox, for root/c
 In a container, point Karma at the bundled Chromium first:
 `export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
 
-The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid only) ·
+The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid and utilities only) ·
 ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 750 kB against an 800 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
@@ -36,7 +36,7 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 **How work reaches `init`:**
 
 1. **Never push to `init` directly.** Commit and push each task to its own branch. The current
-   branch is `feature-refactor`; keep working there until the user names another.
+   branch is `fix-delta-badge-spec`; keep working there until the user names another.
 2. **Name a new branch** `feature-<task-name>` for a new task or `fix-<change-name>` for a fix.
    Never use a `claude/` prefix or any name that mentions Claude.
 3. **Open a pull request only when the user asks for one.** The user reviews it and either
@@ -45,13 +45,20 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 
 All seven stage PRs (#1–#7) are merged into `init`. After Stage 6, work was committed directly to
 `init` for a while (the table below). That has stopped: follow the rules above. The
-`claude/stage-*` branches are merged and stale.
+`claude/stage-*` branches were merged and have since been deleted from `origin`.
 
 | PR    | State                 | Notes                                                                                                                                         |
 | ----- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | #1–#7 | merged                | Plan, then Stages 1–6 (merge commits `2c59a5d` … `42a6845`)                                                                                   |
 | #8    | merged by the user    | Review-only PR (`init` → anchor branch `claude/pre-shared-refactor`). Merging it only moved the anchor branch forward. `init` was unaffected. |
-| #9    | **open** (the user's) | `claude/pre-shared-refactor` → `init`: one merge commit, **0 file changes**. Merging it would change no files.                                |
+| #9    | closed by the user    | `claude/pre-shared-refactor` → `init`: one merge commit, **0 file changes**. Closed without merging on 2026-09-28.                            |
+| #10   | merged                | `feature-refactor`: models, services and naming conventions                                                                                   |
+| #11   | merged                | `refactor/scss-utilities`: utilities-first styling                                                                                            |
+| #12   | merged                | `refactor/remove-comments`: all code comments removed                                                                                         |
+| #13   | merged                | `claude/funny-davinci-d31z73`: `CLAUDE.md` and commit conventions                                                                             |
+| #14   | merged                | `feature-structure-refactor`: dashboard logic moved into child components                                                                     |
+| #15   | merged                | `feature-refactor`: numeric enums, lazy routes, PrimeNG topbar and sidebar                                                                    |
+| #16   | merged                | `feature-refactor-2`: brand colour set once, hyphenated class names, PrimeNG buttons, component specs only                                    |
 
 **Never merge, close or open a PR without an explicit instruction from the user.**
 
@@ -65,7 +72,7 @@ Post–Stage 6 commits on `init`, oldest first:
 | `2f2245c`            | External consumers import through the root `shared` barrel                                          |
 | `9bb2909`            | Folder-level `index.ts` in every component folder                                                   |
 | `d440cb1`            | `shared/lookup`: static config data → `*Lookup` classes                                             |
-| `1d96982`            | Dropped `readonly` everywhere and `private` everywhere but one place (§5.3)                         |
+| `1d96982`            | Dropped `readonly` everywhere and `private` everywhere but one place (§5.4)                         |
 | `4169e0f`, `0dd4046` | `core` barrels, and consumers routed through them                                                   |
 | `9e96789`            | Root barrels for `layout` and `features`                                                            |
 | `268acfc`, `14d7371` | `SHARED_IMPORTS` (pipes, then `UiCardComponent` added after re-analysis)                            |
@@ -107,7 +114,7 @@ record of what is `[verify]`:
 
 ```
 src/app/
-  app.routes.ts    MainLayout from './layout'; each feature is lazy-loaded through its barrel
+  app.routes.ts    MainLayoutComponent from './layout'; each feature is lazy-loaded through its barrel
   core/                            barrel: core/index.ts → config, data
     config/        primeng-preset (AppPreset, used by app.config.ts),
                    navigation.config (NAVIGATION_GROUPS, the sidebar menu)
@@ -134,7 +141,8 @@ src/app/
                    + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
                    + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
                      the only export of the feature barrel)
-    not-found/
+    not-found/     not-found.ts (NotFoundComponent, inside UiCardComponent)
+                   + routes.ts (NOT_FOUND_ROUTES, the only export of the feature barrel)
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile drawer, avatar
@@ -154,9 +162,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 1. **Barrels everywhere.** Every folder that exposes something has an `index.ts` using
    `export * from '…'`. A folder wrapping one component exports that file. A parent exports its
    child _folders_, never a file inside them: `export * from './ui-card'`, not
-   `'./ui-card/ui-card'`. Flat multi-file folders (`enum`, `models`, `lookup`, `charts`,
+   `'./ui-card/ui-card'`. Flat folders (`enum`, `models`, `lookup`, `charts`,
    `imports`, `pipes`, `core/data`) list their files in one `index.ts`. Root barrels:
-   `shared`, `core`, `layout`, `features`.
+   `shared`, `core`, `layout` (deliberately none for `features`, see rule 3).
 
 2. **Component class names end in `Component`.** `WeeklyStatsCardComponent`, `UiCardComponent`,
    `AppComponent`. File names stay kebab-case without the suffix (`weekly-stats-card.ts`).
@@ -179,8 +187,8 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
      Inside `routes.ts` every page sets its `title` and uses `loadComponent` with a direct path
      (`import('./ecommerce-page')`), never `component:`. The feature barrel exports only
      `./routes`: if it also exported the page, the page would ship in the routes chunk and its
-     `loadComponent` would split nothing. A route with no feature routes of its own
-     (`not-found`) uses `loadComponent` in `app.routes.ts`.
+     `loadComponent` would split nothing. `not-found` follows the same pattern: `NOT_FOUND_ROUTES`
+     sets the title and lazy-loads the page, and `app.routes.ts` loads it under `**`.
    - Lazy routes import the closest **per-feature** barrel (`'./features/ecommerce'`). There is
      deliberately no root `features/index.ts`: it would merge every route's lazy chunk into one. A
      cosmetic side effect: lazy chunks are named `index` in the build output.
@@ -194,7 +202,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    a `localStorage` write that a direct `.set()` would bypass, while a public `isCollapsed` setter
    would write storage without updating the signal.
 
-5. **No `readonly`** — not on class fields (including `input()`, `signal()` and `computed()`
+5. **No `readonly` by default** (keep one only when it enforces real encapsulation; none does today) — not on class fields (including `input()`, `signal()` and `computed()`
    fields), interface properties, or array types (`Kpi[]`, not `readonly Kpi[]`).
 
 6. **Types.** One interface per file, with a kebab-case filename. String-literal unions are
@@ -222,7 +230,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
    `CURRENT_USER`, the sidebar menu (`NAVIGATION_GROUPS` in `core/config/navigation.config.ts`), and chart options (built at runtime from inputs and CSS variables).
 
 8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
-   spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartCombo]`. It's
+   spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartComboComponent]`. It's
    a plain array on purpose: importing a wrapper component does **not** re-export that
    component's own imports. Kept out on purpose:
    - `TableModule`: one use.
@@ -241,7 +249,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 - PrimeNG owns interactive components; Bootstrap owns layout only. Never both.
 - Feature components arrange and bind. Colours, radii and shadows come from `UiCardComponent` and the
   tokens. No component stylesheet contains a hex colour: use a `--color-*` token, and
-  `@include m.status-tint($tone)` (`_mixins.scss`) for a status label or icon on its own tint.
+  `@include m.status-variants` (`_mixins.scss`) for a status label or icon that takes a `--success`/`--warning`/`--info`/`--danger` modifier, or `@include m.status-tint($tone)` for a single tone on its own tint.
   Text on a solid colour fill is `--color-text-inverse`.
 - Charts receive data only. The theme lives in `chart-theme.ts`.
 - No `any`. Formatting is Prettier's (`npm run format`); don't hand-format around it.
@@ -252,7 +260,7 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
   retry state. The page lists the service in its `providers`, so each visit starts a fresh
   request and the state is destroyed with the page. Each card takes the raw data it displays
   and derives the rest itself (totals, range filters, mapping to view models).
-- A component with logic gets a spec. Specs render the component with its template overridden
+- A component with logic gets a spec. Except `recent-orders-table.spec.ts`, which renders the real PrimeNG table to test its search, specs render the component with its template overridden
   to `''` and set inputs through `componentRef.setInput`, so they test the logic without
   mounting charts. Only components have specs.
 - Amounts are formatted with `| appCurrency` (whole units) or `| appCurrency: 2` (with cents). The
@@ -271,9 +279,9 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
     | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
     | Flex layout        | `d-flex`, `d-inline-flex`, `flex-column`, `flex-wrap`, `align-items-*`, `justify-content-*`, `flex-shrink-0`, `flex-1` (= `flex: 1`), `min-w-0` | Bootstrap grid build + `_utilities.scss`                   |
     | Show/hide by width | `d-none d-md-block`, `d-lg-none`, … (breakpoints match `$bp-*`)                                                                                 | Bootstrap                                                  |
-    | Spacing            | `m-*`, `p-*`, `mt-*`, `px-*`, … and `gap-*`: steps 0–6 and 8, equal to `--space-N` (`p-3` = 12px)                                               | Bootstrap (scale set in `styles.scss`) + `_utilities.scss` |
+    | Spacing            | `m-*`, `p-*`, `mt-*`, `px-*`, … (steps 0–6 and 8) and `gap-*` (steps 1–6 and 8), equal to `--space-N` (`p-3` = 12px)                                               | Bootstrap (scale set in `styles.scss`) + `_utilities.scss` |
     | Grid gutters       | `row g-6` (24px), same scale                                                                                                                    | Bootstrap                                                  |
-    | Type               | `fs-{xs…3xl}`, `fw-{regular,medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-end`, `text-truncate`, `tabular-nums`   | `_utilities.scss`, `_base.scss`                            |
+    | Type               | `fs-{xs…3xl}`, `fw-{medium,semibold,bold}`, `text-{body,secondary,muted,primary}`, `text-center`, `text-end`, `text-truncate`, `tabular-nums`   | `_utilities.scss`, `_base.scss`                            |
     | Lists              | `list-unstyled` (add `m-0` to drop the default margin)                                                                                          | `_utilities.scss`                                          |
     | Buttons            | `pButton` (`[text]`, `[outlined]`, `[rounded]`, with `pButtonIcon` / `pButtonLabel`) and `p-selectbutton`; no custom button classes            | PrimeNG                                                    |
 
@@ -334,15 +342,15 @@ model is used in at least two files, so none live under `features/`. There is no
    Stage 6, including the orders table's own internal horizontal scroll, which was confirmed not
    to leak into page-level overflow. Expect confirmation rather than repair.
 3. **Stage 8 — accessibility.** Landmarks, `aria-current`, the focus ring and reduced-motion are
-   already in. The contrast audit and a keyboard sweep remain.
+   in. `SidebarComponent` adds `aria-current="page"` to the active `p-menu` link through its `pt`
+   (`itemLink`), because PrimeNG's `Menu` does not set it. The contrast audit and a keyboard sweep remain.
 4. **Stage 9 — visual parity** against the reference, once it's reachable. Revisit
    `EarningsHeroComponent`'s missing decorative background and `ActivityCardComponent`'s activity-feed substitution
    first: those are the two items most likely to change shape, not just figures.
-5. **The user's call, not yours:** what to do with PR #9.
 
 `ChartAreaComponent` (plan item 5.4) was built but never used by any page, so it was deleted at the
 user's request. If a future page needs it (e.g. the sidebar's Charts › Area entry), restore it with
-`git show 00c91f1:src/app/shared/charts/chart-area.ts` and re-add it to `shared/charts/index.ts`.
+`git show 00c91f1:src/app/shared/charts/chart-area.ts`, move its inline template into `chart-area.html` (`templateUrl`), drop its comments and `styles` (use `host: { class: 'd-block' }` like the other charts), and re-add it to `shared/charts/index.ts`.
 
 ---
 
@@ -373,7 +381,7 @@ what found the invisible-stroke bug in Stage 5, after a wrong guess about contai
   changes.
 - When a spec is ambiguous, pick the most reasonable reading and state the call. Ask only when
   genuinely blocked.
-- Every task ends the same way: `npm run build` clean → a commit with a descriptive message → push
+- Every task ends the same way: `npm run build` and `npm run format:check` clean → a commit with a conventional prefix (`feat:`, `fix:`, …) that describes the change in plain terms → push
   to the task's branch, never `init` (§2) → a short report (what changed, which files,
   intentional exceptions and why, build status). A pull request only when the user asks.
 - Expect judgment calls to be reviewed and sometimes reversed (e.g. `UiCardComponent` joining
