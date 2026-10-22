@@ -14,4 +14,5 @@ import { OrderService } from './service';
 })
 export class OrderPageComponent {
   service = inject(OrderService);
+  orders = this.service.orders;
 }

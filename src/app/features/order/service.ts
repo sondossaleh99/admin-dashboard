@@ -1,8 +1,8 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
 
 import { OrderListItem, OrderStatus, PageRequest, PagedResult } from '../../shared';
-import { rxResource } from '@angular/core/rxjs-interop';
 
 const orders: OrderListItem[] = [
   {
