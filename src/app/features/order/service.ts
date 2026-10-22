@@ -2,6 +2,7 @@ import { Injectable, computed, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { OrderListItem, OrderStatus, PageRequest, PagedResult } from '../../shared';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 const orders: OrderListItem[] = [
   {
@@ -235,7 +236,10 @@ export class OrderService {
     return of(data);
   }
 
-  data = computed(() => this.getOrders(this.page()));
+  orders = rxResource({
+    params: () => this.page(),
+    stream: ({ params }) => this.getOrders(params)
+  });
 
   setPage(request: PageRequest): void {
     const current = this.page();

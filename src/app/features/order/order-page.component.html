@@ -2,8 +2,8 @@
   <app-section-header title="Orders" subtitle="Every order, with its status and destination." />
 
   <app-order-table
-    [orders]="service.data().items"
-    [totalRecords]="service.data().total"
+    [orders]="service.orders?.value()?.items ?? []"
+    [totalRecords]="service.orders?.value()?.total ?? 0"
     [first]="service.page().first"
     [rows]="service.page().rows"
     (pageChange)="service.setPage($event)"
