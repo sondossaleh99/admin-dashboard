@@ -1,10 +1,10 @@
 import { Injectable, computed, linkedSignal, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Observable, delay, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OrderListItem, OrderStatus, PageRequest, PagedResult } from '../../shared';
 
-const ORDERS: OrderListItem[] = [
+const orders: OrderListItem[] = [
   {
     id: '10248',
     customer: 'Vinet',
@@ -225,15 +225,15 @@ const ORDERS: OrderListItem[] = [
 
 @Injectable()
 export class OrderService {
-  latencyMs = 300;
-
   page = signal<PageRequest>({ first: 0, rows: 10 });
 
   getOrders(request: PageRequest): Observable<PagedResult<OrderListItem>> {
-    return of({
-      items: ORDERS.slice(request.first, request.first + request.rows),
-      total: ORDERS.length
-    }).pipe(delay(this.latencyMs));
+    const data = {
+      items: orders.slice(request.first, request.first + request.rows),
+      total: orders.length
+    };
+
+    return of(data);
   }
 
   orders = rxResource({

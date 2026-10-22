@@ -21,6 +21,9 @@ npm run test:ci    # one headless test run
 
 - Standalone components, `OnPush`, signal APIs (`input`, `output`, `signal`, `computed`, `rxResource`).
 - Component classes end in `Component`; file names stay kebab-case without the suffix.
+- Every new variable, constant and field is camelCase (`orders`, `pageSize`), never
+  `UPPER_SNAKE_CASE`. Only the existing exported constants (`<FEATURE>_ROUTES`,
+  `NAVIGATION_GROUPS`, `SHARED_IMPORTS`, …) keep their names.
 - Every component's template lives in its own `.html` file (`templateUrl`), never inline in the `.ts`.
 - Every folder that exposes code has an `index.ts` barrel. Code outside `shared/` or `core/`
   imports through the root barrels (`'../../shared'`, `'../../core'`).
