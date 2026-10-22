@@ -76,12 +76,16 @@ this pattern and keeps its own.
   });
   ```
 
-- The page aliases the resource (`orders = this.service.orders;`, declared after `service`) and
-  binds `orders.value()?.items ?? []`, `orders.value()?.total ?? 0` and `orders.isLoading()`;
-  no `?.` on the resource itself.
-- A table is a child component: a PrimeNG `p-table` with `[lazy]="true"`, `[totalRecords]`,
-  `[loading]`, `[first]` and `[rows]` as inputs, and a `pageChange` output that the page sends to
-  `service.setPage($event)`. It never holds or fetches data itself.
+- The page only provides the service and renders its child components (`<app-order-table />`);
+  it binds no data.
+- A component used only inside its feature (like `OrderTableComponent`) injects the feature
+  service and aliases what it reads, declared after `service`: `orders = this.service.orders;`,
+  `page = this.service.page;`. It reads `orders.value()?.items ?? []`,
+  `orders.value()?.total ?? 0` and `orders.isLoading()` (no `?.` on the resource itself), and
+  its lazy `p-table` (`[lazy]="true"`, `[totalRecords]`, `[loading]`, `[first]`, `[rows]`) calls
+  `service.setPage(...)` from `onLazyLoad`.
+- A component reused outside its feature takes its data as inputs and reports changes through
+  outputs instead of injecting a service.
 
 ## Git and attribution
 

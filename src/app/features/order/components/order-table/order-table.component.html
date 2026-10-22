@@ -4,10 +4,10 @@
     [lazy]="true"
     (onLazyLoad)="onLazyLoad($event)"
     [totalRecords]="totalRecords()"
-    [loading]="loading()"
+    [loading]="orders.isLoading()"
     [paginator]="true"
-    [first]="first()"
-    [rows]="rows()"
+    [first]="page().first"
+    [rows]="page().rows"
     [rowsPerPageOptions]="rowsPerPageOptions"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="{first}–{last} of {totalRecords}"
@@ -47,7 +47,7 @@
     </ng-template>
 
     <ng-template #emptymessage>
-      @if (!loading()) {
+      @if (!orders.isLoading()) {
         <tr>
           <td colspan="7" class="text-center p-8 text-muted fs-sm">No orders found.</td>
         </tr>

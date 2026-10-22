@@ -1,15 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Avatar } from 'primeng/avatar';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 
 import {
   ActivityToneLookup,
   OrderActivityLookup,
-  OrderListItem,
   OrderStatusLookup,
-  PageRequest,
   SHARED_IMPORTS
 } from '../../../../shared';
+import { OrderService } from '../../service';
 
 @Component({
   selector: 'app-order-table',
@@ -19,19 +18,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderTableComponent {
-  orders = input.required<OrderListItem[]>();
-  totalRecords = input.required<number>();
-  loading = input(false);
-  first = input(0);
-  rows = input(10);
-
-  pageChange = output<PageRequest>();
+  service = inject(OrderService);
+  orders = this.service.orders;
+  page = this.service.page;
 
   rowsPerPageOptions = [5, 10, 20];
 
+  totalRecords = computed(() => this.orders.value()?.total ?? 0);
+
   tableValue = computed(() => {
     const activity = OrderActivityLookup.getActivity();
-    return this.orders().map((order) => ({
+    return (this.orders.value()?.items ?? []).map((order) => ({
       ...order,
       statusLabel: OrderStatusLookup.getLabel(order.status),
       statusTone: ActivityToneLookup.getLabel(activity[order.status].tone)
@@ -41,6 +38,6 @@ export class OrderTableComponent {
   subtitle = computed(() => `${this.totalRecords()} orders`);
 
   onLazyLoad(event: TableLazyLoadEvent): void {
-    this.pageChange.emit({ first: event.first ?? 0, rows: event.rows ?? this.rows() });
+    this.service.setPage({ first: event.first ?? 0, rows: event.rows ?? this.page().rows });
   }
 }

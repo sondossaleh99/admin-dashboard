@@ -1,12 +1,5 @@
 <div class="d-flex flex-column gap-6">
   <app-section-header title="Orders" subtitle="Every order, with its status and destination." />
 
-  <app-order-table
-    [orders]="orders.value()?.items ?? []"
-    [totalRecords]="orders.value()?.total ?? 0"
-    [loading]="orders.isLoading()"
-    [first]="service.page().first"
-    [rows]="service.page().rows"
-    (pageChange)="service.setPage($event)"
-  />
+  <app-order-table />
 </div>

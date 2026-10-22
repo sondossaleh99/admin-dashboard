@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { SHARED_IMPORTS, SectionHeaderComponent } from '../../shared';
 import { OrderTableComponent } from './components';
@@ -12,7 +12,4 @@ import { OrderService } from './service';
   styleUrl: './order-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderPageComponent {
-  service = inject(OrderService);
-  orders = this.service.orders;
-}
+export class OrderPageComponent {}
