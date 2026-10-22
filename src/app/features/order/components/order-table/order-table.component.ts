@@ -21,10 +21,8 @@ export class OrderTableComponent {
   service = inject(OrderService);
   orders = this.service.orders;
   page = this.service.page;
-
-  rowsPerPageOptions = [5, 10, 20];
-
   totalRecords = computed(() => this.orders.value()?.total ?? 0);
+  rowsPerPageOptions = [5, 10, 20];
 
   tableValue = computed(() => {
     const activity = OrderActivityLookup.getActivity();
@@ -34,8 +32,6 @@ export class OrderTableComponent {
       statusTone: ActivityToneLookup.getLabel(activity[order.status].tone)
     }));
   });
-
-  subtitle = computed(() => `${this.totalRecords()} orders`);
 
   onLazyLoad(event: TableLazyLoadEvent): void {
     this.service.setPage({ first: event.first ?? 0, rows: event.rows ?? this.page().rows });

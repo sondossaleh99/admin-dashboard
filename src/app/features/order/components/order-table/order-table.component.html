@@ -1,4 +1,4 @@
-<app-ui-card title="All orders" [subtitle]="subtitle()" [flush]="true">
+<app-ui-card title="All orders" [subtitle]="totalRecords() + ' orders'" [flush]="true">
   <p-table
     [value]="tableValue()"
     [lazy]="true"
