@@ -242,9 +242,6 @@ export class OrderService {
   });
 
   setPage(request: PageRequest): void {
-    const current = this.page();
-    if (request.first !== current.first || request.rows !== current.rows) {
-      this.page.set(request);
-    }
+    this.page.set(request);
   }
 }
