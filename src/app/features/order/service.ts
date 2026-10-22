@@ -1,6 +1,4 @@
-import { Injectable, computed, linkedSignal, signal } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { Observable, of } from 'rxjs';
+import { Injectable, computed, signal } from '@angular/core';
 
 import { OrderListItem, OrderStatus, PageRequest, PagedResult } from '../../shared';
 
@@ -227,36 +225,21 @@ const orders: OrderListItem[] = [
 export class OrderService {
   page = signal<PageRequest>({ first: 0, rows: 10 });
 
-  getOrders(request: PageRequest): Observable<PagedResult<OrderListItem>> {
+  getOrders(request: PageRequest): PagedResult<OrderListItem> {
     const data = {
       items: orders.slice(request.first, request.first + request.rows),
       total: orders.length
     };
 
-    return of(data);
+    return data;
   }
 
-  orders = rxResource({
-    params: () => this.page(),
-    stream: ({ params }) => this.getOrders(params)
-  });
-
-  data = linkedSignal<PagedResult<OrderListItem> | undefined, PagedResult<OrderListItem>>({
-    source: () => (this.orders.hasValue() ? this.orders.value() : undefined),
-    computation: (result, previous) => result ?? previous?.value ?? { items: [], total: 0 }
-  });
-
-  loading = computed(() => this.orders.isLoading());
-  error = computed(() => this.orders.status() === 'error');
+  data = computed(() => this.getOrders(this.page()));
 
   setPage(request: PageRequest): void {
     const current = this.page();
     if (request.first !== current.first || request.rows !== current.rows) {
       this.page.set(request);
     }
-  }
-
-  retry(): void {
-    this.orders.reload();
   }
 }
