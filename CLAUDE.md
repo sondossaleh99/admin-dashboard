@@ -21,6 +21,9 @@ npm run test:ci    # one headless test run
 
 - Standalone components, `OnPush`, signal APIs (`input`, `output`, `signal`, `computed`, `rxResource`).
 - Component classes end in `Component`; file names stay kebab-case without the suffix.
+- Every new variable, constant and field is camelCase (`orders`, `pageSize`), never
+  `UPPER_SNAKE_CASE`. Only the existing exported constants (`<FEATURE>_ROUTES`,
+  `NAVIGATION_GROUPS`, `SHARED_IMPORTS`, …) keep their names.
 - Every component's template lives in its own `.html` file (`templateUrl`), never inline in the `.ts`.
 - Every folder that exposes code has an `index.ts` barrel. Code outside `shared/` or `core/`
   imports through the root barrels (`'../../shared'`, `'../../core'`).
@@ -50,6 +53,39 @@ npm run test:ci    # one headless test run
 - No hex colours in component styles: use `--color-*` tokens. Utilities first; a component's
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.
+
+## Data loading in a new feature
+
+Every new feature loads its data the way `features/order` does. `features/ecommerce` predates
+this pattern and keeps its own.
+
+- The feature's `service.ts` is `@Injectable()` and listed in its page's `providers`.
+- `getX(request)` is the single place that fetches the data and returns an `Observable`. Until the
+  API exists, it builds the result from a camelCase mock constant in `service.ts` and returns
+  `of(data)`; later only its body changes, to an `HttpClient` call.
+- A paged list keeps `page = signal<PageRequest>({ first: 0, rows: 10 })`, exposes
+  `setPage(request: PageRequest): void { this.page.set(request); }`, and returns
+  `PagedResult<T>` (`{ items, total }`).
+- The data is an `rxResource` whose `params` reads every signal it depends on; `stream` only
+  calls `getX`:
+
+  ```ts
+  orders = rxResource({
+    params: () => this.page(),
+    stream: ({ params }) => this.getOrders(params)
+  });
+  ```
+
+- The page only provides the service and renders its child components (`<app-order-table />`);
+  it binds no data.
+- A component used only inside its feature (like `OrderTableComponent`) injects the feature
+  service and aliases what it reads, declared after `service`: `orders = this.service.orders;`,
+  `page = this.service.page;`. It reads `orders.value()?.items ?? []`,
+  `orders.value()?.total ?? 0` and `orders.isLoading()` (no `?.` on the resource itself), and
+  its lazy `p-table` (`[lazy]="true"`, `[totalRecords]`, `[loading]`, `[first]`, `[rows]`) calls
+  `service.setPage(...)` from `onLazyLoad`.
+- A component reused outside its feature takes its data as inputs and reports changes through
+  outputs instead of injecting a service.
 
 ## Git and attribution
 
