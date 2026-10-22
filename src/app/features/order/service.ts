@@ -1,4 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 import { OrderListItem, OrderStatus, PageRequest, PagedResult } from '../../shared';
 
@@ -225,13 +226,13 @@ const orders: OrderListItem[] = [
 export class OrderService {
   page = signal<PageRequest>({ first: 0, rows: 10 });
 
-  getOrders(request: PageRequest): PagedResult<OrderListItem> {
+  getOrders(request: PageRequest): Observable<PagedResult<OrderListItem>> {
     const data = {
       items: orders.slice(request.first, request.first + request.rows),
       total: orders.length
     };
 
-    return data;
+    return of(data);
   }
 
   data = computed(() => this.getOrders(this.page()));
