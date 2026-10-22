@@ -61,8 +61,9 @@ this pattern and keeps its own.
 
 - The feature's `service.ts` is `@Injectable()` and listed in its page's `providers`.
 - `getX(request)` is the single place that fetches the data and returns an `Observable`. Until the
-  API exists, it builds the result from a camelCase mock constant in `service.ts` and returns
-  `of(data)`; later only its body changes, to an `HttpClient` call.
+  API exists, it builds the result from a camelCase mock constant exported by the feature's
+  `mock-data.ts` (`export const orders: OrderListItem[] = [...]`) and returns `of(data)`; later
+  only its body changes, to an `HttpClient` call, and `mock-data.ts` is deleted.
 - A paged list keeps `page = signal<PageRequest>({ first: 0, rows: 10 })`, exposes
   `setPage(request: PageRequest): void { this.page.set(request); }`, and returns
   `PagedResult<T>` (`{ items, total }`).
