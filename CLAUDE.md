@@ -54,6 +54,35 @@ npm run test:ci    # one headless test run
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.
 
+## Data loading in a new feature
+
+Every new feature loads its data the way `features/order` does. `features/ecommerce` predates
+this pattern and keeps its own.
+
+- The feature's `service.ts` is `@Injectable()` and listed in its page's `providers`.
+- `getX(request)` is the single place that fetches the data and returns an `Observable`. Until the
+  API exists, it builds the result from a camelCase mock constant in `service.ts` and returns
+  `of(data)`; later only its body changes, to an `HttpClient` call.
+- A paged list keeps `page = signal<PageRequest>({ first: 0, rows: 10 })`, exposes
+  `setPage(request: PageRequest): void { this.page.set(request); }`, and returns
+  `PagedResult<T>` (`{ items, total }`).
+- The data is an `rxResource` whose `params` reads every signal it depends on; `stream` only
+  calls `getX`:
+
+  ```ts
+  orders = rxResource({
+    params: () => this.page(),
+    stream: ({ params }) => this.getOrders(params)
+  });
+  ```
+
+- The page aliases the resource (`orders = this.service.orders;`, declared after `service`) and
+  binds `orders.value()?.items ?? []`, `orders.value()?.total ?? 0` and `orders.isLoading()`;
+  no `?.` on the resource itself.
+- A table is a child component: a PrimeNG `p-table` with `[lazy]="true"`, `[totalRecords]`,
+  `[loading]`, `[first]` and `[rows]` as inputs, and a `pageChange` output that the page sends to
+  `service.setPage($event)`. It never holds or fetches data itself.
+
 ## Git and attribution
 
 - Never mention Claude, Claude Code, Anthropic or AI in commit messages, PR titles, PR
