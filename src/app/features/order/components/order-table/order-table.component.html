@@ -18,7 +18,6 @@
   >
     <ng-template #header>
       <tr>
-        <th>Image</th>
         <th>Item</th>
         <th>Customer</th>
         <th class="text-end">Total</th>
@@ -30,9 +29,6 @@
 
     <ng-template #body let-order>
       <tr>
-        <td>
-          <p-avatar icon="pi pi-shopping-bag" shape="square" size="large" aria-hidden="true" />
-        </td>
         <td class="fw-medium">{{ order.item }}</td>
         <td>{{ order.customer }}</td>
         <td class="text-end tabular-nums">{{ order.total | appCurrency: 2 }}</td>
@@ -49,7 +45,7 @@
     <ng-template #emptymessage>
       @if (!orders.isLoading()) {
         <tr>
-          <td colspan="7" class="text-center p-8 text-muted fs-sm">No orders found.</td>
+          <td colspan="6" class="text-center p-8 text-muted fs-sm">No orders found.</td>
         </tr>
       }
     </ng-template>

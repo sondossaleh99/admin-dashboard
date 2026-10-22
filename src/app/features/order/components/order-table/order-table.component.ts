@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Avatar } from 'primeng/avatar';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 
 import {
@@ -12,7 +11,7 @@ import { OrderService } from '../../service';
 
 @Component({
   selector: 'app-order-table',
-  imports: [...SHARED_IMPORTS, TableModule, Avatar],
+  imports: [...SHARED_IMPORTS, TableModule],
   templateUrl: './order-table.component.html',
   styleUrl: './order-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
