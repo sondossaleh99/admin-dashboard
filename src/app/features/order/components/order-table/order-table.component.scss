@@ -1,0 +1,39 @@
+@use 'mixins' as m;
+
+.status {
+  display: inline-block;
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  @include m.status-variants;
+}
+
+:host ::ng-deep .order-table {
+  font-size: var(--font-size-sm);
+
+  th,
+  td {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  thead th {
+    font-size: var(--font-size-2xs);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border-color: var(--color-border);
+  }
+
+  tbody td {
+    border-color: var(--color-border);
+  }
+
+  .p-datatable-paginator-bottom {
+    border-color: var(--color-border);
+  }
+}

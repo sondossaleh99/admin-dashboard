@@ -12,3 +12,6 @@ export * from './order.model';
 export * from './earnings.model';
 export * from './ecommerce-dashboard.model';
 export * from './activity-event.model';
+export * from './order-list-item.model';
+export * from './page-request.model';
+export * from './paged-result.model';
