@@ -1,4 +1,4 @@
-<nav class="sidebar d-flex flex-column" aria-label="Main">
+<nav class="sidebar d-flex flex-column" [attr.aria-label]="'sidebar.main' | translate">
   <div class="sidebar-brand d-flex align-items-center gap-3 flex-shrink-0">
     @if (!collapsed()) {
       <span
@@ -19,7 +19,7 @@
         severity="secondary"
         (click)="toggle()"
         [attr.aria-expanded]="!collapsed()"
-        [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+        [attr.aria-label]="(collapsed() ? 'sidebar.expand' : 'sidebar.collapse') | translate"
         aria-controls="sidebar-nav"
       >
         <i pButtonIcon [class]="'pi ' + collapseIcon()"></i>
@@ -33,7 +33,7 @@
         [text]="true"
         [rounded]="true"
         severity="secondary"
-        aria-label="Close navigation"
+        [attr.aria-label]="'sidebar.close' | translate"
         (click)="closeDrawer()"
       >
         <i pButtonIcon class="pi pi-times"></i>
@@ -42,6 +42,10 @@
   </div>
 
   <div class="sidebar-nav flex-1" id="sidebar-nav">
-    <p-menu [model]="navigationGroups" [pt]="menuPt()" ariaLabel="Main navigation" />
+    <p-menu
+      [model]="navigationGroups()"
+      [pt]="menuPt()"
+      [ariaLabel]="'sidebar.mainNavigation' | translate"
+    />
   </div>
 </nav>

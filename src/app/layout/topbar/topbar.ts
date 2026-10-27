@@ -4,14 +4,15 @@ import { Avatar } from 'primeng/avatar';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { OverlayBadge } from 'primeng/overlaybadge';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
-import { CURRENT_USER, LanguageService } from '../../core';
+import { CURRENT_USER, LanguageService, translateMenuItems } from '../../core';
 import { LanguageLookup, TopbarAction, TopbarActionsLookup, UserMenuLookup } from '../../shared';
 import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-topbar',
-  imports: [Avatar, ButtonDirective, ButtonIcon, ButtonLabel, Menu, OverlayBadge],
+  imports: [Avatar, ButtonDirective, ButtonIcon, ButtonLabel, Menu, OverlayBadge, TranslatePipe],
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,6 +20,7 @@ import { LayoutService } from '../service';
 export class TopbarComponent {
   layout = inject(LayoutService);
   language = inject(LanguageService);
+  translate = inject(TranslateService);
 
   otherLabel = computed(() => LanguageLookup.getLabel(this.language.otherLanguage()));
   otherCode = computed(() => LanguageLookup.getCode(this.language.otherLanguage()));
@@ -28,7 +30,10 @@ export class TopbarComponent {
 
   actions: TopbarAction[] = TopbarActionsLookup.getActions();
 
-  userMenu: MenuItem[] = UserMenuLookup.getItems();
+  userMenu = computed<MenuItem[]>(() => {
+    this.language.language();
+    return translateMenuItems(UserMenuLookup.getItems(), this.translate);
+  });
 
   openDrawer(): void {
     this.layout.openDrawer();

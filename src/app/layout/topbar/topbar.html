@@ -6,7 +6,7 @@
       [text]="true"
       [rounded]="true"
       severity="secondary"
-      aria-label="Open navigation"
+      [attr.aria-label]="'topbar.openNavigation' | translate"
       (click)="openDrawer()"
     >
       <i pButtonIcon class="pi pi-bars"></i>
@@ -22,7 +22,12 @@
           [text]="true"
           [rounded]="true"
           severity="secondary"
-          [attr.aria-label]="action.label + (action.badge ? ', ' + action.badge + ' unread' : '')"
+          [attr.aria-label]="
+            action.badge
+              ? ('topbar.unread'
+                | translate: { label: (action.label | translate), count: action.badge })
+              : (action.label | translate)
+          "
         >
           <i pButtonIcon [class]="action.icon"></i>
         </button>
@@ -53,7 +58,7 @@
       <span class="d-flex align-items-center gap-2">
         <p-avatar [label]="user.initials" shape="circle" aria-hidden="true" />
         <span class="topbar-identity d-none d-md-block">
-          <span class="d-block fs-xs text-muted">Hi,</span>
+          <span class="d-block fs-xs text-muted">{{ 'topbar.greeting' | translate }}</span>
           <span class="d-block fs-sm fw-semibold">{{ user.name }}</span>
         </span>
         <i class="pi pi-angle-down d-none d-md-block fs-xs text-muted" aria-hidden="true"></i>
@@ -65,10 +70,10 @@
 <p-menu
   #menu
   [id]="'user-menu'"
-  [model]="userMenu"
+  [model]="userMenu()"
   [popup]="true"
   appendTo="body"
-  ariaLabel="User menu"
+  [ariaLabel]="'topbar.userMenu' | translate"
   (onShow)="userMenuOpen.set(true)"
   (onHide)="userMenuOpen.set(false)"
 >

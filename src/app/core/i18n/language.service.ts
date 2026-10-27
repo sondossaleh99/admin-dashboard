@@ -1,5 +1,6 @@
 import { DOCUMENT, Injectable, computed, inject, signal } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { PrimeNG } from 'primeng/config';
 import { Observable, tap } from 'rxjs';
 
 import { Language, LanguageLookup } from '../../shared';
@@ -9,6 +10,7 @@ const languageKey = 'deskly.language';
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   translate = inject(TranslateService);
+  primeng = inject(PrimeNG);
   document = inject(DOCUMENT);
 
   language = signal(this.savedLanguage());
@@ -27,6 +29,7 @@ export class LanguageService {
         this.document.documentElement.lang = code;
         this.document.documentElement.dir = LanguageLookup.getDirection(language);
         localStorage.setItem(languageKey, String(language));
+        this.primeng.setTranslation(this.translate.instant('primeng'));
       })
     );
   }

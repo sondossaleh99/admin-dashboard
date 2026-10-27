@@ -2,86 +2,86 @@ import { MenuItem } from 'primeng/api';
 
 export const NAVIGATION_GROUPS: MenuItem[] = [
   {
-    label: 'Dashboard',
+    label: 'nav.dashboard',
     items: [
       {
-        label: 'Ecommerce',
+        label: 'nav.ecommerce',
         icon: 'pi pi-shopping-cart',
         routerLink: '/ecommerce'
       }
     ]
   },
   {
-    label: 'Pages',
+    label: 'nav.pages',
     items: [
       {
-        label: 'Orders',
+        label: 'nav.orders',
         icon: 'pi pi-file',
         routerLink: '/orders'
       },
       {
-        label: 'Employees',
+        label: 'nav.employees',
         icon: 'pi pi-id-card',
         routerLink: '/employees'
       },
       {
-        label: 'Customers',
+        label: 'nav.customers',
         icon: 'pi pi-users',
         routerLink: '/customers',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       }
     ]
   },
   {
-    label: 'Apps',
+    label: 'nav.apps',
     items: [
       {
-        label: 'Calendar',
+        label: 'nav.calendar',
         icon: 'pi pi-calendar',
         routerLink: '/calendar',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       },
       {
-        label: 'Kanban',
+        label: 'nav.kanban',
         icon: 'pi pi-th-large',
         routerLink: '/kanban',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       },
       {
-        label: 'Editor',
+        label: 'nav.editor',
         icon: 'pi pi-pencil',
         routerLink: '/editor',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       }
     ]
   },
   {
-    label: 'Charts',
+    label: 'nav.charts',
     items: [
       {
-        label: 'Line',
+        label: 'nav.line',
         icon: 'pi pi-chart-line',
         routerLink: '/line',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       },
       {
-        label: 'Area',
+        label: 'nav.area',
         icon: 'pi pi-chart-bar',
         routerLink: '/area',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       },
       {
-        label: 'Pie',
+        label: 'nav.pie',
         icon: 'pi pi-chart-pie',
         routerLink: '/pie',
         disabled: true,
-        badge: 'Soon'
+        badge: 'nav.soon'
       }
     ]
   }

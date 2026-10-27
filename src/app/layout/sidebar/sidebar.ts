@@ -4,16 +4,17 @@ import { NavigationEnd, Router } from '@angular/router';
 import { MenuItem, PassThroughContext } from 'primeng/api';
 import { ButtonDirective, ButtonIcon } from 'primeng/button';
 import { Menu, MenuPassThrough } from 'primeng/menu';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { filter, map } from 'rxjs';
 
-import { LanguageService, NAVIGATION_GROUPS } from '../../core';
+import { LanguageService, NAVIGATION_GROUPS, translateMenuItems } from '../../core';
 import { LayoutService } from '../service';
 
 type MenuItemLinkContext = PassThroughContext & { context: { item: MenuItem } };
 
 @Component({
   selector: 'app-sidebar',
-  imports: [ButtonDirective, ButtonIcon, Menu],
+  imports: [ButtonDirective, ButtonIcon, Menu, TranslatePipe],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
   host: { '[class.sidebar--collapsed]': 'collapsed()' },
@@ -23,8 +24,12 @@ export class SidebarComponent {
   layout = inject(LayoutService);
   router = inject(Router);
   language = inject(LanguageService);
+  translate = inject(TranslateService);
 
-  navigationGroups = NAVIGATION_GROUPS;
+  navigationGroups = computed(() => {
+    this.language.language();
+    return translateMenuItems(NAVIGATION_GROUPS, this.translate);
+  });
   collapsed = this.layout.sidebarCollapsed;
 
   collapseIcon = computed(() =>

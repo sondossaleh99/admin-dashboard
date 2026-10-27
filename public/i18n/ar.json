@@ -1,5 +1,62 @@
 {
   "common": {
     "retry": "إعادة المحاولة"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "pages": "الصفحات",
+    "apps": "التطبيقات",
+    "charts": "الرسوم البيانية",
+    "ecommerce": "المتجر",
+    "orders": "الطلبات",
+    "employees": "الموظفون",
+    "customers": "العملاء",
+    "calendar": "التقويم",
+    "kanban": "كانبان",
+    "editor": "المحرر",
+    "line": "خطي",
+    "area": "مساحي",
+    "pie": "دائري",
+    "soon": "قريبًا"
+  },
+  "sidebar": {
+    "main": "الرئيسية",
+    "mainNavigation": "التنقل الرئيسي",
+    "expand": "توسيع القائمة",
+    "collapse": "طي القائمة",
+    "close": "إغلاق القائمة"
+  },
+  "topbar": {
+    "openNavigation": "فتح القائمة",
+    "greeting": "مرحبًا،",
+    "userMenu": "قائمة المستخدم",
+    "messages": "الرسائل",
+    "notifications": "الإشعارات",
+    "settings": "الإعدادات",
+    "unread": "{{label}}، {{count}} غير مقروءة",
+    "profile": "الملف الشخصي",
+    "accountSettings": "إعدادات الحساب",
+    "signOut": "تسجيل الخروج"
+  },
+  "titles": {
+    "ecommerce": "المتجر · Deskly",
+    "orders": "الطلبات · Deskly",
+    "employees": "الموظفون · Deskly",
+    "notFound": "الصفحة غير موجودة · Deskly"
+  },
+  "primeng": {
+    "aria": {
+      "firstPageLabel": "الصفحة الأولى",
+      "lastPageLabel": "الصفحة الأخيرة",
+      "nextPageLabel": "الصفحة التالية",
+      "prevPageLabel": "الصفحة السابقة",
+      "previousPageLabel": "الصفحة السابقة",
+      "rowsPerPageLabel": "عدد الصفوف في الصفحة",
+      "pageLabel": "صفحة {page}",
+      "navigation": "التنقل بين الصفحات",
+      "jumpToPageDropdownLabel": "الانتقال إلى صفحة"
+    },
+    "emptyMessage": "لا توجد نتائج",
+    "emptySelectionMessage": "لا يوجد عنصر محدد"
   }
 }

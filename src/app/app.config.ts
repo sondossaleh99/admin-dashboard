@@ -6,19 +6,20 @@ import {
   provideAppInitializer
 } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { TitleStrategy, provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { providePrimeNG } from 'primeng/config';
 
-import { AppPreset, LanguageService } from './core';
+import { AppPreset, LanguageService, TranslatedTitleStrategy } from './core';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
+    { provide: TitleStrategy, useClass: TranslatedTitleStrategy },
     provideAnimationsAsync(),
     provideHttpClient(),
     { provide: LOCALE_ID, useValue: 'en-US' },
