@@ -14,3 +14,4 @@ export * from './ecommerce-dashboard.model';
 export * from './activity-event.model';
 export * from './page-request.model';
 export * from './paged-result.model';
+export * from './employee.model';
