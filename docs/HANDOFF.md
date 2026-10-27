@@ -47,17 +47,17 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 
 All seven stage PRs (#1–#7) are merged into `init`. After Stage 6, work was committed directly to
 `init` for a while (the table below). That has stopped: follow the rules above. The
-`claude/stage-*` branches were merged and have since been deleted from `origin`.
+The stage branches were merged and have since been deleted from `origin`.
 
 | PR    | State                 | Notes                                                                                                                                         |
 | ----- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | #1–#7 | merged                | Plan, then Stages 1–6 (merge commits `2c59a5d` … `42a6845`)                                                                                   |
-| #8    | merged by the user    | Review-only PR (`init` → anchor branch `claude/pre-shared-refactor`). Merging it only moved the anchor branch forward. `init` was unaffected. |
-| #9    | closed by the user    | `claude/pre-shared-refactor` → `init`: one merge commit, **0 file changes**. Closed without merging on 2026-09-28.                            |
+| #8    | merged by the user    | Review-only PR (`init` → an anchor branch). Merging it only moved the anchor branch forward. `init` was unaffected.                           |
+| #9    | closed by the user    | Anchor branch → `init`: one merge commit, **0 file changes**. Closed without merging on 2026-09-28.                                           |
 | #10   | merged                | `feature-refactor`: models, services and naming conventions                                                                                   |
 | #11   | merged                | `refactor/scss-utilities`: utilities-first styling                                                                                            |
 | #12   | merged                | `refactor/remove-comments`: all code comments removed                                                                                         |
-| #13   | merged                | `claude/funny-davinci-d31z73`: `CLAUDE.md` and commit conventions                                                                             |
+| #13   | merged                | Project guide and commit conventions                                                                                                          |
 | #14   | merged                | `feature-structure-refactor`: dashboard logic moved into child components                                                                     |
 | #15   | merged                | `feature-refactor`: numeric enums, lazy routes, PrimeNG topbar and sidebar                                                                    |
 | #16   | merged                | `feature-refactor-2`: brand colour set once, hyphenated class names, PrimeNG buttons, component specs only                                    |
