@@ -1,0 +1,54 @@
+<app-ui-card title="Team" [subtitle]="totalRecords() + ' employees'" [flush]="true">
+  <p-table
+    [value]="tableValue()"
+    [lazy]="true"
+    (onLazyLoad)="onLazyLoad($event)"
+    [totalRecords]="totalRecords()"
+    [loading]="employees.isLoading()"
+    [paginator]="true"
+    [first]="page().first"
+    [rows]="page().rows"
+    [rowsPerPageOptions]="rowsPerPageOptions"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first}–{last} of {totalRecords}"
+    dataKey="id"
+    styleClass="employee-table"
+    [rowHover]="true"
+    responsiveLayout="scroll"
+  >
+    <ng-template #header>
+      <tr>
+        <th>Employee</th>
+        <th>Designation</th>
+        <th>Location</th>
+        <th>Hire date</th>
+        <th>Reports to</th>
+        <th>Employee ID</th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-employee>
+      <tr>
+        <td class="fw-medium">{{ employee.name }}</td>
+        <td>{{ employee.roleLabel }}</td>
+        <td>
+          <span class="d-inline-flex align-items-center gap-2">
+            <i class="pi pi-map-marker text-muted" aria-hidden="true"></i>
+            {{ employee.location }}
+          </span>
+        </td>
+        <td class="tabular-nums">{{ employee.hiredAt | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ employee.reportsTo }}</td>
+        <td class="text-muted tabular-nums">#{{ employee.id }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      @if (!employees.isLoading()) {
+        <tr>
+          <td colspan="6" class="text-center p-8 text-muted fs-sm">No employees found.</td>
+        </tr>
+      }
+    </ng-template>
+  </p-table>
+</app-ui-card>

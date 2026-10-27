@@ -22,9 +22,7 @@ export const NAVIGATION_GROUPS: MenuItem[] = [
       {
         label: 'Employees',
         icon: 'pi pi-id-card',
-        routerLink: '/employees',
-        disabled: true,
-        badge: 'Soon'
+        routerLink: '/employees'
       },
       {
         label: 'Customers',
