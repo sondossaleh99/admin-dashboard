@@ -7,7 +7,8 @@ current state live in `docs/HANDOFF.md`; read it before structural changes.
 ## Stack
 
 Angular 20 (standalone components, signals) · PrimeNG 20 · Bootstrap 5 (grid and utilities only) ·
-ApexCharts via `ng-apexcharts` · SCSS design tokens · Karma/Jasmine.
+ApexCharts via `ng-apexcharts` · ngx-translate (English and Arabic) · SCSS design tokens ·
+Karma/Jasmine.
 
 ## Commands
 
@@ -44,7 +45,8 @@ npm run test:ci    # one headless test run
   `loadComponent`, never `component:`.
 - PrimeNG owns interactive components; Bootstrap owns layout. Never both on one element.
 - Amounts use the `appCurrency` pipe (`| appCurrency`, `| appCurrency: 2`); the currency is
-  `DEFAULT_CURRENCY_CODE` in `app.config.ts`.
+  `DEFAULT_CURRENCY_CODE` in `app.config.ts`. The pipe places the symbol for the language through
+  `common.money` and `currencies.<code>` in the translation files (`SAR 749.00`, `749.00 ر.س`).
 - `$primary` in `_variables.scss` is the only place the brand colour is set. Its shades become
   `--color-primary-*` tokens, which the PrimeNG preset reads; the charts read `--chart-series-1`,
   also set from `$primary`.
@@ -54,6 +56,31 @@ npm run test:ci    # one headless test run
 - No hex colours in component styles: use `--color-*` tokens. Utilities first; a component's
   `.scss` holds only what is unique to it.
 - No `any`. No code comments.
+
+## Languages (English and Arabic)
+
+The app runs in English (default) and Arabic, switched from the topbar and remembered in
+`localStorage`. `LanguageService` in `core/i18n` owns the current language (`language()`, `code()`,
+`direction()`, `toggle()`) and sets `<html lang dir>`.
+
+- Never hard-code UI text in a template or a `.ts` file. Every string is a key in both
+  `public/i18n/en.json` and `public/i18n/ar.json`, with the same keys in both files. Data from the
+  API (product, people and city names) is not translated.
+- Templates use the `translate` pipe, which comes with `SHARED_IMPORTS`:
+  `{{ 'orders.title' | translate }}`, `[title]="'orders.all' | translate"`.
+- Text built in TypeScript (chart series, `MenuItem` labels, `host` aria-labels, table search
+  fields) uses `String(this.translate.instant(key))` inside a `computed`; `instant` re-runs it when
+  the language changes. `shared` injects `TranslateService`, never `LanguageService`.
+- Lookups return keys (`label: 'enums.orderStatus.paid'`), never English text. `LanguageLookup` is
+  the exception: each language's name is written in that language.
+- A table's global search reads a field holding the translated label (`statusLabel`), so search
+  works in both languages.
+- A sentence is one key with parameters (`'Order #{{id}} was paid'`), never joined fragments.
+  Counts use a parameter; Arabic uses the label form (`'عدد الطلبات: {{count}}'`).
+- Digits stay Latin. Dates follow the language: `| date: 'd MMM' : undefined : language.code()`.
+- Use logical CSS (`margin-inline-start`, `inset-inline-*`, `text-align: start`), never `left` or
+  `right`. Charts stay `dir="ltr"`. Latin ids and ranges inside Arabic text get `dir="ltr"`, or
+  `\u2066…\u2069` in the JSON.
 
 ## Data loading in a new feature
 

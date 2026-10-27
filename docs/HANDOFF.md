@@ -2,7 +2,8 @@
 
 **Updated:** 2026-10-27
 **Branch:** `init` is the default branch (there is no `main`). **Never push to `init` directly.**
-PRs up to #18 (the Orders feature) are merged. Current work is on `feature-refactor`. Branch, push and PR rules are in §2.
+PRs up to #21 (the Employees feature) are merged. Current work is on `feature-i18n` (English and
+Arabic, §11). Branch, push and PR rules are in §2.
 **Product:** Deskly, an online store for home-office and tech accessories in Saudi Arabia and the
 Gulf. Amounts are in SAR (`DEFAULT_CURRENCY_CODE`), and every page uses the same orders.
 **State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
@@ -25,7 +26,7 @@ In a container, point Karma at the bundled Chromium first:
 `export CHROME_BIN=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
 
 The stack is fixed: Angular 20 (standalone, signals) · PrimeNG 20 · Bootstrap 5 (grid and utilities only) ·
-ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 750 kB against an 800 kB warning /
+ApexCharts via `ng-apexcharts`. The initial bundle is ≈ 795 kB against an 800 kB warning /
 1.2 MB error budget. Component styles: 4 kB warning / 8 kB error.
 
 If a local machine reports `Cannot find module 'ng-apexcharts'`, its `node_modules` is stale.
@@ -38,7 +39,7 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 **How work reaches `init`:**
 
 1. **Never push to `init` directly.** Commit and push each task to its own branch. The current
-   branch is `feature-refactor`; keep working there until the user names another.
+   branch is `feature-i18n`; keep working there until the user names another.
 2. **Name a new branch** `feature-<task-name>` for a new task or `fix-<change-name>` for a fix.
    Never use a `claude/` prefix or any name that mentions Claude.
 3. **Open a pull request only when the user asks for one.** The user reviews it and either
@@ -117,11 +118,12 @@ record of what is `[verify]`:
 ```
 src/app/
   app.routes.ts    MainLayoutComponent from './layout'; each feature is lazy-loaded through its barrel
-  core/                            barrel: core/index.ts → config, data
+  core/                            barrel: core/index.ts → config, data, i18n
     config/        primeng-preset (AppPreset, used by app.config.ts),
                    navigation.config (NAVIGATION_GROUPS, the sidebar menu)
     data/          user.data (CURRENT_USER), orders.data (orders: the one order list, read by the
                    dashboard's recent orders and by the Orders page)
+    i18n/          LanguageService, TranslatedTitleStrategy, translateMenuItems (§11)
   layout/                          barrel: layout/index.ts
     service.ts     LayoutService (sidebar collapse and drawer state; not in the barrel)
     main-layout/
@@ -145,8 +147,11 @@ src/app/
                      12 newest of core/data's orders)
                    + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
                      the only export of the feature barrel)
+    order/         Orders page: lazy p-table over core/data's orders (the data-loading pattern in CLAUDE.md)
+    employee/      Employees page, same pattern, with its own mock-data.ts
     not-found/     not-found.ts (NotFoundComponent, inside UiCardComponent)
                    + routes.ts (NOT_FOUND_ROUTES, the only export of the feature barrel)
+public/i18n/       en.json and ar.json, the two translation files (same keys)
 ```
 
 **Working:** routing with lazy loading, sidebar collapse (persisted) and mobile drawer, avatar
@@ -228,12 +233,13 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
 
 7. **Lookups.** Static configuration and mapping data lives in `shared/lookup/<name>.lookup.ts` as
    a class with static getters (`OrderStatusLookup.getAll()`). Each getter returns a fresh
-   literal, with no `readonly` return types. The nine today: `ActivityToneLookup`,
+   literal, with no `readonly` return types. The eleven today: `ActivityToneLookup`,
    `OrderActivityLookup`, `OrderStatusLookup`, `TopbarActionsLookup`, `UserMenuLookup`,
-   `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`. Deliberately _not_ lookups: mock API fixtures (`mock-data.ts`),
+   `IconChipToneLookup`, `IconChipSizeLookup`, `KpiFormatLookup`, `RevenueRangeLookup`,
+   `EmployeeRoleLookup`, `LanguageLookup`. Labels shown to the user are translation keys (§11). Deliberately _not_ lookups: mock API fixtures (`mock-data.ts`),
    `CURRENT_USER`, the sidebar menu (`NAVIGATION_GROUPS` in `core/config/navigation.config.ts`), and chart options (built at runtime from inputs and CSS variables).
 
-8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, UiCardComponent]`,
+8. **`SHARED_IMPORTS`** (`shared/imports/`) is `[AppCurrencyPipe, DatePipe, DecimalPipe, TranslatePipe, UiCardComponent]`,
    spread into a standalone component's imports: `imports: [...SHARED_IMPORTS, ChartComboComponent]`. It's
    a plain array on purpose: importing a wrapper component does **not** re-export that
    component's own imports. Kept out on purpose:
@@ -269,7 +275,8 @@ These were set by the user after Stage 6. Each one is enforced across the whole 
   mounting charts. Only components have specs.
 - Amounts are formatted with `| appCurrency` (whole units) or `| appCurrency: 2` (with cents). The
   currency is set once, by `DEFAULT_CURRENCY_CODE` in `app.config.ts`, next to `LOCALE_ID`.
-  Don't use Angular's `currency` pipe with a hard-coded code.
+  Don't use Angular's `currency` pipe with a hard-coded code. The pipe is impure: it reads the
+  `common.money` pattern for the current language (§11).
 - Formatting a value for display is a pipe in `shared/pipes/`, not a page method.
 - Never guess a visual detail the design tokens don't define.
 
@@ -391,3 +398,51 @@ what found the invisible-stroke bug in Stage 5, after a wrong guess about contai
 - Expect judgment calls to be reviewed and sometimes reversed (e.g. `UiCardComponent` joining
   `SHARED_IMPORTS`, the reverted model move). State the reasoning behind each one so it can be
   evaluated.
+
+---
+
+## 11. English and Arabic
+
+Built on `feature-i18n` with ngx-translate 18 (`@ngx-translate/core` and
+`@ngx-translate/http-loader`, exact versions). The rules for new code are in CLAUDE.md
+("Languages"); this section is how it works.
+
+**Decisions taken with the user:** English on first visit, the choice remembered in
+`localStorage` (`admin-dashboard.language`). Latin digits in both languages, Arabic month names
+in Arabic. `SAR 749.00` in English, `749.00 ر.س` in Arabic. Charts stay left-to-right. Only UI
+copy is translated; product, people and city names are data.
+
+**Pieces:**
+
+| Piece                              | What it does                                                                                                                                                                                                                                                                                       |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public/i18n/en.json`, `ar.json`   | The two translation files, grouped by area (`common`, `nav`, `topbar`, `orders`, `enums`, …). Same keys in both; check parity before each commit.                                                                                                                                                  |
+| `app.config.ts`                    | `provideTranslateService` with the HTTP loader (`/i18n/<code>.json`, fallback `en`), and `provideAppInitializer` loading the saved language before the first render, so keys never flash.                                                                                                          |
+| `LanguageService` (`core/i18n`)    | `language()` (read-only), `code()`, `direction()`, `toggle()`. `use()` loads the file, sets `<html lang dir>`, saves the choice and passes PrimeNG its labels (merged over PrimeNG's defaults, because `setTranslation` merges only one level deep). It also registers Angular's `ar` locale data. |
+| `Language` enum + `LanguageLookup` | `getAll()`, `getLabel()`, plus `getCodes()` and `getDirections()` as records.                                                                                                                                                                                                                      |
+| `TranslatedTitleStrategy`          | Route titles are keys (`titles.orders`); the strategy translates them and re-applies the title when the language changes.                                                                                                                                                                          |
+| `translateMenuItems()`             | Translates PrimeNG `MenuItem[]` labels and badges (sidebar and user menu).                                                                                                                                                                                                                         |
+| `AppCurrencyPipe`, `KpiValuePipe`  | Impure: the number is formatted with `en-US`, then placed by `common.money` with the symbol from `currencies.<code>`. A no-break space keeps the symbol and amount together.                                                                                                                       |
+
+**Right-to-left:** `<html dir="rtl">` flips the grid, flex rows and every logical property.
+PrimeNG handles `dir` itself. Specific fixes:
+
+- Bootstrap's grid build compiles `ms-*`/`me-*`/`ps-*`/`pe-*` to physical sides, so
+  `_utilities.scss` redefines them with logical properties.
+- The mobile drawer slides by `--direction-sign` (`1`, or `-1` under `[dir='rtl']`).
+- The sidebar's collapse arrow swaps with the direction.
+- The three charts and the delta badge have `dir="ltr"` on their host.
+- `letter-spacing` breaks Arabic letter joins, so `_base.scss` resets it under `[lang='ar']`.
+- IBM Plex Sans Arabic follows Inter in the font stack: Latin keeps Inter, Arabic falls back to
+  Plex.
+- Order and employee ids (`#ORD-4824`) sit in `dir="ltr"` spans. In Arabic sentences and the
+  paginator report they are wrapped in `\u2066…\u2069` in `ar.json`.
+
+**Tests:** specs whose component translates provide `provideTranslateService({ fallbackLang: 'en' })`
+and load `public/i18n/en.json` with `setTranslation('en', en)`, after any `overrideComponent`.
+
+**Known limitation:** PrimeNG's paginator keeps its old aria-labels after a language switch until
+it re-renders (a page change or a reload). The visible text is correct.
+
+**Bundle:** the initial bundle is ≈ 795 kB against the 800 kB warning budget. The next eager
+addition will cross it: ask the user before raising the budget.
