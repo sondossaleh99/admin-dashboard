@@ -14,7 +14,7 @@
   inset-block: 0;
   inset-inline-start: 0;
   z-index: v.$z-sidebar;
-  transform: translateX(-100%);
+  transform: translateX(calc(-100% * var(--direction-sign)));
 
   &--open {
     transform: translateX(0);

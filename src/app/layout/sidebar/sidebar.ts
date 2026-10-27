@@ -6,7 +6,7 @@ import { ButtonDirective, ButtonIcon } from 'primeng/button';
 import { Menu, MenuPassThrough } from 'primeng/menu';
 import { filter, map } from 'rxjs';
 
-import { NAVIGATION_GROUPS } from '../../core';
+import { LanguageService, NAVIGATION_GROUPS } from '../../core';
 import { LayoutService } from '../service';
 
 type MenuItemLinkContext = PassThroughContext & { context: { item: MenuItem } };
@@ -22,9 +22,16 @@ type MenuItemLinkContext = PassThroughContext & { context: { item: MenuItem } };
 export class SidebarComponent {
   layout = inject(LayoutService);
   router = inject(Router);
+  language = inject(LanguageService);
 
   navigationGroups = NAVIGATION_GROUPS;
   collapsed = this.layout.sidebarCollapsed;
+
+  collapseIcon = computed(() =>
+    this.collapsed() === (this.language.direction() === 'rtl')
+      ? 'pi-angle-double-left'
+      : 'pi-angle-double-right'
+  );
 
   url = toSignal(
     this.router.events.pipe(

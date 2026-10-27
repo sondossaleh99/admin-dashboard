@@ -74,7 +74,13 @@
   --chart-grid: #{v.$chart-grid};
   --chart-axis-text: #{v.$chart-axis-text};
 
+  --direction-sign: 1;
+
   @media (min-width: #{v.$bp-md}) {
     --content-padding: #{v.$content-padding};
   }
+}
+
+:root[dir='rtl'] {
+  --direction-sign: -1;
 }

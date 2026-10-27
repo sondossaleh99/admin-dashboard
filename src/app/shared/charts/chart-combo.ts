@@ -8,7 +8,7 @@ import { baseOptions, compactNumber, seriesColors } from './chart-theme';
   selector: 'app-chart-combo',
   imports: [NgApexchartsModule],
   templateUrl: './chart-combo.html',
-  host: { class: 'd-block' },
+  host: { class: 'd-block', dir: 'ltr' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartComboComponent {

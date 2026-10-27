@@ -1,3 +1,5 @@
+@use 'sass:list';
+
 $space-steps: (1, 2, 3, 4, 5, 6, 8);
 $font-sizes: (xs, sm, md, lg, xl, 2xl, 3xl);
 $font-weights: (medium, semibold, bold);
@@ -61,4 +63,50 @@ $font-weights: (medium, semibold, bold);
 .list-unstyled {
   padding-inline-start: 0;
   list-style: none;
+}
+
+$inline-spacing: (
+  ms: (
+    margin-left,
+    margin-inline-start
+  ),
+  me: (
+    margin-right,
+    margin-inline-end
+  ),
+  ps: (
+    padding-left,
+    padding-inline-start
+  ),
+  pe: (
+    padding-right,
+    padding-inline-end
+  )
+);
+
+@each $prefix, $properties in $inline-spacing {
+  $physical: list.nth($properties, 1);
+  $logical: list.nth($properties, 2);
+
+  .#{$prefix}-0 {
+    #{$physical}: unset !important;
+    #{$logical}: 0 !important;
+  }
+
+  @each $step in $space-steps {
+    .#{$prefix}-#{$step} {
+      #{$physical}: unset !important;
+      #{$logical}: var(--space-#{$step}) !important;
+    }
+  }
+}
+
+.ms-auto {
+  margin-left: unset !important;
+  margin-inline-start: auto !important;
+}
+
+.me-auto {
+  margin-right: unset !important;
+  margin-inline-end: auto !important;
 }

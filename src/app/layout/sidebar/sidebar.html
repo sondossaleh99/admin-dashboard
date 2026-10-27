@@ -22,12 +22,7 @@
         [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
         aria-controls="sidebar-nav"
       >
-        <i
-          pButtonIcon
-          class="pi"
-          [class.pi-angle-double-left]="!collapsed()"
-          [class.pi-angle-double-right]="collapsed()"
-        ></i>
+        <i pButtonIcon [class]="'pi ' + collapseIcon()"></i>
       </button>
     </div>
 

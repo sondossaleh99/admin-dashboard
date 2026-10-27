@@ -8,7 +8,7 @@ import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-them
   selector: 'app-chart-donut',
   imports: [NgApexchartsModule],
   templateUrl: './chart-donut.html',
-  host: { class: 'd-block' },
+  host: { class: 'd-block', dir: 'ltr' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChartDonutComponent {
