@@ -5,12 +5,14 @@ import { formatCurrency, getCurrencySymbol } from '@angular/common';
 export class AppCurrencyPipe implements PipeTransform {
   locale = inject(LOCALE_ID);
   currencyCode = inject(DEFAULT_CURRENCY_CODE);
+  symbol = getCurrencySymbol(this.currencyCode, 'wide', this.locale);
+  display = /^[A-Za-z]+$/.test(this.symbol) ? `${this.symbol} ` : this.symbol;
 
   transform(value: number, decimals = 0): string {
     return formatCurrency(
       value,
       this.locale,
-      getCurrencySymbol(this.currencyCode, 'wide', this.locale),
+      this.display,
       this.currencyCode,
       `1.${decimals}-${decimals}`
     );

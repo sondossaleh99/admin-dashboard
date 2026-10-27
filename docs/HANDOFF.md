@@ -1,8 +1,10 @@
-# Handoff — Ecommerce Dashboard
+# Handoff — Deskly Admin
 
-**Updated:** 2026-10-21
+**Updated:** 2026-10-27
 **Branch:** `init` is the default branch (there is no `main`). **Never push to `init` directly.**
-`feature-refactor` (#15) and `feature-refactor-2` (#16) are merged. Current work is on `fix-delta-badge-spec`. Branch, push and PR rules are in §2.
+PRs up to #18 (the Orders feature) are merged. Current work is on `feature-refactor`. Branch, push and PR rules are in §2.
+**Product:** Deskly, an online store for home-office and tech accessories in Saudi Arabia and the
+Gulf. Amounts are in SAR (`DEFAULT_CURRENCY_CODE`), and every page uses the same orders.
 **State:** Stages 1–6 are merged. Pixel fidelity is still blocked (§3). Stages 7–9 remain (§8).
 `ng build`, `npm run format:check` and `npm run test:ci` are clean.
 
@@ -36,7 +38,7 @@ Running `npm install` fixes it. The repo's `package.json` and lockfile are corre
 **How work reaches `init`:**
 
 1. **Never push to `init` directly.** Commit and push each task to its own branch. The current
-   branch is `fix-delta-badge-spec`; keep working there until the user names another.
+   branch is `feature-refactor`; keep working there until the user names another.
 2. **Name a new branch** `feature-<task-name>` for a new task or `fix-<change-name>` for a fix.
    Never use a `claude/` prefix or any name that mentions Claude.
 3. **Open a pull request only when the user asks for one.** The user reviews it and either
@@ -118,7 +120,8 @@ src/app/
   core/                            barrel: core/index.ts → config, data
     config/        primeng-preset (AppPreset, used by app.config.ts),
                    navigation.config (NAVIGATION_GROUPS, the sidebar menu)
-    data/          user.data (CURRENT_USER)
+    data/          user.data (CURRENT_USER), orders.data (orders: the one order list, read by the
+                   dashboard's recent orders and by the Orders page)
   layout/                          barrel: layout/index.ts
     service.ts     LayoutService (sidebar collapse and drawer state; not in the barrel)
     main-layout/
@@ -138,7 +141,8 @@ src/app/
     ecommerce/     ecommerce-page (binds the service state to the cards) + components/ (8, incl. the loading skeleton)
                    + service.ts (EcommerceService: loads the fixtures through rxResource and
                      owns data, loading, error and retry; provided by the page)
-                   + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify])
+                   + mock-data.ts (ECOMMERCE_DASHBOARD fixtures, [verify]; recentOrders are the
+                     12 newest of core/data's orders)
                    + routes.ts (ECOMMERCE_ROUTES, loaded by app.routes.ts with loadChildren;
                      the only export of the feature barrel)
     not-found/     not-found.ts (NotFoundComponent, inside UiCardComponent)

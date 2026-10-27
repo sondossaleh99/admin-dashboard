@@ -1,6 +1,7 @@
-# Admin Dashboard
+# Deskly Admin
 
-An ecommerce admin dashboard built with Angular 20. Detailed architecture notes, decisions and
+Deskly is an online store selling home-office and tech accessories in Saudi Arabia and the Gulf.
+This is its admin dashboard, built with Angular 20. Detailed architecture notes, decisions and
 current state live in `docs/HANDOFF.md`; read it before structural changes.
 
 ## Stack
@@ -61,9 +62,11 @@ this pattern and keeps its own.
 
 - The feature's `service.ts` is `@Injectable()` and listed in its page's `providers`.
 - `getX(request)` is the single place that fetches the data and returns an `Observable`. Until the
-  API exists, it builds the result from a camelCase mock constant exported by the feature's
-  `mock-data.ts` (`export const orders: OrderListItem[] = [...]`) and returns `of(data)`; later
-  only its body changes, to an `HttpClient` call, and `mock-data.ts` is deleted.
+  API exists, it builds the result from a camelCase mock constant and returns `of(data)`; later
+  only its body changes, to an `HttpClient` call, and the mock is deleted. Mock data used by one
+  feature lives in that feature's `mock-data.ts`; mock data that several features share lives in
+  `core/data/` (`export const orders: Order[] = [...]` in `core/data/orders.data.ts`, read by
+  both the dashboard and the Orders page).
 - A paged list keeps `page = signal<PageRequest>({ first: 0, rows: 10 })`, exposes
   `setPage(request: PageRequest): void { this.page.set(request); }`, and returns
   `PagedResult<T>` (`{ items, total }`).

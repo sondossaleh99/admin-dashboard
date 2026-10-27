@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     { provide: LOCALE_ID, useValue: 'en-US' },
-    { provide: DEFAULT_CURRENCY_CODE, useValue: 'USD' },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'SAR' },
 
     providePrimeNG({
       theme: {
