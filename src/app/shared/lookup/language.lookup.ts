@@ -1,10 +1,10 @@
 import { Language } from '../enum/language';
 
 export class LanguageLookup {
-  static getAll(): { id: Language; label: string; code: string; direction: 'ltr' | 'rtl' }[] {
+  static getAll(): { id: Language; label: string }[] {
     return [
-      { id: Language.English, label: 'English', code: 'en', direction: 'ltr' },
-      { id: Language.Arabic, label: 'العربية', code: 'ar', direction: 'rtl' }
+      { id: Language.English, label: 'English' },
+      { id: Language.Arabic, label: 'العربية' }
     ];
   }
 
@@ -12,11 +12,17 @@ export class LanguageLookup {
     return LanguageLookup.getAll().find((item) => item.id === id)?.label ?? '';
   }
 
-  static getCode(id: Language): string {
-    return LanguageLookup.getAll().find((item) => item.id === id)?.code ?? 'en';
+  static getCodes(): Record<Language, string> {
+    return {
+      [Language.English]: 'en',
+      [Language.Arabic]: 'ar'
+    };
   }
 
-  static getDirection(id: Language): 'ltr' | 'rtl' {
-    return LanguageLookup.getAll().find((item) => item.id === id)?.direction ?? 'ltr';
+  static getDirections(): Record<Language, string> {
+    return {
+      [Language.English]: 'ltr',
+      [Language.Arabic]: 'rtl'
+    };
   }
 }

@@ -19,7 +19,7 @@ export class TranslatedTitleStrategy extends TitleStrategy {
       this.language.language();
       const key = this.titleKey();
       if (key) {
-        this.title.setTitle(this.translate.instant(key));
+        this.title.setTitle(String(this.translate.instant(key)));
       }
     });
   }

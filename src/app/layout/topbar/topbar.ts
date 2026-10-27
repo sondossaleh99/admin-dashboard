@@ -23,7 +23,7 @@ export class TopbarComponent {
   translate = inject(TranslateService);
 
   otherLabel = computed(() => LanguageLookup.getLabel(this.language.otherLanguage()));
-  otherCode = computed(() => LanguageLookup.getCode(this.language.otherLanguage()));
+  otherCode = computed(() => LanguageLookup.getCodes()[this.language.otherLanguage()]);
 
   user = CURRENT_USER;
   userMenuOpen = signal(false);
