@@ -1,23 +1,27 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Avatar } from 'primeng/avatar';
-import { ButtonDirective, ButtonIcon } from 'primeng/button';
+import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Menu } from 'primeng/menu';
 import { OverlayBadge } from 'primeng/overlaybadge';
 
-import { CURRENT_USER } from '../../core';
-import { TopbarAction, TopbarActionsLookup, UserMenuLookup } from '../../shared';
+import { CURRENT_USER, LanguageService } from '../../core';
+import { LanguageLookup, TopbarAction, TopbarActionsLookup, UserMenuLookup } from '../../shared';
 import { LayoutService } from '../service';
 
 @Component({
   selector: 'app-topbar',
-  imports: [Avatar, ButtonDirective, ButtonIcon, Menu, OverlayBadge],
+  imports: [Avatar, ButtonDirective, ButtonIcon, ButtonLabel, Menu, OverlayBadge],
   templateUrl: './topbar.html',
   styleUrl: './topbar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopbarComponent {
   layout = inject(LayoutService);
+  language = inject(LanguageService);
+
+  otherLabel = computed(() => LanguageLookup.getLabel(this.language.otherLanguage()));
+  otherCode = computed(() => LanguageLookup.getCode(this.language.otherLanguage()));
 
   user = CURRENT_USER;
   userMenuOpen = signal(false);

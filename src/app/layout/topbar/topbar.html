@@ -34,6 +34,17 @@
       type="button"
       [text]="true"
       severity="secondary"
+      [attr.lang]="otherCode()"
+      (click)="language.toggle()"
+    >
+      <span pButtonLabel>{{ otherLabel() }}</span>
+    </button>
+
+    <button
+      pButton
+      type="button"
+      [text]="true"
+      severity="secondary"
       (click)="menu.toggle($event)"
       [attr.aria-expanded]="userMenuOpen()"
       aria-haspopup="menu"
