@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { SHARED_IMPORTS } from '../../imports/shared-imports';
 
@@ -17,9 +18,17 @@ import { SHARED_IMPORTS } from '../../imports/shared-imports';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeltaBadgeComponent {
+  translate = inject(TranslateService);
+
   value = input.required<number>();
 
   isUp = computed(() => this.value() >= 0);
   magnitude = computed(() => Math.abs(this.value()));
-  label = computed(() => `${this.isUp() ? 'Up' : 'Down'} ${this.magnitude()} percent`);
+  label = computed(() =>
+    String(
+      this.translate.instant(this.isUp() ? 'common.deltaUp' : 'common.deltaDown', {
+        value: this.magnitude()
+      })
+    )
+  );
 }

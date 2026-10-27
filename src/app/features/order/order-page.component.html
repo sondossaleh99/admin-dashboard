@@ -1,5 +1,8 @@
 <div class="d-flex flex-column gap-6">
-  <app-section-header title="Orders" subtitle="Every order, with its status and destination." />
+  <app-section-header
+    [title]="'orders.title' | translate"
+    [subtitle]="'orders.subtitle' | translate"
+  />
 
   <app-order-table />
 </div>

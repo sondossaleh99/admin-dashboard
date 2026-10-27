@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 
 import { EmployeeRoleLookup, SHARED_IMPORTS } from '../../../../shared';
@@ -13,6 +14,7 @@ import { EmployeeService } from '../../service';
 })
 export class EmployeeTableComponent {
   service = inject(EmployeeService);
+  translate = inject(TranslateService);
   employees = this.service.employees;
   page = this.service.page;
   totalRecords = computed(() => this.employees.value()?.total ?? 0);
@@ -21,7 +23,7 @@ export class EmployeeTableComponent {
   tableValue = computed(() =>
     (this.employees.value()?.items ?? []).map((employee) => ({
       ...employee,
-      roleLabel: EmployeeRoleLookup.getLabel(employee.role)
+      roleLabel: String(this.translate.instant(EmployeeRoleLookup.getLabel(employee.role)))
     }))
   );
 

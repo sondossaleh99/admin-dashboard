@@ -1,4 +1,4 @@
-<app-ui-card title="Recent activity" subtitle="Latest order events">
+<app-ui-card [title]="'activity.title' | translate" [subtitle]="'activity.subtitle' | translate">
   <ul class="list-unstyled m-0 d-flex flex-column gap-4">
     @for (event of events(); track event.id) {
       <li class="d-flex align-items-start gap-3">
@@ -13,7 +13,9 @@
           <span class="d-block fs-sm fw-medium text-truncate">{{ event.title }}</span>
           <span class="d-block fs-xs text-muted text-truncate">{{ event.detail }}</span>
         </span>
-        <span class="flex-shrink-0 fs-xs text-muted">{{ event.timestamp | date: 'd MMM' }}</span>
+        <span class="flex-shrink-0 fs-xs text-muted">{{
+          event.timestamp | date: 'd MMM' : undefined : language.code()
+        }}</span>
       </li>
     }
   </ul>

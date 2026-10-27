@@ -12,6 +12,7 @@ import { baseOptions, seriesColors } from './chart-theme';
 })
 export class ChartSparklineComponent {
   data = input.required<number[]>();
+  name = input.required<string>();
   height = input(48);
   slot = input(1);
   filled = input(true);
@@ -31,7 +32,7 @@ export class ChartSparklineComponent {
         sparkline: { enabled: true }
       },
       colors: [color],
-      series: [{ name: 'Trend', data: [...points] }],
+      series: [{ name: this.name(), data: [...points] }],
       stroke: { width: 2, curve: 'smooth' },
       fill: this.filled()
         ? {

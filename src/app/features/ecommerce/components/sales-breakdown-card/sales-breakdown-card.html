@@ -1,5 +1,12 @@
-<app-ui-card title="Sales breakdown" [subtitle]="(total() | appCurrency) + ' total'">
-  <app-chart-donut [slices]="slices()" centerLabel="Sales" [height]="220" />
+<app-ui-card
+  [title]="'ecommerce.sales.title' | translate"
+  [subtitle]="'ecommerce.sales.subtitle' | translate: { total: total() | appCurrency }"
+>
+  <app-chart-donut
+    [slices]="chartSlices()"
+    [centerLabel]="'ecommerce.sales.center' | translate"
+    [height]="220"
+  />
   <ul class="list-unstyled mt-4 mb-0 d-flex flex-column gap-4">
     @for (slice of slices(); track slice.label; let i = $index) {
       <li class="d-flex align-items-center gap-3">
@@ -7,7 +14,7 @@
           class="slices-swatch flex-shrink-0"
           [style.background]="'var(--chart-series-' + (i + 1) + ')'"
         ></span>
-        <span class="flex-1 fs-sm text-secondary text-truncate">{{ slice.label }}</span>
+        <span class="flex-1 fs-sm text-secondary text-truncate">{{ slice.label | translate }}</span>
         <span class="tabular-nums fs-sm fw-semibold">{{ slice.value | number: '1.0-0' }}</span>
       </li>
     }

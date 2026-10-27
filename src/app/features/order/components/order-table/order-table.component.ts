@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 
 import {
@@ -18,6 +19,7 @@ import { OrderService } from '../../service';
 })
 export class OrderTableComponent {
   service = inject(OrderService);
+  translate = inject(TranslateService);
   orders = this.service.orders;
   page = this.service.page;
   totalRecords = computed(() => this.orders.value()?.total ?? 0);
@@ -27,7 +29,7 @@ export class OrderTableComponent {
     const activity = OrderActivityLookup.getActivity();
     return (this.orders.value()?.items ?? []).map((order) => ({
       ...order,
-      statusLabel: OrderStatusLookup.getLabel(order.status),
+      statusLabel: String(this.translate.instant(OrderStatusLookup.getLabel(order.status))),
       statusTone: ActivityToneLookup.getLabel(activity[order.status].tone)
     }));
   });

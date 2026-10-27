@@ -13,7 +13,7 @@ import { baseOptions, chartInk, compactNumber, seriesColors } from './chart-them
 })
 export class ChartDonutComponent {
   slices = input.required<DonutSlice[]>();
-  centerLabel = input('Total');
+  centerLabel = input.required<string>();
   height = input(260);
 
   options = computed<ApexOptions>(() => {

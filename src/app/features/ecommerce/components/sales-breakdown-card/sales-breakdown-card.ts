@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ChartDonutComponent, SHARED_IMPORTS, SalesSlice } from '../../../../shared';
 
@@ -10,7 +11,13 @@ import { ChartDonutComponent, SHARED_IMPORTS, SalesSlice } from '../../../../sha
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SalesBreakdownCardComponent {
+  translate = inject(TranslateService);
+
   slices = input.required<SalesSlice[]>();
 
   total = computed(() => this.slices().reduce((sum, slice) => sum + slice.value, 0));
+
+  chartSlices = computed(() =>
+    this.slices().map((slice) => ({ ...slice, label: String(this.translate.instant(slice.label)) }))
+  );
 }

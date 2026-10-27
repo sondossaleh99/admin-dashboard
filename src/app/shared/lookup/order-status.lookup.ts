@@ -3,10 +3,10 @@ import { OrderStatus } from '../enum/order-status';
 export class OrderStatusLookup {
   static getAll(): { id: OrderStatus; label: string }[] {
     return [
-      { id: OrderStatus.Paid, label: 'Paid' },
-      { id: OrderStatus.Pending, label: 'Pending' },
-      { id: OrderStatus.Refunded, label: 'Refunded' },
-      { id: OrderStatus.Cancelled, label: 'Cancelled' }
+      { id: OrderStatus.Paid, label: 'enums.orderStatus.paid' },
+      { id: OrderStatus.Pending, label: 'enums.orderStatus.pending' },
+      { id: OrderStatus.Refunded, label: 'enums.orderStatus.refunded' },
+      { id: OrderStatus.Cancelled, label: 'enums.orderStatus.cancelled' }
     ];
   }
 

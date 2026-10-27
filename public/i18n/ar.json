@@ -1,6 +1,10 @@
 {
   "common": {
-    "retry": "إعادة المحاولة"
+    "retry": "إعادة المحاولة",
+    "money": "{{amount}}\u00a0{{symbol}}",
+    "pageReport": "\u2066{first}–{last}\u2069 من {totalRecords}",
+    "deltaUp": "ارتفاع بنسبة {{value}} بالمئة",
+    "deltaDown": "انخفاض بنسبة {{value}} بالمئة"
   },
   "nav": {
     "dashboard": "لوحة التحكم",
@@ -58,5 +62,114 @@
     },
     "emptyMessage": "لا توجد نتائج",
     "emptySelectionMessage": "لا يوجد عنصر محدد"
+  },
+  "currencies": {
+    "SAR": "ر.س"
+  },
+  "enums": {
+    "orderStatus": {
+      "paid": "مدفوع",
+      "pending": "قيد الانتظار",
+      "refunded": "مسترد",
+      "cancelled": "ملغي"
+    },
+    "employeeRole": {
+      "storeManager": "مدير المتجر",
+      "salesRepresentative": "مندوب مبيعات",
+      "customerSupport": "دعم العملاء",
+      "warehouseSpecialist": "أخصائي مستودع",
+      "marketingSpecialist": "أخصائي تسويق",
+      "deliveryCoordinator": "منسق التوصيل",
+      "humanResources": "أخصائي موارد بشرية"
+    },
+    "revenueRange": {
+      "sixMonths": "6 أشهر",
+      "twelveMonths": "12 شهرًا"
+    }
+  },
+  "activity": {
+    "title": "آخر النشاطات",
+    "subtitle": "أحدث أحداث الطلبات",
+    "paid": "تم دفع الطلب \u2066#{{id}}\u2069",
+    "pending": "الطلب \u2066#{{id}}\u2069 بانتظار الدفع",
+    "refunded": "تم استرداد الطلب \u2066#{{id}}\u2069",
+    "cancelled": "تم إلغاء الطلب \u2066#{{id}}\u2069"
+  },
+  "ecommerce": {
+    "title": "المتجر",
+    "subtitle": "نظرة عامة على المبيعات والإيرادات وأحدث الطلبات.",
+    "errorMessage": "تعذّر تحميل لوحة التحكم",
+    "errorHint": "تعذّر الاتصال. لم يتأثر أي جزء آخر من الصفحة.",
+    "earnings": "الأرباح",
+    "budget": "الميزانية",
+    "expense": "المصروفات",
+    "margin": "الهامش",
+    "trend": "الاتجاه",
+    "kpis": {
+      "customers": "العملاء",
+      "products": "المنتجات",
+      "sales": "المبيعات",
+      "refunds": "المرتجعات"
+    },
+    "revenue": {
+      "title": "تحديثات الإيرادات",
+      "subtitle": "الميزانية مقابل المصروفات · عدد الأشهر: {{count}}",
+      "period": "الفترة"
+    },
+    "sales": {
+      "title": "توزيع المبيعات",
+      "subtitle": "الإجمالي {{total}}",
+      "center": "المبيعات"
+    },
+    "channels": {
+      "onlineStore": "المتجر الإلكتروني",
+      "marketplace": "منصات البيع",
+      "retail": "البيع بالتجزئة",
+      "wholesale": "البيع بالجملة"
+    },
+    "weekly": {
+      "title": "إحصائيات الأسبوع",
+      "topSales": "أعلى مبيعات",
+      "bestSeller": "الأكثر مبيعًا",
+      "mostCommented": "الأكثر تعليقًا"
+    },
+    "recentOrders": "أحدث الطلبات"
+  },
+  "orders": {
+    "title": "الطلبات",
+    "subtitle": "جميع الطلبات مع حالتها ووجهتها.",
+    "all": "كل الطلبات",
+    "count": "عدد الطلبات: {{count}}",
+    "search": "ابحث في الطلبات",
+    "empty": "لا توجد طلبات.",
+    "columns": {
+      "item": "المنتج",
+      "customer": "العميل",
+      "date": "التاريخ",
+      "status": "الحالة",
+      "total": "الإجمالي",
+      "id": "رقم الطلب",
+      "location": "الموقع"
+    }
+  },
+  "employees": {
+    "title": "الموظفون",
+    "subtitle": "الفريق وأدوارهم ومن يتبعون له.",
+    "team": "الفريق",
+    "count": "عدد الموظفين: {{count}}",
+    "empty": "لا يوجد موظفون.",
+    "columns": {
+      "employee": "الموظف",
+      "designation": "المسمى الوظيفي",
+      "location": "الموقع",
+      "hireDate": "تاريخ التعيين",
+      "reportsTo": "المدير المباشر",
+      "id": "الرقم الوظيفي"
+    }
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "message": "هذه الصفحة غير متوفرة بعد.",
+    "back": "العودة إلى لوحة التحكم"
   }
 }

@@ -1,6 +1,10 @@
 {
   "common": {
-    "retry": "Retry"
+    "retry": "Retry",
+    "money": "{{symbol}}\u00a0{{amount}}",
+    "pageReport": "{first}–{last} of {totalRecords}",
+    "deltaUp": "Up {{value}} percent",
+    "deltaDown": "Down {{value}} percent"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -58,5 +62,114 @@
     },
     "emptyMessage": "No results found",
     "emptySelectionMessage": "No selected item"
+  },
+  "currencies": {
+    "SAR": "SAR"
+  },
+  "enums": {
+    "orderStatus": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "refunded": "Refunded",
+      "cancelled": "Cancelled"
+    },
+    "employeeRole": {
+      "storeManager": "Store Manager",
+      "salesRepresentative": "Sales Representative",
+      "customerSupport": "Customer Support",
+      "warehouseSpecialist": "Warehouse Specialist",
+      "marketingSpecialist": "Marketing Specialist",
+      "deliveryCoordinator": "Delivery Coordinator",
+      "humanResources": "HR Specialist"
+    },
+    "revenueRange": {
+      "sixMonths": "6 months",
+      "twelveMonths": "12 months"
+    }
+  },
+  "activity": {
+    "title": "Recent activity",
+    "subtitle": "Latest order events",
+    "paid": "Order #{{id}} was paid",
+    "pending": "Order #{{id}} is awaiting payment",
+    "refunded": "Order #{{id}} was refunded",
+    "cancelled": "Order #{{id}} was cancelled"
+  },
+  "ecommerce": {
+    "title": "Ecommerce",
+    "subtitle": "Overview of sales, revenue and recent orders.",
+    "errorMessage": "Could not load the dashboard",
+    "errorHint": "The request failed. Nothing else on the page is affected.",
+    "earnings": "Earnings",
+    "budget": "Budget",
+    "expense": "Expense",
+    "margin": "Margin",
+    "trend": "Trend",
+    "kpis": {
+      "customers": "Customers",
+      "products": "Products",
+      "sales": "Sales",
+      "refunds": "Refunds"
+    },
+    "revenue": {
+      "title": "Revenue updates",
+      "subtitle": "Budget against expense, {{count}} months",
+      "period": "Period"
+    },
+    "sales": {
+      "title": "Sales breakdown",
+      "subtitle": "{{total}} total",
+      "center": "Sales"
+    },
+    "channels": {
+      "onlineStore": "Online store",
+      "marketplace": "Marketplace",
+      "retail": "Retail",
+      "wholesale": "Wholesale"
+    },
+    "weekly": {
+      "title": "Weekly stats",
+      "topSales": "Top sales",
+      "bestSeller": "Best seller",
+      "mostCommented": "Most commented"
+    },
+    "recentOrders": "Recent orders"
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Every order, with its status and destination.",
+    "all": "All orders",
+    "count": "{{count}} orders",
+    "search": "Search orders",
+    "empty": "No orders found.",
+    "columns": {
+      "item": "Item",
+      "customer": "Customer",
+      "date": "Date",
+      "status": "Status",
+      "total": "Total",
+      "id": "Order ID",
+      "location": "Location"
+    }
+  },
+  "employees": {
+    "title": "Employees",
+    "subtitle": "The team, their roles and who they report to.",
+    "team": "Team",
+    "count": "{{count}} employees",
+    "empty": "No employees found.",
+    "columns": {
+      "employee": "Employee",
+      "designation": "Designation",
+      "location": "Location",
+      "hireDate": "Hire date",
+      "reportsTo": "Reports to",
+      "id": "Employee ID"
+    }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "That destination does not exist yet.",
+    "back": "Back to the dashboard"
   }
 }

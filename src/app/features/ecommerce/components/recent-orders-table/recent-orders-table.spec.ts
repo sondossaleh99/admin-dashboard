@@ -1,6 +1,9 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { Table } from 'primeng/table';
+
+import en from '../../../../../../public/i18n/en.json';
 
 import { Order, OrderStatus } from '../../../../shared';
 import { RecentOrdersTableComponent } from './recent-orders-table';
@@ -18,7 +21,11 @@ function order(id: string, customer: string, status = OrderStatus.Paid): Order {
 }
 
 function render() {
-  TestBed.configureTestingModule({ imports: [RecentOrdersTableComponent] });
+  TestBed.configureTestingModule({
+    imports: [RecentOrdersTableComponent],
+    providers: [provideTranslateService({ fallbackLang: 'en' })]
+  });
+  TestBed.inject(TranslateService).setTranslation('en', en);
 
   const fixture = TestBed.createComponent(RecentOrdersTableComponent);
   fixture.componentRef.setInput('orders', [
@@ -48,9 +55,9 @@ function render() {
 
 describe('RecentOrdersTableComponent', () => {
   it('counts the orders in its subtitle', () => {
-    const { fixture } = render();
+    const { element } = render();
 
-    expect(fixture.componentInstance.subtitle()).toBe('2 orders');
+    expect(element.querySelector('header p')?.textContent?.trim()).toBe('2 orders');
   });
 
   it('hands the typed value to the table as a global contains filter', () => {

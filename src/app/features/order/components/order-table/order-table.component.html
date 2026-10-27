@@ -1,4 +1,8 @@
-<app-ui-card title="All orders" [subtitle]="totalRecords() + ' orders'" [flush]="true">
+<app-ui-card
+  [title]="'orders.all' | translate"
+  [subtitle]="'orders.count' | translate: { count: totalRecords() }"
+  [flush]="true"
+>
   <p-table
     [value]="tableValue()"
     [lazy]="true"
@@ -10,7 +14,7 @@
     [rows]="page().rows"
     [rowsPerPageOptions]="rowsPerPageOptions"
     [showCurrentPageReport]="true"
-    currentPageReportTemplate="{first}–{last} of {totalRecords}"
+    [currentPageReportTemplate]="'common.pageReport' | translate"
     dataKey="id"
     styleClass="order-table"
     [rowHover]="true"
@@ -18,12 +22,12 @@
   >
     <ng-template #header>
       <tr>
-        <th>Item</th>
-        <th>Customer</th>
-        <th class="text-end">Total</th>
-        <th>Status</th>
-        <th>Order ID</th>
-        <th>Location</th>
+        <th>{{ 'orders.columns.item' | translate }}</th>
+        <th>{{ 'orders.columns.customer' | translate }}</th>
+        <th class="text-end">{{ 'orders.columns.total' | translate }}</th>
+        <th>{{ 'orders.columns.status' | translate }}</th>
+        <th>{{ 'orders.columns.id' | translate }}</th>
+        <th>{{ 'orders.columns.location' | translate }}</th>
       </tr>
     </ng-template>
 
@@ -37,7 +41,9 @@
             order.statusLabel
           }}</span>
         </td>
-        <td class="text-muted tabular-nums">#{{ order.id }}</td>
+        <td class="text-muted tabular-nums">
+          <span dir="ltr">#{{ order.id }}</span>
+        </td>
         <td>{{ order.location }}</td>
       </tr>
     </ng-template>
@@ -45,7 +51,9 @@
     <ng-template #emptymessage>
       @if (!orders.isLoading()) {
         <tr>
-          <td colspan="6" class="text-center p-8 text-muted fs-sm">No orders found.</td>
+          <td colspan="6" class="text-center p-8 text-muted fs-sm">
+            {{ 'orders.empty' | translate }}
+          </td>
         </tr>
       }
     </ng-template>

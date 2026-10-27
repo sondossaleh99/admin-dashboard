@@ -1,10 +1,10 @@
 <app-ui-card
-  title="Revenue updates"
-  [subtitle]="'Budget against expense, ' + periods().length + ' months'"
+  [title]="'ecommerce.revenue.title' | translate"
+  [subtitle]="'ecommerce.revenue.subtitle' | translate: { count: periods().length }"
 >
   <p-selectbutton
     card-actions
-    [options]="ranges"
+    [options]="ranges()"
     optionLabel="label"
     optionValue="id"
     [allowEmpty]="false"
@@ -12,12 +12,14 @@
     ariaLabelledBy="revenue-range-label"
     [(ngModel)]="range"
   />
-  <span id="revenue-range-label" class="visually-hidden">Period</span>
+  <span id="revenue-range-label" class="visually-hidden">{{
+    'ecommerce.revenue.period' | translate
+  }}</span>
 
   <div class="totals d-flex flex-wrap gap-8 pb-5 mb-4">
     @for (total of totals(); track total.label) {
       <div>
-        <p class="fs-xs text-muted">{{ total.label }}</p>
+        <p class="fs-xs text-muted">{{ total.label | translate }}</p>
         <p class="tabular-nums mt-1 fs-xl fw-semibold">
           {{ total.value | appCurrency }}
         </p>

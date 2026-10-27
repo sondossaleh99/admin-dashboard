@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
@@ -11,6 +12,7 @@ import {
   OrderStatusLookup,
   SHARED_IMPORTS
 } from '../../../../shared';
+import { LanguageService } from '../../../../core';
 
 @Component({
   selector: 'app-recent-orders-table',
@@ -20,16 +22,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RecentOrdersTableComponent {
+  translate = inject(TranslateService);
+  language = inject(LanguageService);
+
   orders = input.required<Order[]>();
 
   tableValue = computed(() => {
     const activity = OrderActivityLookup.getActivity();
     return this.orders().map((order) => ({
       ...order,
-      statusLabel: OrderStatusLookup.getLabel(order.status),
+      statusLabel: String(this.translate.instant(OrderStatusLookup.getLabel(order.status))),
       statusTone: ActivityToneLookup.getLabel(activity[order.status].tone)
     }));
   });
-
-  subtitle = computed(() => `${this.orders().length} orders`);
 }

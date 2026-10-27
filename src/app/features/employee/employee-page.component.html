@@ -1,5 +1,8 @@
 <div class="d-flex flex-column gap-6">
-  <app-section-header title="Employees" subtitle="The team, their roles and who they report to." />
+  <app-section-header
+    [title]="'employees.title' | translate"
+    [subtitle]="'employees.subtitle' | translate"
+  />
 
   <app-employee-table />
 </div>

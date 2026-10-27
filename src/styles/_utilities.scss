@@ -54,6 +54,10 @@ $font-weights: (medium, semibold, bold);
   text-align: center !important;
 }
 
+.text-nowrap {
+  white-space: nowrap !important;
+}
+
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;

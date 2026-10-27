@@ -8,25 +8,25 @@ export class OrderActivityLookup {
       [OrderStatus.Paid]: {
         icon: 'pi-check-circle',
         tone: ActivityTone.Success,
-        verb: 'was paid'
+        title: 'activity.paid'
       },
 
       [OrderStatus.Pending]: {
         icon: 'pi-clock',
         tone: ActivityTone.Warning,
-        verb: 'is awaiting payment'
+        title: 'activity.pending'
       },
 
       [OrderStatus.Refunded]: {
         icon: 'pi-replay',
         tone: ActivityTone.Info,
-        verb: 'was refunded'
+        title: 'activity.refunded'
       },
 
       [OrderStatus.Cancelled]: {
         icon: 'pi-times-circle',
         tone: ActivityTone.Danger,
-        verb: 'was cancelled'
+        title: 'activity.cancelled'
       }
     };
   }

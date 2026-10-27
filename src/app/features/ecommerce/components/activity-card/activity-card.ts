@@ -1,4 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
+import { LanguageService } from '../../../../core';
 
 import {
   ActivityEvent,
@@ -16,6 +19,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityCardComponent {
+  translate = inject(TranslateService);
+  language = inject(LanguageService);
+
   orders = input.required<Order[]>();
 
   events = computed<ActivityEvent[]>(() =>
@@ -30,7 +36,7 @@ export class ActivityCardComponent {
       id: order.id,
       icon: meta.icon,
       tone: ActivityToneLookup.getLabel(meta.tone),
-      title: `Order #${order.id} ${meta.verb}`,
+      title: String(this.translate.instant(meta.title, { id: order.id })),
       detail: `${order.customer} · ${order.item}`,
       timestamp: order.placedAt
     };

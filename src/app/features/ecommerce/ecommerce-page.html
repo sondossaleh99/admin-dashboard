@@ -1,13 +1,16 @@
 <div class="d-flex flex-column gap-6">
-  <app-section-header title="Ecommerce" subtitle="Overview of sales, revenue and recent orders." />
+  <app-section-header
+    [title]="'ecommerce.title' | translate"
+    [subtitle]="'ecommerce.subtitle' | translate"
+  />
 
   @if (service.error()) {
     <app-ui-card>
       <app-empty-state
         icon="pi-exclamation-circle"
-        message="Could not load the dashboard"
-        hint="The request failed. Nothing else on the page is affected."
-        actionLabel="Retry"
+        [message]="'ecommerce.errorMessage' | translate"
+        [hint]="'ecommerce.errorHint' | translate"
+        [actionLabel]="'common.retry' | translate"
         (action)="service.retry()"
       />
     </app-ui-card>

@@ -1,10 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
+
+import en from '../../../../../public/i18n/en.json';
 
 import { DeltaBadgeComponent } from './delta-badge';
 
 function setup(value: number) {
-  TestBed.configureTestingModule({ imports: [DeltaBadgeComponent] });
+  TestBed.configureTestingModule({
+    imports: [DeltaBadgeComponent],
+    providers: [provideTranslateService({ fallbackLang: 'en' })]
+  });
   TestBed.overrideComponent(DeltaBadgeComponent, { set: { template: '' } });
+  TestBed.inject(TranslateService).setTranslation('en', en);
 
   const fixture = TestBed.createComponent(DeltaBadgeComponent);
   fixture.componentRef.setInput('value', value);

@@ -1,7 +1,7 @@
 <app-ui-card>
   <div class="d-flex flex-wrap align-items-end justify-content-between gap-6">
     <div>
-      <p class="fs-sm text-secondary">{{ earnings().label }}</p>
+      <p class="fs-sm text-secondary">{{ earnings().label | translate }}</p>
       <p class="hero-value tabular-nums mt-1 mb-3 fs-3xl fw-bold">
         {{ earnings().total | appCurrency: 2 }}
       </p>
@@ -9,18 +9,22 @@
     </div>
 
     <div class="hero-spark">
-      <app-chart-sparkline [data]="earnings().trend" [height]="64" />
+      <app-chart-sparkline
+        [data]="earnings().trend"
+        [name]="'ecommerce.trend' | translate"
+        [height]="64"
+      />
     </div>
 
     <div class="d-flex gap-8">
       <div>
-        <p class="fs-xs text-muted">Budget</p>
+        <p class="fs-xs text-muted">{{ 'ecommerce.budget' | translate }}</p>
         <p class="tabular-nums mt-1 fs-lg fw-semibold">
           {{ earnings().budget | appCurrency }}
         </p>
       </div>
       <div>
-        <p class="fs-xs text-muted">Expense</p>
+        <p class="fs-xs text-muted">{{ 'ecommerce.expense' | translate }}</p>
         <p class="tabular-nums mt-1 fs-lg fw-semibold">
           {{ earnings().expense | appCurrency }}
         </p>

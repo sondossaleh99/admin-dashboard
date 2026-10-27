@@ -1,4 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
+
+import en from '../../../../../../public/i18n/en.json';
 
 import { Order, OrderStatus } from '../../../../shared';
 import { ActivityCardComponent } from './activity-card';
@@ -25,8 +28,12 @@ const ORDERS: Order[] = [
 ];
 
 function setup(orders: Order[] = ORDERS) {
-  TestBed.configureTestingModule({ imports: [ActivityCardComponent] });
+  TestBed.configureTestingModule({
+    imports: [ActivityCardComponent],
+    providers: [provideTranslateService({ fallbackLang: 'en' })]
+  });
   TestBed.overrideComponent(ActivityCardComponent, { set: { template: '', imports: [] } });
+  TestBed.inject(TranslateService).setTranslation('en', en);
 
   const fixture = TestBed.createComponent(ActivityCardComponent);
   fixture.componentRef.setInput('orders', orders);

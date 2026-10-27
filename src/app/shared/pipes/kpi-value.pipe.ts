@@ -4,7 +4,7 @@ import { formatNumber, formatPercent } from '@angular/common';
 import { KpiFormat } from '../enum/kpi-format';
 import { AppCurrencyPipe } from './app-currency.pipe';
 
-@Pipe({ name: 'kpiValue' })
+@Pipe({ name: 'kpiValue', pure: false })
 export class KpiValuePipe implements PipeTransform {
   locale = inject(LOCALE_ID);
   currency = new AppCurrencyPipe();

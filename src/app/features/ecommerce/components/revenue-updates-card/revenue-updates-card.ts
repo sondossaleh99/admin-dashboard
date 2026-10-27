@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { SelectButton } from 'primeng/selectbutton';
 
 import {
@@ -10,6 +12,7 @@ import {
   RevenueRangeLookup,
   SHARED_IMPORTS
 } from '../../../../shared';
+import { LanguageService } from '../../../../core';
 
 @Component({
   selector: 'app-revenue-updates-card',
@@ -19,7 +22,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RevenueUpdatesCardComponent {
-  ranges = RevenueRangeLookup.getAll();
+  translate = inject(TranslateService);
+  language = inject(LanguageService);
+
+  ranges = computed(() =>
+    RevenueRangeLookup.getAll().map((range) => ({
+      ...range,
+      label: String(this.translate.instant(range.label))
+    }))
+  );
 
   points = input.required<RevenuePoint[]>();
 
@@ -27,11 +38,19 @@ export class RevenueUpdatesCardComponent {
 
   visiblePoints = computed(() => this.points().slice(-this.range()));
 
-  periods = computed(() => this.visiblePoints().map((p) => p.period));
+  periods = computed(() =>
+    this.visiblePoints().map((p) => formatDate(p.period, 'MMM', this.language.code()))
+  );
 
   series = computed<ComboSeries[]>(() => [
-    { name: 'Budget', data: this.visiblePoints().map((p) => p.budget) },
-    { name: 'Expense', data: this.visiblePoints().map((p) => p.expense) }
+    {
+      name: String(this.translate.instant('ecommerce.budget')),
+      data: this.visiblePoints().map((p) => p.budget)
+    },
+    {
+      name: String(this.translate.instant('ecommerce.expense')),
+      data: this.visiblePoints().map((p) => p.expense)
+    }
   ]);
 
   totals = computed(() => {
@@ -39,9 +58,9 @@ export class RevenueUpdatesCardComponent {
     const budget = points.reduce((sum, p) => sum + p.budget, 0);
     const expense = points.reduce((sum, p) => sum + p.expense, 0);
     return [
-      { label: 'Budget', value: budget },
-      { label: 'Expense', value: expense },
-      { label: 'Margin', value: budget - expense }
+      { label: 'ecommerce.budget', value: budget },
+      { label: 'ecommerce.expense', value: expense },
+      { label: 'ecommerce.margin', value: budget - expense }
     ];
   });
 }

@@ -1,20 +1,19 @@
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID, Pipe, PipeTransform, inject } from '@angular/core';
-import { formatCurrency, getCurrencySymbol } from '@angular/common';
+import { formatNumber } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
-@Pipe({ name: 'appCurrency' })
+@Pipe({ name: 'appCurrency', pure: false })
 export class AppCurrencyPipe implements PipeTransform {
   locale = inject(LOCALE_ID);
   currencyCode = inject(DEFAULT_CURRENCY_CODE);
-  symbol = getCurrencySymbol(this.currencyCode, 'wide', this.locale);
-  display = /^[A-Za-z]+$/.test(this.symbol) ? `${this.symbol} ` : this.symbol;
+  translate = inject(TranslateService);
 
   transform(value: number, decimals = 0): string {
-    return formatCurrency(
-      value,
-      this.locale,
-      this.display,
-      this.currencyCode,
-      `1.${decimals}-${decimals}`
+    return String(
+      this.translate.instant('common.money', {
+        amount: formatNumber(value, this.locale, `1.${decimals}-${decimals}`),
+        symbol: this.translate.instant(`currencies.${this.currencyCode}`)
+      })
     );
   }
 }

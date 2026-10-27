@@ -1,4 +1,8 @@
-<app-ui-card title="Team" [subtitle]="totalRecords() + ' employees'" [flush]="true">
+<app-ui-card
+  [title]="'employees.team' | translate"
+  [subtitle]="'employees.count' | translate: { count: totalRecords() }"
+  [flush]="true"
+>
   <p-table
     [value]="tableValue()"
     [lazy]="true"
@@ -10,7 +14,7 @@
     [rows]="page().rows"
     [rowsPerPageOptions]="rowsPerPageOptions"
     [showCurrentPageReport]="true"
-    currentPageReportTemplate="{first}–{last} of {totalRecords}"
+    [currentPageReportTemplate]="'common.pageReport' | translate"
     dataKey="id"
     styleClass="employee-table"
     [rowHover]="true"
@@ -18,12 +22,12 @@
   >
     <ng-template #header>
       <tr>
-        <th>Employee</th>
-        <th>Designation</th>
-        <th>Location</th>
-        <th>Hire date</th>
-        <th>Reports to</th>
-        <th>Employee ID</th>
+        <th>{{ 'employees.columns.employee' | translate }}</th>
+        <th>{{ 'employees.columns.designation' | translate }}</th>
+        <th>{{ 'employees.columns.location' | translate }}</th>
+        <th>{{ 'employees.columns.hireDate' | translate }}</th>
+        <th>{{ 'employees.columns.reportsTo' | translate }}</th>
+        <th>{{ 'employees.columns.id' | translate }}</th>
       </tr>
     </ng-template>
 
@@ -39,14 +43,18 @@
         </td>
         <td class="tabular-nums">{{ employee.hiredAt | date: 'dd/MM/yyyy' }}</td>
         <td>{{ employee.reportsTo }}</td>
-        <td class="text-muted tabular-nums">#{{ employee.id }}</td>
+        <td class="text-muted tabular-nums">
+          <span dir="ltr">#{{ employee.id }}</span>
+        </td>
       </tr>
     </ng-template>
 
     <ng-template #emptymessage>
       @if (!employees.isLoading()) {
         <tr>
-          <td colspan="6" class="text-center p-8 text-muted fs-sm">No employees found.</td>
+          <td colspan="6" class="text-center p-8 text-muted fs-sm">
+            {{ 'employees.empty' | translate }}
+          </td>
         </tr>
       }
     </ng-template>
