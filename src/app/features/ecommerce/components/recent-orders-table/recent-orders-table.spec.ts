@@ -12,7 +12,8 @@ function order(id: string, customer: string, status = OrderStatus.Paid): Order {
     item: `Item ${id}`,
     placedAt: '2026-09-14',
     total: 100,
-    status
+    status,
+    location: 'Riyadh'
   };
 }
 

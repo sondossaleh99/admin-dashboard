@@ -7,4 +7,5 @@ export interface Order {
   placedAt: string;
   total: number;
   status: OrderStatus;
+  location: string;
 }
