@@ -59,10 +59,10 @@ npm run test:ci    # one headless test run
 
 ## Languages (English and Arabic)
 
-The app runs in English and Arabic and starts in English on every load. `LanguageSwitcherComponent`
-in the topbar switches it. `LanguageService` in `core/language` owns the current language
-(`currentLanguage()`, `setLanguage()`, `toggleLanguage()`) and sets `<html lang dir>`. `Language`
-is a string enum whose value is the language code (`'en'`, `'ar'`).
+The app runs in English (default) and Arabic. `LanguageSwitcherComponent` in the topbar switches it,
+and the choice is remembered in `localStorage`. `LanguageService` in `core/language` owns the
+current language (`currentLanguage()`, `setLanguage()`, `toggleLanguage()`) and sets
+`<html lang dir>`. `Language` is a string enum whose value is the language code (`'en'`, `'ar'`).
 
 - Never hard-code UI text in a template or a `.ts` file. Every string is a key in both
   `public/i18n/en.json` and `public/i18n/ar.json`, with the same keys in both files. Data from the

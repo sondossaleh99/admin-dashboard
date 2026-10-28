@@ -408,22 +408,23 @@ Built on `feature-i18n` with ngx-translate 18 (`@ngx-translate/core` and
 `@ngx-translate/http-loader`, exact versions). The rules for new code are in CLAUDE.md
 ("Languages"); this section is how it works.
 
-**Decisions taken with the user:** English on every load; the choice is not saved. Latin digits in
-both languages, Arabic month names in Arabic. `SAR 749.00` in English, `749.00 ر.س` in Arabic.
-Charts stay left-to-right. Only UI copy is translated; product, people and city names are data.
+**Decisions taken with the user:** English on first visit; the choice is remembered in
+`localStorage` (`admin-dashboard.language`). Latin digits in both languages, Arabic month names in
+Arabic. `SAR 749.00` in English, `749.00 ر.س` in Arabic. Charts stay left-to-right. Only UI copy is
+translated; product, people and city names are data.
 
 **Pieces:**
 
-| Piece                                                    | What it does                                                                                                                                                                                                  |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `public/i18n/en.json`, `ar.json`                         | The two translation files, grouped by area (`common`, `nav`, `topbar`, `orders`, `enums`, …). Same keys in both; check parity before each commit.                                                             |
-| `app.config.ts`                                          | `provideHttpClient()` and `provideTranslateService` with the HTTP loader (`/i18n/<code>.json`). Registers Angular's `ar` locale data, without which Arabic dates throw.                                       |
-| `LanguageService` (`core/language`)                      | `currentLanguage()`, `setLanguage()`, `toggleLanguage()`. Its constructor adds both languages, sets English as the fallback and starts in English. `setLanguage()` loads the file and sets `<html lang dir>`. |
-| `LanguageSwitcherComponent` (`layout/language-switcher`) | The topbar button. Shows the other language's name from `LanguageLookup` and calls `toggleLanguage()`.                                                                                                        |
-| `Language` enum + `LanguageLookup`                       | String enum: the value is the code (`'en'`, `'ar'`). The lookup has `getAll()` and `getLabel()`.                                                                                                              |
-| `TranslatedTitleStrategy`                                | Route titles are keys (`titles.orders`); the strategy translates them and re-applies the title when the language changes.                                                                                     |
-| `translateMenuItems()`                                   | Translates PrimeNG `MenuItem[]` labels and badges (sidebar and user menu).                                                                                                                                    |
-| `AppCurrencyPipe`, `KpiValuePipe`                        | Impure: the number is formatted with `en-US`, then placed by `common.money` with the symbol from `currencies.<code>`. A no-break space keeps the symbol and amount together.                                  |
+| Piece                                                    | What it does                                                                                                                                                                                                                                                                                                                                                                                                   |
+| -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public/i18n/en.json`, `ar.json`                         | The two translation files, grouped by area (`common`, `nav`, `topbar`, `orders`, `enums`, …). Same keys in both; check parity before each commit.                                                                                                                                                                                                                                                              |
+| `app.config.ts`                                          | `provideHttpClient()`, `provideTranslateService` with the HTTP loader (`/i18n/<code>.json`), and `provideAppInitializer` calling `setLanguage()` with the saved language before the first render, so keys never flash. Registers Angular's `ar` locale data, without which Arabic dates throw.                                                                                                                 |
+| `LanguageService` (`core/language`)                      | `currentLanguage()` (starts from the saved choice), `setLanguage()`, `toggleLanguage()`. Its constructor adds both languages and sets English as the fallback. `setLanguage()` loads the file, sets `<html lang dir>` and saves the choice. On every language change it passes PrimeNG its labels from the `primeng` keys, merged over PrimeNG's defaults because `setTranslation` merges only one level deep. |
+| `LanguageSwitcherComponent` (`layout/language-switcher`) | The topbar button. Shows the other language's name from `LanguageLookup` and calls `toggleLanguage()`.                                                                                                                                                                                                                                                                                                         |
+| `Language` enum + `LanguageLookup`                       | String enum: the value is the code (`'en'`, `'ar'`). The lookup has `getAll()` and `getLabel()`.                                                                                                                                                                                                                                                                                                               |
+| `TranslatedTitleStrategy`                                | Route titles are keys (`titles.orders`); the strategy translates them and re-applies the title when the language changes.                                                                                                                                                                                                                                                                                      |
+| `translateMenuItems()`                                   | Translates PrimeNG `MenuItem[]` labels and badges (sidebar and user menu).                                                                                                                                                                                                                                                                                                                                     |
+| `AppCurrencyPipe`, `KpiValuePipe`                        | Impure: the number is formatted with `en-US`, then placed by `common.money` with the symbol from `currencies.<code>`. A no-break space keeps the symbol and amount together.                                                                                                                                                                                                                                   |
 
 **Right-to-left:** `<html dir="rtl">` flips the grid, flex rows and every logical property.
 PrimeNG handles `dir` itself. Specific fixes:
@@ -442,12 +443,8 @@ PrimeNG handles `dir` itself. Specific fixes:
 **Tests:** specs whose component translates provide `provideTranslateService({ fallbackLang: 'en' })`
 and load `public/i18n/en.json` with `setTranslation('en', en)`, after any `overrideComponent`.
 
-**Known limitations:**
-
-- PrimeNG's own labels (paginator aria-labels, "No results found") are not translated and stay
-  English in Arabic.
-- There is no app initializer, so translation keys can show for a moment on first load, before
-  `en.json` arrives.
+**Known limitation:** PrimeNG's select hard-codes `aria-label="dropdown trigger"` (the paginator's
+rows-per-page arrow), so that one label stays English.
 
 **Bundle:** the initial bundle is ≈ 795 kB against the 800 kB warning budget. The next eager
 addition will cross it: ask the user before raising the budget.

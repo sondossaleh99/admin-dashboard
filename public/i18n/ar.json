@@ -156,5 +156,20 @@
     "title": "الصفحة غير موجودة",
     "message": "هذه الصفحة غير متوفرة بعد.",
     "back": "العودة إلى لوحة التحكم"
+  },
+  "primeng": {
+    "aria": {
+      "firstPageLabel": "الصفحة الأولى",
+      "lastPageLabel": "الصفحة الأخيرة",
+      "nextPageLabel": "الصفحة التالية",
+      "prevPageLabel": "الصفحة السابقة",
+      "previousPageLabel": "الصفحة السابقة",
+      "rowsPerPageLabel": "عدد الصفوف في الصفحة",
+      "pageLabel": "صفحة {page}",
+      "navigation": "التنقل بين الصفحات",
+      "jumpToPageDropdownLabel": "الانتقال إلى صفحة"
+    },
+    "emptyMessage": "لا توجد نتائج",
+    "emptySelectionMessage": "لا يوجد عنصر محدد"
   }
 }

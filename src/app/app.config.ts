@@ -1,4 +1,10 @@
-import { ApplicationConfig, DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
+import {
+  ApplicationConfig,
+  DEFAULT_CURRENCY_CODE,
+  LOCALE_ID,
+  inject,
+  provideAppInitializer
+} from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import localeAr from '@angular/common/locales/ar';
 import { provideHttpClient } from '@angular/common/http';
@@ -9,7 +15,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { providePrimeNG } from 'primeng/config';
 
-import { AppPreset, TranslatedTitleStrategy } from './core';
+import { AppPreset, LanguageService, TranslatedTitleStrategy } from './core';
 import { routes } from './app.routes';
 
 registerLocaleData(localeAr);
@@ -29,6 +35,10 @@ export const appConfig: ApplicationConfig = {
         prefix: '/i18n/',
         suffix: '.json'
       })
+    }),
+    provideAppInitializer(() => {
+      const languageService = inject(LanguageService);
+      return languageService.setLanguage(languageService.currentLanguage());
     }),
 
     providePrimeNG({
