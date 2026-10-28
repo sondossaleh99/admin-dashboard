@@ -59,9 +59,10 @@ npm run test:ci    # one headless test run
 
 ## Languages (English and Arabic)
 
-The app runs in English (default) and Arabic, switched from the topbar and remembered in
-`localStorage`. `LanguageService` in `core/i18n` owns the current language (`language()`, `code()`,
-`direction()`, `toggle()`) and sets `<html lang dir>`.
+The app runs in English and Arabic and starts in English on every load. `LanguageSwitcherComponent`
+in the topbar switches it. `LanguageService` in `core/language` owns the current language
+(`currentLanguage()`, `setLanguage()`, `toggleLanguage()`) and sets `<html lang dir>`. `Language`
+is a string enum whose value is the language code (`'en'`, `'ar'`).
 
 - Never hard-code UI text in a template or a `.ts` file. Every string is a key in both
   `public/i18n/en.json` and `public/i18n/ar.json`, with the same keys in both files. Data from the
@@ -77,7 +78,8 @@ The app runs in English (default) and Arabic, switched from the topbar and remem
   works in both languages.
 - A sentence is one key with parameters (`'Order #{{id}} was paid'`), never joined fragments.
   Counts use a parameter; Arabic uses the label form (`'عدد الطلبات: {{count}}'`).
-- Digits stay Latin. Dates follow the language: `| date: 'd MMM' : undefined : language.code()`.
+- Digits stay Latin. Dates follow the language:
+  `| date: 'd MMM' : undefined : language.currentLanguage()`.
 - Use logical CSS (`margin-inline-start`, `inset-inline-*`, `text-align: start`), never `left` or
   `right`. Charts stay `dir="ltr"`. Latin ids and ranges inside Arabic text get `dir="ltr"`, or
   `\u2066…\u2069` in the JSON.
