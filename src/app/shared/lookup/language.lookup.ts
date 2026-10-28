@@ -11,18 +11,4 @@ export class LanguageLookup {
   static getLabel(id: Language): string {
     return LanguageLookup.getAll().find((item) => item.id === id)?.label ?? '';
   }
-
-  static getCodes(): Record<Language, string> {
-    return {
-      [Language.English]: 'en',
-      [Language.Arabic]: 'ar'
-    };
-  }
-
-  static getDirections(): Record<Language, string> {
-    return {
-      [Language.English]: 'ltr',
-      [Language.Arabic]: 'rtl'
-    };
-  }
 }

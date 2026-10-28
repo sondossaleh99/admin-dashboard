@@ -39,7 +39,7 @@ export class RevenueUpdatesCardComponent {
   visiblePoints = computed(() => this.points().slice(-this.range()));
 
   periods = computed(() =>
-    this.visiblePoints().map((p) => formatDate(p.period, 'MMM', this.language.code()))
+    this.visiblePoints().map((p) => formatDate(p.period, 'MMM', this.language.currentLanguage()))
   );
 
   series = computed<ComboSeries[]>(() => [

@@ -59,7 +59,7 @@
         </td>
         <td class="col-item">{{ order.item }}</td>
         <td class="text-nowrap">
-          {{ order.placedAt | date: 'd MMM' : undefined : language.code() }}
+          {{ order.placedAt | date: 'd MMM' : undefined : language.currentLanguage() }}
         </td>
         <td class="text-nowrap">
           <span class="status" [class]="'status--' + order.statusTone">{{

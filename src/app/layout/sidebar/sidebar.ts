@@ -8,6 +8,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { filter, map } from 'rxjs';
 
 import { LanguageService, NAVIGATION_GROUPS, translateMenuItems } from '../../core';
+import { Language } from '../../shared';
 import { LayoutService } from '../service';
 
 type MenuItemLinkContext = PassThroughContext & { context: { item: MenuItem } };
@@ -26,14 +27,11 @@ export class SidebarComponent {
   language = inject(LanguageService);
   translate = inject(TranslateService);
 
-  navigationGroups = computed(() => {
-    this.language.language();
-    return translateMenuItems(NAVIGATION_GROUPS, this.translate);
-  });
+  navigationGroups = computed(() => translateMenuItems(NAVIGATION_GROUPS, this.translate));
   collapsed = this.layout.sidebarCollapsed;
 
   collapseIcon = computed(() =>
-    this.collapsed() === (this.language.direction() === 'rtl')
+    this.collapsed() === (this.language.currentLanguage() === Language.Arabic)
       ? 'pi-angle-double-left'
       : 'pi-angle-double-right'
   );

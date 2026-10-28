@@ -1,0 +1,10 @@
+<button
+  pButton
+  type="button"
+  [text]="true"
+  severity="secondary"
+  [attr.lang]="otherLanguage()"
+  (click)="languageService.toggleLanguage()"
+>
+  <span pButtonLabel>{{ otherLabel() }}</span>
+</button>

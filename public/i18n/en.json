@@ -48,21 +48,6 @@
     "employees": "Employees · Deskly",
     "notFound": "Not found · Deskly"
   },
-  "primeng": {
-    "aria": {
-      "firstPageLabel": "First page",
-      "lastPageLabel": "Last page",
-      "nextPageLabel": "Next page",
-      "prevPageLabel": "Previous page",
-      "previousPageLabel": "Previous page",
-      "rowsPerPageLabel": "Rows per page",
-      "pageLabel": "Page {page}",
-      "navigation": "Pagination",
-      "jumpToPageDropdownLabel": "Jump to page"
-    },
-    "emptyMessage": "No results found",
-    "emptySelectionMessage": "No selected item"
-  },
   "currencies": {
     "SAR": "SAR"
   },

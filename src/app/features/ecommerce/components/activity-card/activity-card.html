@@ -14,7 +14,7 @@
           <span class="d-block fs-xs text-muted text-truncate">{{ event.detail }}</span>
         </span>
         <span class="flex-shrink-0 fs-xs text-muted">{{
-          event.timestamp | date: 'd MMM' : undefined : language.code()
+          event.timestamp | date: 'd MMM' : undefined : language.currentLanguage()
         }}</span>
       </li>
     }

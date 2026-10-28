@@ -34,16 +34,7 @@
       </p-overlaybadge>
     }
 
-    <button
-      pButton
-      type="button"
-      [text]="true"
-      severity="secondary"
-      [attr.lang]="otherCode()"
-      (click)="language.toggle()"
-    >
-      <span pButtonLabel>{{ otherLabel() }}</span>
-    </button>
+    <app-language-switcher />
 
     <button
       pButton
